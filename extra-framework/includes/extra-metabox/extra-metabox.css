@@ -1,0 +1,303 @@
+/**********************
+ *
+ * 
+ * CONFIGURATION
+ * 
+ *  
+ **********************/
+.postbox .bloc {
+	background: #fafafa;
+	border: 1px solid #DFDFDF;
+	margin: 10px 0;
+	padding: 20px;
+	position: relative;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+#poststuff .postbox h2 {
+	margin-top: 0px;
+}
+.postbox .bloc label {
+	display: inline-block;
+	margin-right: 10px;
+	min-width: 150px;
+	padding-top: 5px;
+	text-align: right;
+	vertical-align: top;
+}
+.postbox .bloc input[type="text"],
+.postbox .bloc select {
+	min-width: 200px;
+}
+.postbox .bloc input[type="number"] {
+	padding: 5px 3px;
+	text-align: right;
+	width: 200px;
+}
+.postbox .bloc input[type="checkbox"],
+.postbox .bloc input[type="radio"] {
+	cursor: pointer;
+	vertical-align: -7px;
+}
+.postbox .mediaInput {
+	float: left;
+	width: 200px;
+}
+.postbox .bloc textarea {
+	min-width: 200px;
+	height: 100px;
+}
+.postbox .bloc h2,
+.postbox h2 {
+	font-size: 25px;
+	margin: 0px;
+	margin-bottom: 20px;
+}
+#poststuff .bloc h3, 
+.metabox-holder .bloc h3,
+.postbox .bloc h3 {
+	background: transparent;text-shadow: #fff 0 1px 0;
+	cursor: text;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border: 0px none;
+	font-size: 15px;
+	margin: 50px 0 5px 0; 
+	padding: 0px;
+	padding-left: 20px;
+}
+.postbox .title {
+	color: #000000;
+	font-family: "Bebas", sans-serif;
+	font-size: 28px;
+	font-weight: normal;
+	padding: 5px 5px 3px 5px;
+}
+.postbox textarea.title {
+	line-height: 30px;
+}
+/**********************
+ *
+ * 
+ * GLOBAL REPEAT
+ * 
+ *  
+ **********************/
+.repeat-actions {
+	margin: 20px 0 10px 0;
+}
+.repeat-actions a {
+	border: 1px solid #ddd;
+	color: #000000;
+	display: inline-block;
+	line-height: 20px;
+	margin: 0px 5px 0 0;
+	padding: 10px;
+	text-decoration: none;
+	vertical-align: middle;
+	white-space:nowrap;	
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+.repeat-actions .dashicons {
+	font-size: 16px;
+	margin-right: 5px;
+	vertical-align: -4px;
+	width: auto;
+}
+.copy-btn:hover {
+	border-color: #000000; 
+	color: #000000;
+}
+.delete-btn:hover {
+	border-color: red;
+	color: red;
+}
+.postbox .dodelete {
+	border: 0px none;
+	color: red;
+	display: inline-block;
+	font-size: 12px;
+	height: 16px;
+	line-height: 17px;
+	margin: 0px;
+	padding: 0px;
+	padding-left: 18px;
+	text-decoration: none;
+	vertical-align: middle;
+} 
+/**********************
+ *
+ * 
+ * EXTRA EDITOR
+ * 
+ *  
+ **********************/
+.extra-custom-editor {
+	margin:15px 6px;
+	width: 100%;
+	position: relative; 
+}
+.extra-custom-editor .wp_themeSkin table.mceLayout  {
+	border:1px solid #DFDFDF;
+}
+.extra-custom-editor textarea {
+	border:0;
+}
+.extra-custom-editor .mceStatusbar a.mceResize {
+	top:-2px;
+}
+.extra-custom-editor .wp-switch-editor {
+	border-bottom: 0px none;
+	position: relative;
+	top: 1px;
+}
+.extra-custom-editor .switch-html {
+	background: #F4F4F4;
+}
+.extra-custom-editor .wp-media-buttons {
+	position: absolute; top: 0; left: 0px;
+} 
+.extra-custom-editor .wp_themeSkin  .mceLayout {
+	width: 100%;
+}
+/**********************
+ *
+ * 
+ * IMAGE MANAGER
+ * 
+ *  
+ **********************/
+.postbox .extra-custom-image {
+	margin-top: 15px;
+	padding-top: 20px;
+	
+}
+.postbox .floater,
+.postbox .image {
+	float: left;
+}
+.postbox .image {
+	margin-left: 10px;
+}
+.postbox .image img {
+	display: block;
+}
+.postbox .thumbs {
+	display: block;
+	margin-top: 10px;
+}
+/**********************
+ *
+ * 
+ * MAP
+ * 
+ *  
+ **********************/
+.extra-map .map-container {
+	width: 100%;
+	height: 450px;
+}   
+.extra-map .address {
+	display: inline-block;
+	margin: 5px 0;
+	width: 300px;
+	max-width: 80%;
+}
+.extra-map .addressBtn {
+	margin-left: 5px;
+}
+.extra-map .addressMsg {
+	display: inline-block;
+	margin-left: 5px;
+}
+/**********************
+ *
+ * 
+ * TABS
+ * 
+ *  
+ **********************/
+/* DELETE LINK */
+.postbox .extra-tabs .dodelete {
+	display: block;
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	text-align: left;
+	text-transform: uppercase;
+	white-space: nowrap;
+	width: auto;
+	height: 18px;
+} 
+
+.postbox .extra-tabs .dodelete * {
+	pointer-events: none;	
+}
+.postbox .extra-tabs .dodelete .label { 
+	visibility: hidden;
+}
+.postbox .extra-tabs .dodelete .dashicons {
+	font-size: 25px;
+	vertical-align: -8px;	
+	width: auto;
+	height: auto;
+}
+.postbox .extra-tabs .dodelete:hover .label { 
+	visibility: visible;
+}
+/* NAV */
+.extra-tab-navigation {
+	position: relative;
+	z-index: 2;
+}
+.extra-tab-navigation li {
+	float: left;
+	margin: 5px 5px 0 0;
+	list-style: none;
+}
+.extra-tab-navigation li a,
+.extra-tab-navigation li a:focus {
+	background: transparent;
+	border: 1px solid #DFDFDF;
+	color: #c4c4c4;
+	display: block;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+	outline: none;
+	padding: 10px;
+	position: relative;
+	top: 1px;
+	text-decoration: none;
+}
+.extra-tab-navigation li.ui-state-active a,
+.extra-tab-navigation li.ui-state-active a:focus {
+	border-color: #DFDFDF;
+	background: #fafafa;
+	border-bottom: 1px solid #fafafa;
+	color: #333;
+}
+.extra-tabs .ui-tabs-panel > .bloc {
+	margin-top: 0;
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}	
+/**********************
+ *
+ * 
+ * EASY CLEARING
+ * 
+ *  
+ **********************/
+.bloc:after,
+.floater:after,
+.postbox .extra-custom-editor-wrapper:after,
+.postbox .extra-custom-image:after,
+.extra-custom-gallery .thumbs,
+.extra-tab-navigation:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}

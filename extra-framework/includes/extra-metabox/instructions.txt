@@ -1,0 +1,195 @@
+/*************************************
+ *
+ *
+ *
+ * REPEATABLE
+ *
+ *
+ * 
+ *************************************/
+<div class="repeatable">
+	
+	<div class="repeat-actions">
+		<a href="#" class="docopy-XXX copy-btn"><div class="dashicons dashicons-plus"></div><?php _e("Ajouter XXX", "extra"); ?></a>
+		<a href="#" class="dodelete-XXX delete-btn"><div class="dashicons dashicons-dismiss"></div><?php _e("Tout supprimer", "extra"); ?></a>
+	</div>
+	
+	<?php while($mb->have_fields_and_multi('XXX')): ?>
+	<?php $mb->the_group_open(); ?>
+	<div class="bloc">
+		
+		<h2><?php _e("Détail", "extra-admin"); ?></h2>
+
+		<a href="#" class="dodelete"><span class="label"><?php _e("Supprimer XXX", "extra"); ?></span><div class="dashicons dashicons-dismiss"></div></a>
+	
+		<p>
+		    <?php $mb->the_field('XXX'); ?>
+		   	<label for="<?php $mb->the_name(); ?>"><?php _e("XXX"); ?></label>
+			<input id="<?php $mb->the_name(); ?>" name="<?php $mb->the_name(); ?>" type="text" value="<?php $mb->the_value(); ?>"/>
+		</p>
+		
+	</div>
+	<?php $mb->the_group_close(); ?>
+	<?php endwhile; ?>
+</div>
+/*************************************
+ *
+ *
+ *
+ * TABS
+ *
+ *
+ * 
+ *************************************/
+// SCRIPT
+wp_enqueue_script('jquery-ui-tabs');
+wp_enqueue_script('extra-tabs', get_template_directory_uri() . '/includes/extra-metabox/extra-tabs.js', array('jquery'), null, true);
+
+// HTML
+<div class="repeatable extra-tabs"> // ADD A CLASS
+	
+	<div class="repeat-actions">
+		<a href="#" class="docopy-XXX copy-btn"><div class="dashicons dashicons-plus"></div><?php _e("Ajouter XXX", "extra"); ?></a>
+		<a href="#" class="dodelete-XXX delete-btn"><div class="dashicons dashicons-dismiss"></div><?php _e("Tout supprimer", "extra"); ?></a>
+	</div>
+	
+	<?php while($mb->have_fields_and_multi('XXX')): ?>
+	<?php $mb->the_group_open(); ?>
+	<div class="bloc">
+		
+		<h2><?php _e("Détail", "extra-admin"); ?></h2>
+
+		<a href="#" class="dodelete"><span class="label"><?php _e("Supprimer XXX", "extra"); ?></span><div class="dashicons dashicons-dismiss"></div></a>
+	
+		<p>
+		    <?php $mb->the_field('XXX'); ?>
+		   	<label for="<?php $mb->the_name(); ?>"><?php _e("Title"); ?></label>
+			<input id="<?php $mb->the_name(); ?>" name="<?php $mb->the_name(); ?>" type="text" value="<?php $mb->the_value(); ?>"/>
+		</p>
+		
+	</div>
+	<?php $mb->the_group_close(); ?>
+	<?php endwhile; ?>
+</div>
+/*************************************
+ *
+ *
+ *
+ * WP EDITOR
+ *
+ *
+ * 
+ *************************************/
+<div class="bloc">
+	<?php $mb->the_field('XXX');
+	$value = apply_filters('the_content', html_entity_decode( $mb->get_the_value(), ENT_QUOTES, 'UTF-8' ));
+	wp_editor($value, $mb->get_the_name(), array(
+		"textarea_name" => $mb->get_the_name(),
+		"tinymce" => array(
+			"body_class" => $mb->get_the_name()
+		)
+	)); ?>
+</div>
+/*************************************
+ *
+ *
+ *
+ * IMAGE
+ *
+ *
+ * 
+ *************************************/
+// SCRIPT
+wp_enqueue_script('extra-image', get_template_directory_uri() . '/includes/extra-metabox/extra-image.js', array('jquery'), null, true);
+
+<?php $mb->the_field('XXX'); ?>
+<div class="extra-custom-image">
+	
+	<div class="floater">
+		<label for="<?php $mb->the_name(); ?>"><?php _e("Sélectionner une image", "extra-admin"); ?></label>
+		<input class="image-input" name="<?php $mb->the_name(); ?>" type="hidden" value="<?php $mb->the_value(); ?>" />
+		<input class="choose-button button" type="button" value="<?php _e("Ouvrir le gestionnaire d'images", "extra-admin"); ?>" />
+	</div>
+	
+	<?php
+	$imgid = $mb->get_the_value();
+	if(!empty($imgid)){
+		$src =  wp_get_attachment_image_src( $imgid, 'thumbnail' );
+		echo '<div class="image"><img src="'.$src[0].'" width="'.$src[1].'" height="'.$src[2].'" /></div>';
+	} else {
+		echo '<div class="image empty"><img src="" /></div>';
+	}
+	?>
+</div>
+/*************************************
+ *
+ *
+ *
+ * CUSTOM EDITOR
+ *
+ *
+ * 
+ *************************************/
+// SCRIPT
+wp_enqueue_script('extra-editor', get_template_directory_uri() . '/includes/extra-metabox/extra-editor.js', array('jquery'), null, true);
+
+<div class="extra-custom-editor-wrapper">
+    <?php $mb->the_field('XXX'); ?>
+	<div class="extra-custom-editor">
+		<div class="wp-editor-tools">
+			<a class="hide-if-no-js wp-switch-editor switch-html">HTML</a>
+		</div>
+		<textarea class="editor-slide" id="<?php $mb->the_name(); ?>" name="<?php $mb->the_name(); ?>"><?php echo apply_filters('the_content', html_entity_decode( $mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?></textarea>
+	</div>
+</div>
+/*************************************
+ *
+ *
+ *
+ * MAP
+ *
+ *
+ * 
+ *************************************/
+// SCRIPTS
+wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBpFeTSnmCMi1Vb3LuLoAivc4D4CeA2YJs&sensor=false', array('jquery'), null, true);
+wp_enqueue_script('extra-map', get_template_directory_uri() . '/includes/extra-metabox/extra-map.js', array('jquery'), null, true);
+
+<div class="wpa_group bloc">
+          
+	<h2>Coordonnées</h2>
+	
+	<div class="extra-map">
+	
+		<!-- ADDRESS -->
+		<?php $mb->the_field('address'); ?>
+		<p><label for="<?php $mb->the_name(); ?>"><?php _e("Adresse à afficher", "extra-admin"); ?></label>
+		<textarea id="<?php $mb->the_name(); ?>" name="<?php $mb->the_name(); ?>"><?php $mb->the_value(); ?></textarea></p>
+		<!-- LATITUDE -->
+		<?php $mb->the_field("lat");
+		$field = $mb->get_the_value(); ?>
+	    <input class="lat" type="hidden" id="<?php $mb->the_name(); ?>" name="<?php $mb->the_name(); ?>" value="<?php
+                echo (!empty($field)) ? $field : '45.7681906';
+            ?>"/>
+	    	
+		<!-- LONGITUDE -->
+		<?php $mb->the_field("lon");
+		$field = $mb->get_the_value(); ?>
+	    <input class="lon" type="hidden" id="<?php $mb->the_name(); ?>" name="<?php $mb->the_name(); ?>" value="<?php
+	    	echo (!empty($field)) ? $field : '4.84568790000003';
+	    ?>"/>
+	    
+		<!-- ADDRESS -->	  
+		<?php $mb->the_field("address_map");
+		$field = $mb->get_the_value();
+		?>                                                          
+	    <p>
+	    	<label for="<?php $mb->the_name(); ?>"><?php _e("Adresse pour la carte", "extra-admin"); ?></label>
+	    	<input class="address" type="text" id="<?php $mb->the_name(); ?>" name="<?php $mb->the_name(); ?>" value="<?php echo $field; ?>" />
+	    </p>
+	    
+		<!-- MAP --> 
+		<div class="map-container"></div>
+		
+	</div>
+</div>
