@@ -1,0 +1,36 @@
+.extra-slider .wrapper {
+	overflow: hidden;
+}
+.extra-slider .wrapper > ul {
+	display: block;
+	list-style: none;
+	position: relative;
+}
+.extra-slider .wrapper > ul > li {
+	display: block;
+	list-style: none;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+.extra-slider .wrapper > ul > li:before {
+	display: none;
+}
+.extra-mosaic li {
+	display: block;
+	float: left;
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+}
+.content .extra-mosaic li:before {
+	display: none;
+}
+.extra-mosaic:after,
+.extra-slider .wrapper > ul:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
