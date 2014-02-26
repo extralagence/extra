@@ -1,13 +1,12 @@
 extra
 =====
 
-WordPress theme framework
+###WordPress theme framework
 
-To use it, create a child theme
-
+To use it, create a child theme.
 Here is the style.css you need to include :
 
-/*
+	/*
 	Theme Name: Theme example
 	Theme URI: http://www.example.com
 	Description: Thème Wordpress par Extra pour Example
@@ -18,4 +17,4 @@ Here is the style.css you need to include :
 	Tags: 
 	License: 
 	License URI: 
-*/
+	*/
