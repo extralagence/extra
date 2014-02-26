@@ -16,7 +16,6 @@ Here is the style.css you need to include :
 	Template: extra
 	Version:1.0  
 	Tags: 
-
 	License: 
 	License URI: 
 */
