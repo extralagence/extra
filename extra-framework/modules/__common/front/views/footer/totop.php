@@ -1,1 +1,0 @@
-<a class="totop" href="#top"><?php _e("Retour haut de page", "extra"); ?></a>
