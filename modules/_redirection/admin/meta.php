@@ -1,0 +1,1 @@
+<?php $mb->the_admin_redirection(); ?>
