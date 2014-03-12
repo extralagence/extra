@@ -57,11 +57,8 @@ $.fn.fancySelect = function (opts) {
 		};
 
 		sel.on('blur', function () {
-			console.log("coucou 1");
 			if (wrapper.hasClass('open')) {
-				console.log("coucou 2");
 				return setTimeout(function () {
-					console.log("coucou 3");
 					return trigger.trigger('close');
 				}, 250);
 			}
