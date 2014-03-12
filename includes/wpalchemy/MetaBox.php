@@ -535,6 +535,7 @@ class WPAlchemy_MetaBox
 		{
 			foreach ($this->types as $type) 
 			{
+				add_filter('postbox_classes_'.$type.'_'.$this->id.'_metabox', array($this, '_extra_add_postbox_classes'));
 				add_meta_box($this->id . '_metabox', $this->title, array($this, '_setup'), $type, $this->context, $this->priority);
 			}
 
@@ -2326,6 +2327,11 @@ class WPAlchemy_MetaBox
 				}
 			}
 		}
+	}
+
+	function _extra_add_postbox_classes ($classes) {
+		array_push($classes,'extra-metabox');
+		return $classes;
 	}
 }
 
