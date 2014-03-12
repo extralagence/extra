@@ -95,7 +95,7 @@ function extra_gallery_handler($atts, $content = null) {
 			$return .= '</ul>';
 			break;
 		case 'slider':
-			$return =  '<div class="extra-slider">';
+			$return =  '<div class="extra-slider extra-editor-slider">';
 			$return .= ' <div class="wrapper">';
 			$return .= '     <ul>';
 			foreach ($ids as $id):
