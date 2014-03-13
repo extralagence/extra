@@ -69,4 +69,19 @@ function extra_dashboard_widgets() {
 }
 add_action('wp_dashboard_setup', 'extra_dashboard_widgets');
 remove_action( 'welcome_panel', 'wp_welcome_panel' );
+/**********************
+ *
+ *
+ *
+ * ALWAYS SHOW WELCOME PANEL :)
+ * 
+ *
+ *
+ *********************/
+function extra_hook_welcome($value, $object_id, $meta_key, $single ) {
+    if($meta_key == 'show_welcome_panel') {
+        return 1;
+    }
+}
+add_filter( "get_user_metadata", "extra_hook_welcome", 10, 3);
 ?>
