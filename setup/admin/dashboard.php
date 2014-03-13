@@ -83,5 +83,5 @@ function extra_hook_welcome($value, $object_id, $meta_key, $single ) {
         return 1;
     }
 }
-add_filter( "get_user_metadata", "extra_hook_welcome", 10, 3);
+add_filter( "get_user_metadata", "extra_hook_welcome", 10, 4);
 ?>
