@@ -56,14 +56,12 @@ jQuery(document).ready(function($){
 		tinyMCE.onAddEditor.add(function(mgr,ed) {
 			if(!firstCreation) {
 				firstCreation = true;
-				TweenMax.delayedCall(1, extra_process_editors);
+				setTimeout(extra_process_editors, 1000);
 			}
 		});
 	}
-	
-	TweenMax.delayedCall(1, function(){
+
+	setTimeout(function(){
 		$("#wp-content-editor-tools .switch-tmce").click();
-	});
-	
-	
+	}, 1000);
 });

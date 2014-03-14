@@ -5,7 +5,7 @@ jQuery(function ($) {
 		$conditionals = $('.extra-checkbox .extra-conditional'),
 		$choiceTitle = $('#extra-search-choice-title'),
 		$choiceUrl = $('#extra-search-choice-url'),
-		$choice = $('.extra-search-choice');;
+		$choice = $('.extra-search-choice');
 
 	$inputs.on('click', function () {
 		console.log('click');
@@ -69,4 +69,8 @@ jQuery(function ($) {
 	$input.focus(function () {
 		$input.autocomplete("search");
 	});
+
+	$(document).on('click', '.extra-search-link', function (event) {
+		event.preventDefault();
+	})
 });
