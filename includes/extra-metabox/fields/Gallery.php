@@ -11,7 +11,7 @@ class Gallery extends Field {
 	protected $label;
 
 	public static function init () {
-		wp_enqueue_script('extra-gallery', EXTRA_INCLUDES_URI . '/extra-metabox/extra-gallery.js', array('jquery'), null, true);
+		wp_enqueue_script('extra-gallery', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-gallery.js', array('jquery'), null, true);
 	}
 
 

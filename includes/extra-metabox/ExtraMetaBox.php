@@ -24,14 +24,14 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 
 	function __construct ($arr) {
 		if (!isset($arr['template']) || empty($arr['template'])) {
-			$arr['template'] = EXTRA_INCLUDES_PATH.'/wpalchemy/default_template.php';
+			$arr['template'] = EXTRA_INCLUDES_PATH.'/extra-metabox/default_template.php';
 		}
 		parent::WPAlchemy_MetaBox($arr);
 		$this->add_action('init', array($this, 'extra_init'));
 	}
 
 	function extra_init() {
-		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/extra-metabox.less');
+		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-metabox.less');
 		Map::init();
 		Gallery::init();
 		Redirection::init();
