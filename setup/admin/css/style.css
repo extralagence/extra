@@ -48,3 +48,7 @@ body.login #login h1 a {
 #cpt_info_box {
 	display: none;
 }
+body.index-php #screen-meta,
+body.index-php #screen-meta-links {
+	display: none;
+}

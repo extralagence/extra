@@ -36,27 +36,50 @@ if (!class_exists("Redux_Framework_sample_config")) {
 		public function setSections() {
 
 			// ACTUAL DECLARATION OF SECTIONS
-			$this -> sections[] = array(
-				'icon' => 'el-icon-list-alt',
-				'title' => __('Pages', 'extra-admin'),
+			$this->sections[] = array(
+				'icon' => 'el-icon-picture',
+				'title' => __('Images par défaut', 'extra-admin'),
 				'desc' => null,
 				'fields' => array(
 					array(
-						'id' => 'posts_on_front_page',
-						'type' => 'slider',
-						'min' => '0',
-						'max' => '5',
-						'default' => '3',
-						'title' => __('Nombre maximum d\'actualité affichée sur la page d\'accueil', 'extra-admin'),
-					),
-					array(
-						'id' => 'procurement_consultation_page',
-						'type' => 'select',
-						'data' => 'pages',
-						'title' => __('Page "Marchés publics > Consultations en cours"', 'extra-admin'),
+						'id' => 'default-thumbnail',
+						'type' => 'media',
+						'title' => __('Image générique par défaut', 'extra-admin'),
 					)
-				)
+                )
 			);
+
+            $this -> sections[] = array(
+                'icon' => 'el-icon-link',
+                'title' => __('Liens du pied de page', 'extra-admin'),
+                'desc' => null,
+                'fields' => array(
+                    array(
+                        'id' => 'footer_link_title_1',
+                        'type' => 'text',
+                        'title' => __('Titre du lien 1', 'extra-admin'),
+                    ),
+                    array(
+                        'id' => 'footer_link_icon_1',
+                        'type' => 'text',
+                        'title' => __('Icône du lien 1', 'extra-admin'),
+                    ),
+                    array(
+                        'id' => 'footer_link_subtitle_1',
+                        'type' => 'text',
+                        'title' => __('Sous titre du lien 1', 'extra-admin'),
+                    ),
+                    array(
+                        'id' => 'footer_link_url_1',
+                        'type' => 'text',
+                        'title' => __('Url du lien 1', 'extra-admin'),
+                    ),
+                    array(
+                        'id' => 'footer_link_separator_1',
+                        'type' => 'section',
+                    )
+                )
+            );
 
 			$this -> sections[] = array(
 				'icon' => 'el-icon-link',

@@ -1,9 +1,11 @@
 $(document).ready(function() {
 
-	$(".extra-slider").extraSlider({
-		draggable: false,
-		navigate: true,
-		speed: 0.3
-	});
+	if(typeof allowExtraEditorSlider != 'undefined' && allowExtraEditorSlider == true) {
+		$(".content .extra-editor-slider").extraSlider({
+			draggable: false,
+			navigate: true,
+			speed: 0.3
+		});
+	}
 
 });
