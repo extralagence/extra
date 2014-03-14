@@ -11,7 +11,7 @@ class Image extends Field {
 	protected $label;
 
 	public static function init () {
-		wp_enqueue_script('extra-image', EXTRA_INCLUDES_URI . '/extra-metabox/extra-image.js', array('jquery'), null, true);
+		wp_enqueue_script('extra-image', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-image.js', array('jquery'), null, true);
 	}
 
 	public function the_admin($bloc_classes) {

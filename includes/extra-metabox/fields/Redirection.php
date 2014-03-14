@@ -14,8 +14,8 @@ class Redirection extends Field {
 		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/extra-metabox.less');
 
 		wp_enqueue_script('jquery-ui-autocomplete');
-		wp_enqueue_script('extra-accent-fold-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/extra-accent-fold.js', array('jquery'));
-		wp_enqueue_script('extra-redirection-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/extra-redirection.js', array('jquery', 'jquery-ui-autocomplete', 'extra-accent-fold-metabox'));
+		wp_enqueue_script('extra-accent-fold-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-accent-fold.js', array('jquery'));
+		wp_enqueue_script('extra-redirection-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-redirection.js', array('jquery', 'jquery-ui-autocomplete', 'extra-accent-fold-metabox'));
 
 		wp_localize_script('extra-redirection-metabox', 'ajax', array( 'url' => admin_url( 'admin-ajax.php' )));
 

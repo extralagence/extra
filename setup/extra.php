@@ -71,7 +71,7 @@ function require_extra_module_setup ($module_name, $extra_module_path = EXTRA_MO
 
 function require_extra_libraries () {
 	// INCLUDE WPALCHEMY
-	require_once EXTRA_INCLUDES_PATH . '/wpalchemy/ExtraMetaBox.php';
+	require_once EXTRA_INCLUDES_PATH . '/extra-metabox/ExtraMetaBox.php';
 
 	// BFI THUMB
 	require_once EXTRA_INCLUDES_PATH . '/BFI_Thumb.php';

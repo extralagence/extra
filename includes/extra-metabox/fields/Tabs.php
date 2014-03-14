@@ -16,7 +16,7 @@ class Tabs extends Field {
 
 	public static function init () {
 		wp_enqueue_script('jquery-ui-tabs');
-		wp_enqueue_script('extra-tabs', EXTRA_INCLUDES_URI . '/extra-metabox/extra-tabs.js', array('jquery'), null, true);
+		wp_enqueue_script('extra-tabs', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-tabs.js', array('jquery'), null, true);
 	}
 
 	public function the_admin($bloc_classes) {
