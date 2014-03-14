@@ -8,6 +8,8 @@
 
 class Gallery extends Field {
 
+	protected $label;
+
 	public static function init () {
 		wp_enqueue_script('extra-gallery', EXTRA_INCLUDES_URI . '/extra-metabox/extra-gallery.js', array('jquery'), null, true);
 	}
@@ -15,8 +17,8 @@ class Gallery extends Field {
 
 	public function the_admin($bloc_classes) {
 		?>
-		<div class="wpa_group bloc <?php echo $bloc_classes; ?>">
-			<h2><?php _e('Photos', 'extra-admin');?></h2>
+		<div class="bloc <?php echo $bloc_classes; ?>">
+			<h2><?php echo ($this->label == null) ? __('Photos', 'extra-admin') : $this->label; ?></h2>
 			<div class="extra_custom_gallery">
 				<?php $this->mb->the_field($this->get_prefixed_field_name("gallery_shortcode")); ?>
 				<a href="#" class="button choose-button"><?php _e("Éditer la galerie d'images", "extra"); ?></a>
@@ -43,5 +45,9 @@ class Gallery extends Field {
 		}
 
 		return $data;
+	}
+
+	public function extract_properties($properties) {
+		$this->label = $properties['label'];
 	}
 } 

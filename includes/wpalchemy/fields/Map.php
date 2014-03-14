@@ -8,6 +8,8 @@
 
 class Map extends Field {
 
+	protected $label;
+
 	public static function init () {
 		wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBpFeTSnmCMi1Vb3LuLoAivc4D4CeA2YJs&sensor=false', array('jquery'), null, true);
 		wp_enqueue_script('extra-map', EXTRA_INCLUDES_URI . '/extra-metabox/extra-map.js', array('jquery'), null, true);
@@ -16,8 +18,8 @@ class Map extends Field {
 
 	public function the_admin($bloc_classes) {
 		?>
-		<div class="wpa_group bloc <?php echo $bloc_classes; ?>">
-			<h2><?php _e('Repérer sur la carte', 'extra'); ?></h2>
+		<div class="bloc <?php echo $bloc_classes; ?>">
+			<h2><?php echo ($this->label == null) ? __("Repérer sur la carte", "extra-admin") : $this->label; ?></h2>
 
 			<div class="extra-map">
 
@@ -64,5 +66,29 @@ class Map extends Field {
 		);
 
 		return $data;
+	}
+
+	public function extract_properties($properties) {
+		$this->label = $properties['label'];
+	}
+
+	/************************
+	 *
+	 * GETTERS AND SETTERS
+	 *
+	 ***********************/
+
+	/**
+	 * @param mixed $label
+	 */
+	public function setLabel( $label ) {
+		$this->label = $label;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getLabel() {
+		return $this->label;
 	}
 } 
