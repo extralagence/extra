@@ -309,7 +309,7 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 	}
 
 	if(!array_key_exists('mobile', $params) || !array_key_exists('tablet', $params) || !array_key_exists('desktop', $params)) {
-		throw new Exception(__('Il manque une taille d\'image  (small, medium, high)', 'extra'));
+		throw new Exception(__('Il manque une taille d\'image  (mobile, tablet, desktop)', 'extra'));
 	}
 	?>
 	<?php ob_start(); ?>
