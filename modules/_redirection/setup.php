@@ -16,5 +16,10 @@ $redirection_metabox = new ExtraMetaBox(array(
 	'types' => array('page'),
 	'include_template' => array('template-redirect.php'),
 	'hide_editor' => TRUE,
-	'template' => EXTRA_MODULES_PATH . '/_redirection/admin/meta.php'
+	'fields' => array(
+		array(
+			'type' => 'redirection',
+			'name' => 'redirection'
+		),
+	),
 ));

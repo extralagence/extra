@@ -17,6 +17,10 @@ require_once 'fields/Text.php';
 require_once 'fields/Textarea.php';
 require_once 'fields/CustomEditor.php';
 require_once 'fields/Editor.php';
+require_once 'fields/Bloc.php';
+require_once 'fields/Slider.php';
+require_once 'fields/Range.php';
+require_once 'fields/Hidden.php';
 
 class ExtraMetaBox extends WPAlchemy_MetaBox {
 
@@ -41,40 +45,64 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		Textarea::init();
 		CustomEditor::init();
 		Editor::init();
+		Bloc::init();
+		Slider::init();
+		Range::init();
+		Hidden::init();
+	}
+
+	private function get_name_from_properties($properties) {
+		$name = (isset($properties['name'])) ? $properties['name'] : null;
+		if ($name == null) throw new Exception ('Extra Meta box "name" required');
+
+		return $name;
+	}
+
+	/**
+	 * Construct a field object from properties
+	 *
+	 * @param $properties
+	 *
+	 * @return Field
+	 * @throws Exception
+	 */
+	private function construct_field_from_properties($properties) {
+		$name = $this->get_name_from_properties($properties);
+
+		if (!isset($properties['type'])) throw new Exception ('Extra Meta box "type" required');
+		$array_type = explode('_', $properties['type']);
+		$class = '';
+		foreach ($array_type as $type) {
+			$class .= ucfirst($type);
+		}
+
+		/**
+		 * @var $field Field
+		 */
+		$field = new $class($this, $name);
+
+		return $field;
 	}
 
 	public function the_admin($fields) {
 		foreach($fields as $properties) {
-			if (!isset($properties['type'])) die ('Extra Meta box "type" required');
-
-			$name = (isset($properties['name'])) ? $properties['name'] : null;
-			if ($name == null) die('Extra Meta box "name" required');
-			$bloc_classes = (isset($properties['bloc_classes'])) ? $properties['bloc_classes'] : null;
-
-			$array_type = explode('_', $properties['type']);
-			$class = '';
-			foreach ($array_type as $type) {
-				$class .= ucfirst($type);
-			}
-
-			$field = new $class($this, $name);
+			$field = $this->construct_field_from_properties($properties);
 			$field->extract_properties($properties);
+
+			$bloc_classes = (isset($properties['bloc_classes'])) ? $properties['bloc_classes'] : null;
 			$field->the_admin($bloc_classes);
 		}
 	}
 
+	/**
+	 * !!!! DEPRECATED !!!!
+	 */
 	/**
 	 * MAP
 	 */
 	public function the_admin_map ($name = '', $bloc_classes = '') {
 		$field = new Map($this, $name);
 		$field->the_admin($bloc_classes);
-	}
-
-	public function get_data_map($name = '') {
-		$field = new Map($this, $name);
-
-		return $field->get_data();
 	}
 
 	/**
@@ -85,12 +113,6 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		$field->the_admin($bloc_classes);
 	}
 
-	public function get_data_gallery($name = '') {
-		$field = new Gallery($this, $name);
-
-		return $field->get_data();
-	}
-
 	/**
 	 * REDIRECTION
 	 */
@@ -99,59 +121,11 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		$field->the_admin($bloc_classes);
 	}
 
-	public function get_data_redirection($name = '') {
-		$field = new Redirection($this, $name);
-
-		return $field->get_data();
-	}
-
 	/**
 	 * IMAGE
 	 */
 	public function the_admin_image ($name = '', $bloc_classes = '') {
 		$field = new Image($this, $name);
 		$field->the_admin($bloc_classes);
-	}
-
-	public function get_data_image($name = '') {
-		$field = new Image($this, $name);
-
-		return $field->get_data();
-	}
-
-	/**
-	 * TABS
-	 */
-	public function the_admin_tabs ($template_tab, $add_label = null, $delete_label = null, $bloc_label = null, $name = '', $bloc_classes = '') {
-		$field = new Tabs($this, $name);
-		$field->setTemplateTab($template_tab);
-		$field->setAddLabel($add_label);
-		$field->setDeleteLabel($delete_label);
-		$field->setBlocLabel($bloc_label);
-
-		$field->the_admin($bloc_classes);
-	}
-
-	public function get_data_tabs($name = '') {
-		$field = new Tabs($this, $name);
-
-		return $field->get_data();
-	}
-
-	/**
-	 * TEXT
-	 */
-	public function the_admin_text ($label = null, $name = '', $isBloc = false, $bloc_classes = '') {
-		$field = new Text($this, $name);
-		$field->setLabel($label);
-		$field->setIsBloc($isBloc);
-
-		$field->the_admin($bloc_classes);
-	}
-
-	public function get_data_text($name = '') {
-		$field = new Text($this, $name);
-
-		return $field->get_data();
 	}
 }

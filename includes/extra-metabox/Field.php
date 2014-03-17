@@ -29,6 +29,13 @@ abstract class Field {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function getName() {
+		return $this->name;
+	}
+
+	/**
 	 * @param $name
 	 * @return string
 	 */
@@ -42,6 +49,5 @@ abstract class Field {
 
 	public abstract static function init ();
 	public abstract function the_admin($bloc_classes);
-	public abstract function get_data();
 	public abstract function extract_properties($properties);
 }

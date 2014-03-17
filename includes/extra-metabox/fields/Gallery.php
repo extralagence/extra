@@ -11,7 +11,7 @@ class Gallery extends Field {
 	protected $label;
 
 	public static function init () {
-		wp_enqueue_script('extra-gallery', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-gallery.js', array('jquery'), null, true);
+		wp_enqueue_script('extra-gallery-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-gallery.js', array('jquery'), null, true);
 	}
 
 
@@ -20,7 +20,7 @@ class Gallery extends Field {
 		<div class="bloc <?php echo $bloc_classes; ?>">
 			<h2><?php echo ($this->label == null) ? __('Photos', 'extra-admin') : $this->label; ?></h2>
 			<div class="extra_custom_gallery">
-				<?php $this->mb->the_field($this->get_prefixed_field_name("gallery_shortcode")); ?>
+				<?php $this->mb->the_field($this->get_single_field_name("gallery_shortcode")); ?>
 				<a href="#" class="button choose-button"><?php _e("Éditer la galerie d'images", "extra"); ?></a>
 				<div class="thumbs"><?php
 					$ids = $this->mb->get_the_value();
@@ -37,17 +37,16 @@ class Gallery extends Field {
 		<?php
 	}
 
-	public function get_data() {
+	public function extract_properties($properties) {
+		$this->label = $properties['label'];
+	}
+
+	public static function explodeGalleryShortCode($shortcodes) {
 		$data = array();
-		$shortcodes = $this->mb->get_the_value($this->get_prefixed_field_name('gallery_shortcode'));
 		if (!empty($shortcodes)) {
 			$data = explode(',', $shortcodes);
 		}
 
 		return $data;
-	}
-
-	public function extract_properties($properties) {
-		$this->label = $properties['label'];
 	}
 } 

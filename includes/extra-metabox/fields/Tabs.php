@@ -16,7 +16,7 @@ class Tabs extends Field {
 
 	public static function init () {
 		wp_enqueue_script('jquery-ui-tabs');
-		wp_enqueue_script('extra-tabs', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-tabs.js', array('jquery'), null, true);
+		wp_enqueue_script('extra-tabs-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-tabs.js', array('jquery'), null, true);
 	}
 
 	public function the_admin($bloc_classes) {
@@ -53,11 +53,6 @@ class Tabs extends Field {
 		<?php
 	}
 
-	public function get_data() {
-		// TODO
-		return null;
-	}
-
 	public function extract_properties($properties) {
 		$this->label = $properties['label'];
 		$this->add_label = $properties['add_label'];
@@ -65,7 +60,7 @@ class Tabs extends Field {
 		$this->delete_label = $properties['delete_label'];
 		$this->subfields = $properties['subfields'];
 
-		if (empty($this->subfields)) die('Extra Meta box subfields properties required');
+		if (empty($this->subfields)) throw new Exception('Extra Meta box "subfields" required');
 	}
 
 	/************************

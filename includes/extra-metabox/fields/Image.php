@@ -11,14 +11,14 @@ class Image extends Field {
 	protected $label;
 
 	public static function init () {
-		wp_enqueue_script('extra-image', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-image.js', array('jquery'), null, true);
+		wp_enqueue_script('extra-image-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-image.js', array('jquery'), null, true);
 	}
 
 	public function the_admin($bloc_classes) {
 		?>
 		<div class="bloc <?php echo $bloc_classes; ?>">
 			<h2><?php echo ($this->label == null) ? __('Image', 'extra-admin') : $this->label; ?></h2>
-			<?php $this->mb->the_field($this->get_prefixed_field_name("image")); ?>
+			<?php $this->mb->the_field($this->get_single_field_name("image")); ?>
 			<div class="extra-custom-image">
 
 				<div class="floater">
@@ -39,12 +39,6 @@ class Image extends Field {
 			</div>
 		</div>
 		<?php
-	}
-
-	public function get_data() {
-		$image = $this->mb->get_the_value($this->get_prefixed_field_name('image'));
-
-		return $image;
 	}
 
 	public function extract_properties($properties) {

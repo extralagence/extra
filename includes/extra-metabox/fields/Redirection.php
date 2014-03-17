@@ -86,17 +86,6 @@ class Redirection extends Field {
 		<?php
 	}
 
-	public function get_data() {
-		$data = array();
-		$redirection_type = $this->mb->get_the_value('type');
-		if (!empty($redirection_type)) {
-			$data['type'] = $redirection_type;
-			$data['value'] = $this->mb->get_the_value($redirection_type);
-		}
-
-		return $data;
-	}
-
 	static function extra_redirection_wp_ajax() {
 		global $wpdb;
 
