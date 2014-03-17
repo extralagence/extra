@@ -11,7 +11,7 @@ class CustomEditor extends Field {
 	protected $label;
 
 	public static function init () {
-		wp_enqueue_script('extra-editor', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-editor.js', array('jquery'), null, true);
+		wp_enqueue_script('extra-editor-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-editor.js', array('jquery'), null, true);
 	}
 
 	public function the_admin($bloc_classes) {
@@ -27,10 +27,6 @@ class CustomEditor extends Field {
 			</div>
 		</div>
 	<?php
-	}
-
-	public function get_data() {
-		return $this->mb->get_the_value($this->get_single_field_name('editor'));
 	}
 
 	public function extract_properties($properties) {

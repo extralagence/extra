@@ -25,10 +25,6 @@ class Textarea extends Field {
 	<?php
 	}
 
-	public function get_data() {
-		return $this->mb->get_the_value($this->get_single_field_name('text'));
-	}
-
 	public function extract_properties($properties) {
 		$this->label = $properties['label'];
 	}

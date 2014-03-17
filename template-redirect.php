@@ -6,12 +6,12 @@ Template name: Redirection
 global $post, $redirection_metabox;
 the_post();
 $redirection_metabox->the_meta();
-$data = $redirection_metabox->get_data_redirection();
+$data = $redirection_metabox->meta;
 
 $redirection_type = 'auto';
-if (isset($data['type']) && !empty($data['type'])) {
-	$redirection_type = $data['type'];
-	$redirection_value = $data['value'];
+if (isset($data['redirection_type']) && !empty($data['redirection_type'])) {
+	$redirection_type = $data['redirection_type'];
+	$redirection_value = $data['redirection_content'];
 }
 
 switch ($redirection_type) {

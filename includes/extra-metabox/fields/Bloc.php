@@ -6,8 +6,9 @@
  * Time: 11:02
  */
 
-class Editor extends Field {
+class Bloc extends Field {
 
+	protected $subfields;
 	protected $label;
 
 	public static function init () {
@@ -20,20 +21,18 @@ class Editor extends Field {
 				<h2><?php echo $this->label; ?></h2>
 			<?php endif; ?>
 
-			<?php $this->mb->the_field($this->get_single_field_name('editor'));
-			$value = apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' ));
-			wp_editor($value, $this->mb->get_the_name(), array(
-				"textarea_name" => $this->mb->get_the_name(),
-				"tinymce" => array(
-					"body_class" => $this->mb->get_the_name()
-				)
-			)); ?>
+			<?php
+			$this->mb->the_admin($this->subfields);
+			?>
 		</div>
-	<?php
+		<?php
 	}
 
 	public function extract_properties($properties) {
 		$this->label = $properties['label'];
+		$this->subfields = $properties['subfields'];
+
+		if (empty($this->subfields)) throw new Exception('Extra Meta box subfields properties required');
 	}
 
 	/************************
@@ -54,5 +53,19 @@ class Editor extends Field {
 	 */
 	public function getLabel() {
 		return $this->label;
+	}
+
+	/**
+	 * @param mixed $subfields
+	 */
+	public function setSubfields( $subfields ) {
+		$this->subfields = $subfields;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getSubfields() {
+		return $this->subfields;
 	}
 } 

@@ -6,7 +6,7 @@
  * Time: 16:07
  */
 
-if (empty($mb->fields)) die('Extra Meta box "fields" required');
+if (empty($mb->fields)) throw new Exception('Extra Meta box "fields" required');
 $mb->the_admin($mb->fields);
 
 ?>
