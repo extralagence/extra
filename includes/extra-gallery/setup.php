@@ -55,7 +55,6 @@ function extra_gallery_shortcode() {
 	remove_shortcode("gallery");
 	add_shortcode('gallery', 'extra_gallery_handler');
 }
-
 add_action("init", "extra_gallery_shortcode");
 // GALLERY HANDLER
 function extra_gallery_handler($atts, $content = null) {
