@@ -42,7 +42,7 @@ function extra_template_enqueue_scripts() {
 	// EXTRA-SLIDER
 	wp_enqueue_script('extra-tooltip', get_template_directory_uri() . '/assets/js/lib/extra.tooltip.js', array('jquery', 'extra', 'tweenmax'), null, true);
 	// EXTRA
-	wp_enqueue_script('extra-mosaic', get_template_directory_uri() . '/assets/js/lib/extra.mosaic.js', array('jquery', 'extra-slider', 'tweenmax'), null, true);
+	wp_enqueue_script('extra-gallery', get_template_directory_uri() . '/assets/js/lib/extra.gallery.js', array('jquery', 'extra-slider', 'tweenmax'), null, true);
 }
 
 add_action('wp_enqueue_scripts', 'extra_template_enqueue_scripts');
