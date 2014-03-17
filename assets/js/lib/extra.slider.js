@@ -198,7 +198,6 @@
 				if (opt.type === "slide") {
 					adjustPosition();
 					if(opt.draggable && opt.type == 'slide') {
-						console.log("oco");
 						$wrapper.swipe("enable");
 					}
 				}
@@ -250,7 +249,7 @@
 				gotoPage(page, time);
 			});
 			if(opt.resizable) {
-				$window.on('resize', function() {
+				$window.on('extra.resize', function() {
 					update();
 				});
 			}
@@ -312,6 +311,9 @@
 
 			/*********************************** DRAGGABLE ***********************************/
 			if (opt.draggable && opt.type == 'slide') {
+				
+				$this.addClass('extra-slider-draggable');
+				
 				var reference = 0,
 					margin = 0;
 
@@ -345,10 +347,8 @@
 							$this.removeClass('mouseDown');
 							
 							if(direction == 'right') {
-								console.log("right");
 								gotoPrev();
 							} else if(direction == 'left') {
-								console.log("left");
 								gotoNext();
 							}
 						}
@@ -357,6 +357,11 @@
 			}
 
 			/*********************************** ON INIT ***********************************/
+			// ADD RESPONSIVE IMAGES
+			$this.find(".cloned .responsiveImagePlaceholder").each(function () {
+				$window.trigger('extra.responsiveImage', [$(this).data("size", "")]);
+			});
+			// TRIGGER ON INIT
 			if (opt.onInit) {
 				opt.onInit(total, $(this));
 			}
@@ -364,9 +369,7 @@
 			/*********************************** FIRST UPDATE ***********************************/
 			update();
 			$window.load(function() {
-				if(opt.resizable) {
-					update();
-				}
+				update();
 			});
 
 		});
