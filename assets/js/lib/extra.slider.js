@@ -28,9 +28,11 @@
  </div>
 
  */
-
-
-(function ($) {
+(function($) {
+ 
+	if(typeof $window == 'undefined') {
+		$window = $(window);
+	}
 
 	$.fn.extraSlider = function (options) {
 
@@ -39,12 +41,15 @@
 		}
 
 		var opt = $.extend({
+			'auto': 0,
 			'draggable': false,
+			'keyboard': false,
 			'margin': 0,
-			'navigate': false,
-			'paginate': false,
+			'navigate': true,
+			'paginate': true,
 			'paginateContent': '',
-			'speed': 1,
+			'resizable': true,
+			'speed': 0.5,
 			'type': 'slide',
 			'onInit': null,
 			'onMoveStart': null,
@@ -58,19 +63,25 @@
 				$wrapper = $('> .wrapper', this),
 				$slider = $wrapper.find('> ul'),
 				$items = $slider.find('> li'),
+				numClones,
 				$navigation = $this.find('.navigation'),
 				$pagination = $this.find('.pagination'),
 				singleWidth = getDimension('width'),
 				singleHeight = getDimension('height'),
 				total = $items.length,
 				visible = Math.ceil($wrapper.width() / singleWidth),
-				currentItem = parseInt(1 + opt.margin),
-				pages = Math.ceil($items.length / visible);
+				currentItem = 1,
+				previousItem = total,
+				pages = Math.ceil($items.length / visible),
+				slideTween;
 
 			/*********************************** INITIALIZE ***********************************/
 			switch (opt.type) {
 				default:
 				case "slide":
+				
+					// ADD A CLASS TO STYLE IT
+					$this.addClass('extra-slider-slide');
 
 					// CLONE BEFORE
 					$items.first().before($items.slice(-(visible + opt.margin)).clone().addClass('cloned'));
@@ -80,16 +91,24 @@
 
 					// GET ALL ITEMS (clones included)
 					$items = $slider.find('> li');
+					
+					// COUNT CLONES
+					numClones = $items.filter('.cloned').size() / 2;
 
 					break;
 
 
 				case "fade":
+				
+					// ADD A CLASS TO STYLE IT
+					$this.addClass('extra-slider-fade');
+					
+					// INITIALIZE ALPHA AND ZINDEX
 					$items.each(function (i) {
-						if (i > 0) {
-							TweenMax.set($(this), {css: {autoAlpha: 0, zIndex: 1}});
+						if (i == 0) {
+							TweenMax.set($(this), {css: {autoAlpha: 1, zIndex: 2}});
 						} else {
-							$(this).css("zIndex", 2);
+							TweenMax.set($(this), {css: {autoAlpha: 0, zIndex: 1}});
 						}
 					});
 					break;
@@ -100,13 +119,20 @@
 
 				time = typeof time !== 'undefined' ? time : opt.speed;
 
-				var dir = _page < currentItem ? -1 : 1,
-					n = Math.abs(currentItem - _page),
-					left = -(singleWidth * dir * n);
+				var dir = _page < currentItem ? -1 : 1;
 
 				if (!TweenMax.isTweening($slider) && !TweenMax.isTweening($items)) {
 
+					previousItem = currentItem; 
 					currentItem = parseInt(_page);
+					
+					if(opt.type == 'fade') {
+						if(currentItem == total && dir == 1) {
+							currentItem = 0;
+						} else if (currentItem == 0  && dir == -1) {
+							currentItem = total;
+						}
+					}
 
 					if (opt.onMoveStart && time > 0) {
 						opt.onMoveStart(currentItem, pages);
@@ -119,15 +145,12 @@
 					switch (opt.type) {
 						default:
 						case "slide":
-							TweenMax.to($slider, time, {css: {left: '+=' + left}, onComplete: endHandler, onCompleteParams:[time]});
+							var left = -(singleWidth * (currentItem + numClones));
+							slideTween = TweenMax.to($slider, time, {css: {left: left}, onComplete: endHandler, onCompleteParams:[time]});
 							break;
 						case "fade":
-							if ($items.eq(currentItem - 1).length) {
-								TweenMax.to($items.eq(currentItem - 1).css("zIndex", 1), time, {css: {autoAlpha: 0}});
-							}
-							if ($items.eq(currentItem - 1).length) {
-								TweenMax.to($items.eq(currentItem - 1).css("zIndex", 2), time, {css: {autoAlpha: 1}, onComplete: endHandler, onCompleteParams:[time]});
-							}
+							TweenMax.to($items.eq(previousItem - 1).css("zIndex", 1), time, {css: {autoAlpha: 0}});
+							TweenMax.to($items.eq(currentItem - 1).css("zIndex", 2), time, {css: {autoAlpha: 1}, onComplete: endHandler, onCompleteParams:[time]});
 							break;
 					}
 				}
@@ -145,7 +168,7 @@
 			/*********************************** UPDATE ***********************************/
 			function update() {
 				// RESET DIMENSIONS
-				$slider.css('width', '100%');
+				$slider.css('width', '');
 				$items.css('width', '').css('height', '');
 				$wrapper.css('width', '').css('height', '');
 
@@ -155,8 +178,8 @@
 
 				if (opt.type == 'slide') {
 					// SET DIMENSIONS
-					$slider.width(9999);
-					TweenMax.set($slider, {css: {left: -(singleWidth * currentItem * visible)}});
+					$slider.width(99999);
+					slideTween = TweenMax.set($slider, {css: {left: -(singleWidth * (currentItem + numClones))}});
 				}
 				// SET DIMENSIONS
 				$items.css({
@@ -174,6 +197,10 @@
 			function endHandler(time) {
 				if (opt.type === "slide") {
 					adjustPosition();
+					if(opt.draggable && opt.type == 'slide') {
+						console.log("oco");
+						$wrapper.swipe("enable");
+					}
 				}
 				if (opt.onMoveEnd && time > 0) {
 					opt.onMoveEnd(currentItem, total);
@@ -182,14 +209,14 @@
 			// adjust the slider position
 			function adjustPosition() {
 				// too far on the left (previous)
-				if (currentItem === opt.margin) {
-					currentItem = parseInt(total + opt.margin);
-					$slider.css("left", -(singleWidth * (total + opt.margin + (visible - 1))));
+				if (currentItem >= total) {
+					currentItem = 0;
+					TweenMax.set($slider, {css: {left: -(singleWidth * (currentItem + numClones))}});
 				}
 				// too far on the right (next)
-				else if (currentItem > total + opt.margin) {
-					currentItem = parseInt(1 + opt.margin);
-					$slider.css("left", -(singleWidth * (visible + opt.margin)));
+				else if (currentItem < 0) {
+					currentItem = total - 1;
+					TweenMax.set($slider, {css: {left: -(singleWidth * (currentItem + numClones))}});
 				}
 			}
 			// get the blocs dimensions
@@ -206,22 +233,27 @@
 			}
 
 			/*********************************** LISTENERS ***********************************/
-			$(this).bind('update', function () {
+			$(this).on('update', function () {
 				update();
 			});
 			// Bind next
-			$(this).bind('next', function (event, time) {
+			$(this).on('next', function (event, time) {
 				gotoNext(time);
 			});
 			// Bind prev
-			$(this).bind('prev', function (event, time) {
+			$(this).on('prev', function (event, time) {
 				gotoPrev(time);
 			});
-			// bind goto page
-			$(this).bind('goto', function (event, page, time) {
+			// Bind goto page
+			$(this).on('goto', function (event, page, time) {
 				time = typeof time !== 'undefined' ? time : opt.speed;
 				gotoPage(page, time);
 			});
+			if(opt.resizable) {
+				$window.on('resize', function() {
+					update();
+				});
+			}
 
 			/*********************************** NAVIGATION ***********************************/
 			if (opt.navigate && $navigation.length) {
@@ -237,7 +269,7 @@
 
 			/*********************************** PAGINATION ***********************************/
 			if (opt.paginate && $pagination.length) {
-				for (var i = 0; i < pages; i++) {
+				for (var i = 0; i < total; i++) {
 					$("<a>", {'href': '#'}).html(opt.paginateContent != '' ? opt.paginateContent : i + 1).appendTo($pagination);
 				}
 				$pagination.find("a").removeClass("active").eq(currentItem - 1).addClass("active");
@@ -249,33 +281,58 @@
 				});
 			}
 
+			/*********************************** KEYBOARD ***********************************/
+			if (opt.keyboard) {
+				$window.on('keydown', function(event) {
+					if(event.which == 39) {
+						gotoNext();
+					}
+					if(event.which == 37) {
+						gotoPrev();
+					}
+				});
+			}
+
+			/*********************************** AUTO ***********************************/
+			var autoTween;
+			if (!isNaN(opt.auto) && opt.auto > 0) {
+				function autoSlide() {
+					autoTween = TweenMax.delayedCall(opt.auto, function() {
+						gotoNext();
+						autoSlide();
+					});
+				}
+				autoSlide();
+				$this.on('mouseenter', function() {
+					autoTween.pause();	
+				}).on('mouseleave', function() {
+					autoTween.resume();	
+				});
+			}
+
 			/*********************************** DRAGGABLE ***********************************/
 			if (opt.draggable && opt.type == 'slide') {
-
-				$items.find('a').on('click', function(){
-					return false;
-				});
-
 				var reference = 0,
-					margin = 0,
-					tween;
+					margin = 0;
 
 				$wrapper.swipe({
-					tap: function (event, target) {
-						if($(target).has('href')) {
-							return false;
-						}
-					},
+					allowPageScroll: "vertical",
+					threshold: 50,
+					excludedElements: '.noSwipe',
+					triggerOnTouchEnd: true,
+					triggerOnTouchLeave: true,
+					tap: function (event, target) {},
 					swipeStatus: function (event, phase, direction, distance, duration) {
 
+						if(slideTween.isActive()) {
+							$wrapper.swipe("disable");
+							return;
+						}
+						
 						if (phase == 'start') {
-							if (tween && tween.isActive()) {
-								margin = parseFloat($slider.css('left')) - reference;
-								tween.kill();
-							} else {
-								reference = parseFloat($slider.css('left'));
-								margin = 0;
-							}
+							$this.addClass('mouseDown');
+							reference = parseFloat($slider.css('left'));
+							margin = 0;
 						}
 
 						if (phase == 'move' && (direction == 'left' || direction == 'right')) {
@@ -284,42 +341,18 @@
 							TweenMax.set($slider, {css: {'left': left}});
 						}
 
-						if (phase == 'end' || phase == 'cancel') {
-							if (direction == 'left') {
-								if (tween) {
-									tween.kill();
-								}
-								tween = TweenMax.to($slider, 0.5, {css: {left: '-=' + (singleWidth - distance + margin)}, onComplete: function () {
-									TweenMax.set($slider, {css: {left: '+=' + (singleWidth)}});
-									gotoNext(0);
-									if (opt.onMoveStart) {
-										opt.onMoveStart(currentItem, total);
-									}
-									if (opt.onMoveEnd) {
-										opt.onMoveEnd(currentItem, total);
-									}
-								}});
-							} else if (direction == 'right') {
-								if (tween) {
-									tween.kill();
-								}
-								tween = TweenMax.to($slider, 1, {css: {left: '+=' + (singleWidth - distance - margin)}, onComplete: function () {
-									TweenMax.set($slider, {css: {left: '-=' + (singleWidth)}});
-									gotoPrev(0);
-									if (opt.onMoveStart) {
-										opt.onMoveStart(currentItem, total);
-									}
-									if (opt.onMoveEnd) {
-										opt.onMoveEnd(currentItem, total);
-									}
-								}});
+						if ((phase == 'end' || phase == 'cancel') && (direction == 'left' || direction == 'right')) {
+							$this.removeClass('mouseDown');
+							
+							if(direction == 'right') {
+								console.log("right");
+								gotoPrev();
+							} else if(direction == 'left') {
+								console.log("left");
+								gotoNext();
 							}
 						}
-					},
-					threshold: 50,
-					excludedElements: '.noSwipe',
-					triggerOnTouchEnd: true,
-					triggerOnTouchLeave: true
+					}
 				});
 			}
 
@@ -330,7 +363,11 @@
 
 			/*********************************** FIRST UPDATE ***********************************/
 			update();
-			$window.trigger('extra.responsiveImage', [$items.filter('.cloned')]);
+			$window.load(function() {
+				if(opt.resizable) {
+					update();
+				}
+			});
 
 		});
 
