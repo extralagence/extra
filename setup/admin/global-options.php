@@ -45,7 +45,7 @@ if (!class_exists("Redux_Framework_sample_config")) {
 						'id' => 'default-thumbnail',
 						'type' => 'media',
 						'title' => __('Image générique par défaut', 'extra-admin'),
-					)
+					),
 					array(
 						'id' => 'default-thumbnail-small',
 						'type' => 'media',
