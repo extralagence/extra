@@ -103,7 +103,10 @@ $(document).ready(function () {
 							'width': this.width,
 							'height': this.height
 						}).appendTo(container);
-						container.find("img").not(imgElement).remove();
+						container.find("img").not(imgElement).css('position', 'absolute');
+						TweenMax.from(imgElement, 1, {autoAlpha: 0, onComplete: function() {
+							container.find("img").not(imgElement).remove();
+						}});
 					});
 					imgElement.attr({
 						"alt": altTxt,
