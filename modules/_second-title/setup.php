@@ -9,18 +9,23 @@
  *
  *********************/
 
-$extra_second_title_post_types = array('page');
-$extra_second_title_post_types = apply_filters('extra_second_title_post_types', $extra_second_title_post_types);
+$extra_second_title_post_types = apply_filters('extra_second_title_post_types', array('page'));
 
 global $second_title_metabox;
-$second_title_metabox = new WPAlchemy_MetaBox(array(
+$second_title_metabox = new ExtraMetaBox(array(
 	'exclude_post_id' => get_option('page_on_front'),
 	'id' => '_second_title',
 	'init_action' => 'extra_second_title_metabox_enqueue_assets',
 	'lock' => WPALCHEMY_LOCK_AFTER_POST_TITLE,
 	'title' => __("Titre alternatif", "extra"),
 	'types' => $extra_second_title_post_types,
-	'template' => EXTRA_MODULES_PATH.'/_second-title/admin/meta.php'
+	'fields' => array(
+		array(
+			'type' => 'text',
+			'name' => 'second_title',
+			'placeholder' => __("Titre alternatif", "extra")
+		)
+	)
 ));
 // INCLUDE CSS
 function extra_second_title_metabox_enqueue_assets () {

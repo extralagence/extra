@@ -40,15 +40,17 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		Gallery::init();
 		Redirection::init();
 		Image::init();
-		Tabs::init();
 		Text::init();
 		Textarea::init();
 		CustomEditor::init();
 		Editor::init();
-		Bloc::init();
+		Hidden::init();
+
 		Slider::init();
 		Range::init();
-		Hidden::init();
+
+		Bloc::init();
+		Tabs::init();
 	}
 
 	private function get_name_from_properties($properties) {
