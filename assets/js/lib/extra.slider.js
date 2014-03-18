@@ -120,6 +120,8 @@
 				time = typeof time !== 'undefined' ? time : opt.speed;
 
 				var dir = _page < currentItem ? -1 : 1;
+				
+				$items.removeClass('active');
 
 				if (!TweenMax.isTweening($slider) && !TweenMax.isTweening($items)) {
 
@@ -135,7 +137,7 @@
 					}
 
 					if (opt.onMoveStart && time > 0) {
-						opt.onMoveStart(currentItem, pages);
+						opt.onMoveStart(currentItem, total, $this);
 					}
 
 					if (opt.paginate) {
@@ -195,14 +197,20 @@
 			/*********************************** FUNCTIONS ***********************************/
 			// when the first animation is finished
 			function endHandler(time) {
+				// endHandler for slide
 				if (opt.type === "slide") {
 					adjustPosition();
 					if(opt.draggable && opt.type == 'slide') {
 						$wrapper.swipe("enable");
 					}
 				}
+				
+				// set active
+				$items.eq(currentItem + numClones).addClass('active');
+				
+				// listener
 				if (opt.onMoveEnd && time > 0) {
-					opt.onMoveEnd(currentItem, total);
+					opt.onMoveEnd(currentItem, total, $this, $items.eq(currentItem + numClones));
 				}
 			}
 			// adjust the slider position
@@ -357,13 +365,9 @@
 			}
 
 			/*********************************** ON INIT ***********************************/
-			// ADD RESPONSIVE IMAGES
-			$this.find(".cloned .responsiveImagePlaceholder").each(function () {
-				$window.trigger('extra.responsiveImage', [$(this).data("size", "")]);
-			});
 			// TRIGGER ON INIT
 			if (opt.onInit) {
-				opt.onInit(total, $(this));
+				opt.onInit($items.eq(1 + numClones), total, $(this));
 			}
 
 			/*********************************** FIRST UPDATE ***********************************/
