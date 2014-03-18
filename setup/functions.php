@@ -321,10 +321,11 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 			data-src-desktop="<?php echo bfi_thumb($src, $params['desktop']); ?>">
 			<img alt="<?php echo $alt; ?>" src="<?php echo bfi_thumb($src, $params['desktop']); ?>">
 		</noscript>
-		<img src="<?php echo get_template_directory_uri(); ?>/assets/img/blank.gif"
+		<img class="placeholder-image"
+		     src="<?php echo get_template_directory_uri(); ?>/assets/img/blank.gif"
 		     alt="<?php echo $alt; ?>"
-			<?php echo (!empty($params['desktop']['width'])) ? 'width="' . $params['desktop']['width'] . '"' : ''; ?>
-			<?php echo (!empty($params['desktop']['height'])) ? 'height="' . $params['desktop']['height'] . '"' : ''; ?> />
+		     style="<?php echo (!empty($params['desktop']['width'])) ? 'width:' . $params['desktop']['width'] . 'px;' : ''; ?>
+			<?php echo (!empty($params['desktop']['height'])) ? 'height:' . $params['desktop']['height'] . 'px;' : ''; ?>" />
 	</span>
 	<?php $return = ob_get_contents(); ?>
 
