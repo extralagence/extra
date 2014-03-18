@@ -10,6 +10,7 @@ class Text extends Field {
 
 	protected $label;
 	protected $regex;
+	protected $placeholder;
 
 	public static function init () {
 		wp_enqueue_script('extra-text-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-text.js', array('jquery'), null, true);
@@ -26,7 +27,8 @@ class Text extends Field {
 				name="<?php $this->mb->the_name(); ?>"
 				type="text"
 				value="<?php $this->mb->the_value(); ?>"
-				<?php echo ($this->regex != null) ? 'data-regex="'.$this->regex.'"' : ''; ?> >
+				<?php echo ($this->regex != null) ? 'data-regex="'.$this->regex.'"' : ''; ?>
+				<?php echo ($this->placeholder != null) ? 'placeholder="'.$this->placeholder.'"' : ''; ?>>
 		</div>
 	<?php
 	}
@@ -34,6 +36,7 @@ class Text extends Field {
 	public function extract_properties($properties) {
 		$this->label = $properties['label'];
 		$this->regex = $properties['regex'];
+		$this->placeholder = $properties['placeholder'];
 	}
 
 	/************************
@@ -68,5 +71,19 @@ class Text extends Field {
 	 */
 	public function getRegex() {
 		return $this->regex;
+	}
+
+	/**
+	 * @param mixed $placeholder
+	 */
+	public function setPlaceholder( $placeholder ) {
+		$this->placeholder = $placeholder;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getPlaceholder() {
+		return $this->placeholder;
 	}
 } 

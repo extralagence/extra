@@ -13,8 +13,6 @@ class Slider extends Field {
 	protected $max;
 
 	public static function init () {
-		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
-
 		wp_enqueue_script('jquery-ui');
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-slider');
