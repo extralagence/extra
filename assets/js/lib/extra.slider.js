@@ -173,6 +173,7 @@
 				$slider.css('width', '');
 				$items.css('width', '').css('height', '');
 				$wrapper.css('width', '').css('height', '');
+				
 
 				// GET DIMENSIONS
 				singleWidth = getDimension('width');
@@ -192,6 +193,11 @@
 					'width': (singleWidth * visible) + 'px',
 					'height': singleHeight + 'px'
 				});
+				
+				// ACTIVE CLASS
+				$items.removeClass('active');
+				$items.eq(currentItem + numClones).addClass('active');
+				
 			}
 
 			/*********************************** FUNCTIONS ***********************************/
