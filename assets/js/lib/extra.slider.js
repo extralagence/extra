@@ -70,7 +70,7 @@
 				singleHeight = getDimension('height'),
 				total = $items.length,
 				visible = Math.ceil($wrapper.width() / singleWidth),
-				currentItem = 1,
+				currentItem = 0,
 				previousItem = total,
 				pages = Math.ceil($items.length / visible),
 				slideTween;
