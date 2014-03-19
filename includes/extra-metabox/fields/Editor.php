@@ -30,7 +30,8 @@ class Editor extends Field {
 				'textarea_name' => $this->mb->get_the_name(),
 				'editor_height' => 800,
 				'tinymce' => array(
-					'body_class' => $this->mb->get_the_name(),
+					'body_class' => $this->name,
+					'editor_height' => 800
 				)
 			)); ?>
 		</div>
