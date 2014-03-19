@@ -24,10 +24,12 @@ class Gallery extends Field {
 				<a href="#" class="button choose-button"><?php _e("Éditer la galerie d'images", "extra"); ?></a>
 				<div class="thumbs"><?php
 					$ids = $this->mb->get_the_value();
-					$ids = explode(",", $ids);
-					foreach($ids as $id) {
-						$src = wp_get_attachment_image_src($id, 'thumbnail');
-						echo '<span class="image"><img data-id="'.$id.'" src="'.$src[0].'" width="150" /><a class="close" href="#close"><span class="dashicons dashicons-no"></span></a></span>';
+					if(isset($ids) && !empty($ids) && sizeof($ids) > 0) {
+						$ids = explode(",", $ids);
+						foreach($ids as $id) {
+							$src = wp_get_attachment_image_src($id, 'thumbnail');
+							echo '<span class="image"><img data-id="'.$id.'" src="'.$src[0].'" width="150" /><a class="close" href="#close"><span class="dashicons dashicons-no"></span></a></span>';
+						}
 					}
 					?>
 				</div>
