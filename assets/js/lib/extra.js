@@ -204,92 +204,96 @@ $(function () {
 	var menuOpen = true;
 	var transform3d = $("html").hasClass('csstransforms3d');
 
-	// EVENTS
-	$switcher.click(function () {
-		if (small) {
-			if (!menuOpen) {
-				showMenu();
+	if($menu.length && $wrapper.length && $switcher.length) {
+
+		// EVENTS
+		$switcher.click(function () {
+			if (small) {
+				if (!menuOpen) {
+					showMenu();
+				} else {
+					hideMenu();
+				}
+			}
+			return false;
+		});
+		/**************************
+		 *
+		 *
+		 * ON RESIZE
+		 *
+		 *
+		 *************************/
+		if ($("body").hasClass("admin-bar")) {
+			var wpadminbar = $("#wpadminbar");
+			$(window).on('extra.resize', function () {
+				$switcher.css("top", wpadminbar.height());
+			});
+		}
+		// SHOW
+		function showMenu() {
+			if (small) {
+				menuOpen = true;
+				$("html").addClass('menu-open');
+				if (transform3d) {
+					TweenMax.to($menu, 0.4, {x: 0, y: 0, z: 1, ease: Quad.EaseOut});
+					TweenMax.to([$wrapper, $switcher], 0.5, {x: $menu.width() + 'px', y: 0, z: 2, ease: Quad.EaseOut});
+				} else {
+					TweenMax.to($menu, 0.4, {x: 0, ease: Quad.EaseOut});
+					TweenMax.to([$wrapper, $switcher], 0.5, {x: $menu.width() + 'px', ease: Quad.EaseOut});
+				}
+				$(document).swipe("enable");
 			} else {
+				hideMenu(true);
+			}
+		}
+
+		// HIDE
+		function hideMenu(fast) {
+			if (!small) {
+				fast = true;
+			}
+			menuOpen = false;
+			$("html").removeClass('menu-open');
+			if (transform3d) {
+				TweenMax.to($menu, (fast ? 0 : 0.6), {x: -$menu.width() + 'px', y: 0, z: 0, ease: Strong.EaseIn});
+				TweenMax.to([$wrapper, $switcher], (fast ? 0 : 0.5), {x: 0, y: 0, z: 0, ease: Strong.EaseIn});
+			} else {
+				TweenMax.to($menu, (fast ? 0 : 0.6), {x: -$menu.width() + 'px', ease: Strong.EaseIn});
+				TweenMax.to($wrapper, (fast ? 0 : 0.5), {x: 0, ease: Strong.EaseIn});
+			}
+			if (!small) {
+				$menu.removeAttr("style");
+				$wrapper.removeAttr("style");
+			}
+			$(document).swipe("disable");
+		}
+
+		// TAP
+		function bodyTap(event, target) {
+			if (menuOpen && small) {
 				hideMenu();
 			}
 		}
-		return false;
-	});
-	/**************************
-	 *
-	 *
-	 * ON RESIZE
-	 *
-	 *
-	 *************************/
-	if ($("body").hasClass("admin-bar")) {
-		var wpadminbar = $("#wpadminbar");
-		$(window).on('extra.resize', function () {
-			$switcher.css("top", wpadminbar.height());
-		});
-	}
-	// SHOW
-	function showMenu() {
-		if (small) {
-			menuOpen = true;
-			$("html").addClass('menu-open');
-			if (transform3d) {
-				TweenMax.to($menu, 0.4, {x: 0, y: 0, z: 1, ease: Quad.EaseOut});
-				TweenMax.to([$wrapper, $switcher], 0.5, {x: $menu.width() + 'px', y: 0, z: 2, ease: Quad.EaseOut});
-			} else {
-				TweenMax.to($menu, 0.4, {x: 0, ease: Quad.EaseOut});
-				TweenMax.to([$wrapper, $switcher], 0.5, {x: $menu.width() + 'px', ease: Quad.EaseOut});
+
+		// SWIPE LEFT
+		function bodySwipeLeft(event, direction, distance, duration) {
+			if (menuOpen && small) {
+				hideMenu();
 			}
-			$(document).swipe("enable");
-		} else {
-			hideMenu(true);
 		}
-	}
 
-	// HIDE
-	function hideMenu(fast) {
-		if (!small) {
-			fast = true;
+		// SWIPE RIGHT
+		function bodySwipeRight(event, direction, distance, duration) {
+			if (!menuOpen && small) {
+				showMenu();
+			}
 		}
-		menuOpen = false;
-		$("html").removeClass('menu-open');
-		if (transform3d) {
-			TweenMax.to($menu, (fast ? 0 : 0.6), {x: -$menu.width() + 'px', y: 0, z: 0, ease: Strong.EaseIn});
-			TweenMax.to([$wrapper, $switcher], (fast ? 0 : 0.5), {x: 0, y: 0, z: 0, ease: Strong.EaseIn});
-		} else {
-			TweenMax.to($menu, (fast ? 0 : 0.6), {x: -$menu.width() + 'px', ease: Strong.EaseIn});
-			TweenMax.to($wrapper, (fast ? 0 : 0.5), {x: 0, ease: Strong.EaseIn});
-		}
-		if (!small) {
-			$menu.removeAttr("style");
-			$wrapper.removeAttr("style");
-		}
-		$(document).swipe("disable");
-	}
 
-	// TAP
-	function bodyTap(event, target) {
-		if (menuOpen && small) {
-			hideMenu();
-		}
-	}
+		// INIT
+		hideMenu(true);
 
-	// SWIPE LEFT
-	function bodySwipeLeft(event, direction, distance, duration) {
-		if (menuOpen && small) {
-			hideMenu();
-		}
 	}
-
-	// SWIPE RIGHT
-	function bodySwipeRight(event, direction, distance, duration) {
-		if (!menuOpen && small) {
-			showMenu();
-		}
-	}
-
-	// INIT
-	hideMenu(true);
 
 });
 /*********************
