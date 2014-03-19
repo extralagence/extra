@@ -347,6 +347,16 @@ class WPAlchemy_MetaBox
 	var $hide_title = FALSE;
 
 	/**
+	 * Used to make the metabox more minimalist, this option should be used when
+	 * instantiating the class.
+	 *
+	 * @since	1.3
+	 * @access	public
+	 * @var		bool optional
+	 */
+	var $hide_ui = FALSE;
+
+	/**
 	 * Used to lock a meta box in place, possible values are: top, bottom, 
 	 * before_post_title, after_post_title, this option should be used when
 	 * instantiating the class.
@@ -2331,6 +2341,9 @@ class WPAlchemy_MetaBox
 
 	function _extra_add_postbox_classes ($classes) {
 		array_push($classes,'extra-metabox');
+		if($this->hide_ui == TRUE) {
+			array_push($classes,'extra-metabox-minimal-ui');
+		}
 		return $classes;
 	}
 }
