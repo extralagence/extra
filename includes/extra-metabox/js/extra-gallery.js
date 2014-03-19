@@ -30,11 +30,13 @@ jQuery(document).ready(function ($) {
 
 			});
 
-			$thumbs.find(".image").on("click", function () {
-				deleteImage($(this).find("img"));
+			$thumbs.find(".image .close").on("click", function () {
+				deleteImage($(this).parent().find("img"));
 			});
 			$thumbs.sortable({
-				stop: updateList
+				stop: updateList,
+				placeholder: "extra-gallery-placeholder image",
+				forcePlaceholderSize: true
 			});
 
 			function updateList(event, ui) {
@@ -54,6 +56,7 @@ jQuery(document).ready(function ($) {
 				}
 				var image = $('<img data-id="' + attachment.id + '" src="' + size.url + '" width="150" />');
 				image.appendTo($thumbs).wrap('<span class="image"></span>');
+				image.after('<div class="close dashicons dashicons-no"></div>');
 				image.parent().on("click", function () {
 					deleteImage($(this).find("img"));
 				});

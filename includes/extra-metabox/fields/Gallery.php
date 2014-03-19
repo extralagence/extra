@@ -27,7 +27,7 @@ class Gallery extends Field {
 					$ids = explode(",", $ids);
 					foreach($ids as $id) {
 						$src = wp_get_attachment_image_src($id, 'thumbnail');
-						echo '<span class="image"><img data-id="'.$id.'" src="'.$src[0].'" width="150" /></span>';
+						echo '<span class="image"><img data-id="'.$id.'" src="'.$src[0].'" width="150" /><a class="close" href="#close"><span class="dashicons dashicons-no"></span></a></span>';
 					}
 					?>
 				</div>
