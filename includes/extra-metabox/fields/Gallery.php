@@ -17,9 +17,9 @@ class Gallery extends Field {
 
 	public function the_admin($bloc_classes) {
 		?>
-		<div class="bloc <?php echo $bloc_classes; ?>">
-			<h2><?php echo ($this->label == null) ? __('Photos', 'extra-admin') : $this->label; ?></h2>
-			<div class="extra_custom_gallery">
+		<div class="<?php echo $bloc_classes; ?>">
+			<h2><div class="dashicons dashicons-format-gallery"></div><?php echo ($this->label == null) ? __("Galerie d'images", 'extra-admin') : $this->label; ?></h2>
+			<div class="extra-custom-gallery">
 				<?php $this->mb->the_field($this->get_single_field_name("gallery_shortcode")); ?>
 				<a href="#" class="button choose-button"><?php _e("Éditer la galerie d'images", "extra"); ?></a>
 				<div class="thumbs"><?php

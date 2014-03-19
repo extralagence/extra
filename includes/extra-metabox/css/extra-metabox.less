@@ -1,5 +1,26 @@
 /**********************
  *
+ *
+ * MINIMAL UI
+ *
+ *
+ **********************/
+.postbox-container .extra-metabox-minimal-ui {
+	background: transparent;
+	border: 0px none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.extra-metabox-minimal-ui .handlediv,
+.extra-metabox-minimal-ui .hndle {
+	display: none;
+}
+#poststuff .extra-metabox-minimal-ui .inside {
+	margin: 0;
+	padding: 0;
+}
+/**********************
+ *
  * 
  * CONFIGURATION
  * 
@@ -11,13 +32,15 @@
 	margin: 10px 0;
 	padding: 20px;
 	position: relative;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+}
+.extra-metabox-minimal-ui .bloc {
+	background: #FFFFFF;
 }
 .extra-metabox h2 {
 	margin-top: 0px;
 }
-.extra-metabox .bloc label {
+.extra-metabox label,
+.extra-metabox .label {
 	display: inline-block;
 	margin-right: 10px;
 	min-width: 150px;
@@ -47,11 +70,17 @@
 	min-width: 200px;
 	height: 100px;
 }
-.extra-metabox .bloc h2,
-.extra-metabox h2 {
-	font-size: 25px;
+#poststuff .extra-metabox h2 {
+	color: #777;
+	font-size: 28px;
+	line-height: 25px;
 	margin: 0px;
 	margin-bottom: 20px;
+}
+#poststuff .extra-metabox h2 .dashicons {
+	line-height: 25px;
+	margin-right: 8px;
+	vertical-align: 0px;
 }
 #poststuff .bloc h3, 
 .metabox-holder .bloc h3,
@@ -62,7 +91,7 @@
 	box-shadow: none;
 	border: 0px none;
 	font-size: 15px;
-	margin: 50px 0 5px 0; 
+	margin: 50px 0 5px 0;
 	padding: 0px;
 	padding-left: 20px;
 }
@@ -164,7 +193,7 @@
 /**********************
  *
  * 
- * IMAGE MANAGER
+ * IMAGE & GALLERIES MANAGER
  * 
  *  
  **********************/
@@ -173,12 +202,13 @@
 	padding-top: 20px;
 	
 }
-.extra-metabox .floater,
-.extra-metabox .image {
+.extra-custom-gallery .floater,
+.extra-custom-gallery .image {
+	cursor: move;
 	float: left;
 }
 .extra-metabox .image {
-	margin-left: 10px;
+	margin: 0 10px 10px 0;
 }
 .extra-metabox .image img {
 	display: block;
@@ -389,7 +419,7 @@
 .floater:after,
 .extra-metabox .extra-custom-editor-wrapper:after,
 .extra-metabox .extra-custom-image:after,
-.extra-custom-gallery .thumbs,
+.extra-custom-gallery .thumbs:after,
 .extra-tab-navigation:after {
     content: ".";
     display: block;
