@@ -12,6 +12,7 @@ class Text extends Field {
 	protected $placeholder;
 
 	public static function init () {
+		parent::init();
 		wp_enqueue_script('extra-text-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-text.js', array('jquery'), null, true);
 	}
 

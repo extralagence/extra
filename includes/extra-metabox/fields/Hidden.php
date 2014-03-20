@@ -8,9 +8,6 @@
 
 class Hidden extends Field {
 
-	public static function init () {
-	}
-
 	public function the_admin() {
 		?>
 		<?php $this->mb->the_field($this->get_single_field_name('hidden')); ?>

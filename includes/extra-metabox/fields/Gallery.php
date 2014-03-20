@@ -9,6 +9,7 @@
 class Gallery extends Field {
 
 	public static function init () {
+		parent::init();
 		wp_enqueue_script('extra-gallery-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-gallery.js', array('jquery'), null, true);
 	}
 

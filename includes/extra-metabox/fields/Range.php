@@ -15,6 +15,7 @@ class Range extends Field {
 	protected $max;
 
 	public static function init () {
+		parent::init();
 		wp_enqueue_script('jquery-ui');
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-slider');

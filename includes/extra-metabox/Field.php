@@ -52,11 +52,13 @@ abstract class Field {
 	public static function init() {
 		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-metabox.less');
 	}
-	public abstract function the_admin();
+
 	public function extract_properties($properties) {
 		$this->name = $properties['name'];
 		$this->label = $properties['label'];
 		$this->icon = $properties['icon'];
 		$this->css_class = $properties['css_class'];
 	}
+
+	public abstract function the_admin();
 }

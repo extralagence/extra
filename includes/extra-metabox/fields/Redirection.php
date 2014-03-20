@@ -9,8 +9,7 @@
 class Redirection extends Field {
 
 	public static function init () {
-		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/extra-metabox.less');
-
+		parent::init();
 		wp_enqueue_script('jquery-ui-autocomplete');
 		wp_enqueue_script('extra-accent-fold-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-accent-fold.js', array('jquery'));
 		wp_enqueue_script('extra-redirection-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-redirection.js', array('jquery', 'jquery-ui-autocomplete', 'extra-accent-fold-metabox'));

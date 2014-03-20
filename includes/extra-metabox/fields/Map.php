@@ -9,6 +9,7 @@
 class Map extends Field {
 
 	public static function init () {
+		parent::init();
 		wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBpFeTSnmCMi1Vb3LuLoAivc4D4CeA2YJs&sensor=false', array('jquery'), null, true);
 		wp_enqueue_script('extra-map-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-map.js', array('jquery'), null, true);
 	}
