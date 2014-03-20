@@ -29,11 +29,12 @@ class Gallery extends Field {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?>">
-			<h2>
-				<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
-				<?php echo ($this->label == null) ? __("Galerie d'images", 'extra-admin') : $this->label; ?>
-			</h2>
-
+			<?php if ($this->label != null) : ?>
+				<h2><?php
+					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
+					echo $this->label; ?>
+				</h2>
+			<?php endif; ?>
 			<div class="extra-custom-gallery">
 				<?php $this->mb->the_field($this->get_single_field_name("gallery_shortcode")); ?>
 				<a href="#" class="button choose-button"><?php _e("Éditer la galerie d'images", "extra"); ?></a>
