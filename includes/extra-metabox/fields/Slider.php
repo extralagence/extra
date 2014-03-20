@@ -6,6 +6,19 @@
  * Time: 11:02
  */
 
+/**
+ * Class Map
+ *
+ * Define a slider and his text input
+ *
+ * type = slider
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional): label before text input
+ * - icon (optional)
+ * - max (mandatory): max value
+ */
 class Slider extends Field {
 
 	protected $suffix;

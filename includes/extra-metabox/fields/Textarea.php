@@ -6,6 +6,18 @@
  * Time: 11:02
  */
 
+/**
+ * Class Textarea
+ *
+ * Define a simple textarea metabox
+ *
+ * type = textarea
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ */
 class Textarea extends Field {
 
 	public function the_admin() {

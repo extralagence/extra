@@ -6,6 +6,18 @@
  * Time: 11:02
  */
 
+/**
+ * Class Hidden
+ *
+ * Define a hidden field metabox
+ *
+ * type = hidden
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ */
 class Hidden extends Field {
 
 	public function the_admin() {

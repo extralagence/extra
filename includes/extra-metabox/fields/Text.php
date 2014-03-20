@@ -6,6 +6,20 @@
  * Time: 11:02
  */
 
+/**
+ * Class Text
+ *
+ * Define a simple text input metabox
+ *
+ * type = text
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ * - placeholder (optional): label when the field is empty
+ * - regex (optional): regex checked for each changes
+ */
 class Text extends Field {
 
 	protected $regex;
