@@ -22,6 +22,7 @@ class Image extends Field {
 
 	public static function init () {
 		parent::init();
+		wp_enqueue_style('extra-image-gallery-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-image-gallery.less');
 		wp_enqueue_script('extra-image-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-image.js', array('jquery'), null, true);
 	}
 

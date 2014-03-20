@@ -18,10 +18,10 @@ abstract class Field {
 		$this->mb = $mb;
 	}
 
-	private function get_field_name($field_name, $is_prefix) {
+	private function get_field_name($field_name, $pefix_separator) {
 		if (!empty($this->name)) {
-			if ($is_prefix) {
-				return $this->name.'_'.$field_name;
+			if ($pefix_separator != null) {
+				return $this->name.$pefix_separator.$field_name;
 			} else {
 				return $this->name;
 			}
@@ -41,12 +41,12 @@ abstract class Field {
 	 * @param $name
 	 * @return string
 	 */
-	protected function get_prefixed_field_name($field_name) {
-		return $this->get_field_name($field_name, true);
+	protected function get_prefixed_field_name($field_name, $separator = '_') {
+		return $this->get_field_name($field_name, $separator);
 	}
 
 	protected function get_single_field_name($field_name) {
-		return $this->get_field_name($field_name, false);
+		return $this->get_field_name($field_name, null);
 	}
 
 	public static function init() {

@@ -1,0 +1,49 @@
+/**********************
+ *
+ *
+ * EXTRA EDITOR
+ *
+ *
+ **********************/
+.extra-custom-editor {
+	margin:15px 6px;
+	width: 100%;
+	position: relative;
+}
+.extra-custom-editor .wp_themeSkin table.mceLayout  {
+	border:1px solid #DFDFDF;
+}
+.extra-custom-editor textarea {
+	border:0;
+}
+.extra-custom-editor .mceStatusbar a.mceResize {
+	top:-2px;
+}
+.extra-custom-editor .wp-switch-editor {
+	border-bottom: 0px none;
+	position: relative;
+	top: 1px;
+}
+.extra-custom-editor .switch-html {
+	background: #F4F4F4;
+}
+.extra-custom-editor .wp-media-buttons {
+	position: absolute; top: 0; left: 0px;
+}
+.extra-custom-editor .wp_themeSkin  .mceLayout {
+	width: 100%;
+}
+/**********************
+ *
+ *
+ * EASY CLEARING
+ *
+ *
+ **********************/
+.extra-metabox .extra-custom-editor-wrapper:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
