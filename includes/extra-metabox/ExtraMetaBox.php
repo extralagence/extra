@@ -34,23 +34,36 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		$this->add_action('init', array($this, 'extra_init'));
 	}
 
-	function extra_init() {
+	private function initField($properties) {
+		$class = $this->construct_class_name($properties);
+		$class::init();
+
+		if (isset($properties['subfields'])) {
+			foreach ($properties['subfields'] as $child) {
+				$this->initField($child);
+			}
+		}
+	}
+
+	public function extra_init() {
 		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-metabox.less');
-		Map::init();
-		Gallery::init();
-		Redirection::init();
-		Image::init();
-		Text::init();
-		Textarea::init();
-		CustomEditor::init();
-		Editor::init();
-		Hidden::init();
 
-		Slider::init();
-		Range::init();
+		if (isset($this->fields)) {
+			foreach ($this->fields as $properties) {
+				$this->initField($properties);
+			}
+		}
+	}
 
-		Bloc::init();
-		Tabs::init();
+	private function construct_class_name($properties) {
+		if (!isset($properties['type'])) throw new Exception ('Extra Meta box "type" required');
+		$array_type = explode('_', $properties['type']);
+		$class = '';
+		foreach ($array_type as $type) {
+			$class .= ucfirst($type);
+		}
+
+		return $class;
 	}
 
 	/**
@@ -62,20 +75,13 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	 * @throws Exception
 	 */
 	private function construct_field_from_properties($properties) {
+		$class = $this->construct_class_name($properties);
 		$name = (isset($properties['name'])) ? $properties['name'] : null;
-
-		if (!isset($properties['type'])) throw new Exception ('Extra Meta box "type" required');
-		$array_type = explode('_', $properties['type']);
-		$class = '';
-		foreach ($array_type as $type) {
-			$class .= ucfirst($type);
-		}
 
 		/**
 		 * @var $field Field
 		 */
 		$field = new $class($this, $name);
-
 		if ($field->getName() == null) throw new Exception ('Extra Meta box "name" required');
 
 		return $field;
@@ -89,40 +95,5 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 			$bloc_classes = (isset($properties['bloc_classes'])) ? $properties['bloc_classes'] : null;
 			$field->the_admin($bloc_classes);
 		}
-	}
-
-	/**
-	 * !!!! DEPRECATED !!!!
-	 */
-	/**
-	 * MAP
-	 */
-	public function the_admin_map ($name = '', $bloc_classes = '') {
-		$field = new Map($this, $name);
-		$field->the_admin($bloc_classes);
-	}
-
-	/**
-	 * GALLERY
-	 */
-	public function the_admin_gallery ($name = '', $bloc_classes = '') {
-		$field = new Gallery($this, $name);
-		$field->the_admin($bloc_classes);
-	}
-
-	/**
-	 * REDIRECTION
-	 */
-	public function the_admin_redirection ($name = '', $bloc_classes = '') {
-		$field = new Redirection($this, $name);
-		$field->the_admin($bloc_classes);
-	}
-
-	/**
-	 * IMAGE
-	 */
-	public function the_admin_image ($name = '', $bloc_classes = '') {
-		$field = new Image($this, $name);
-		$field->the_admin($bloc_classes);
 	}
 }
