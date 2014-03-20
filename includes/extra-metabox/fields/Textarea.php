@@ -8,14 +8,12 @@
 
 class Textarea extends Field {
 
-	protected $label;
-
 	public static function init () {
 	}
 
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
-		<div class="<?php echo $bloc_classes; ?>">
+		<div class="<?php echo $this->css_class; ?>">
 			<p>
 				<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
 				<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
@@ -23,29 +21,5 @@ class Textarea extends Field {
 			<p/>
 		</div>
 	<?php
-	}
-
-	public function extract_properties($properties) {
-		$this->label = $properties['label'];
-	}
-
-	/************************
-	 *
-	 * GETTERS AND SETTERS
-	 *
-	 ***********************/
-
-	/**
-	 * @param mixed $label
-	 */
-	public function setLabel( $label ) {
-		$this->label = $label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLabel() {
-		return $this->label;
 	}
 } 

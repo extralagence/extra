@@ -6,17 +6,28 @@
  * Time: 11:02
  */
 
+/**
+ * Class CustomEditor
+ *
+ * Define a bloc metabox (Only formatting)
+ *
+ * type = custom_editor
+ *
+ * Options for Bloc :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ */
 class CustomEditor extends Field {
 
-	protected $label;
-
 	public static function init () {
+		parent::init();
 		wp_enqueue_script('extra-editor-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-editor.js', array('jquery'), null, true);
 	}
 
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
-		<div class="extra-custom-editor-wrapper <?php echo $bloc_classes; ?>">
+		<div class="extra-custom-editor-wrapper <?php echo $this->css_class; ?>">
 			<?php $this->mb->the_field($this->get_single_field_name('editor')); ?>
 			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 			<div class="extra-custom-editor">
@@ -27,29 +38,5 @@ class CustomEditor extends Field {
 			</div>
 		</div>
 	<?php
-	}
-
-	public function extract_properties($properties) {
-		$this->label = $properties['label'];
-	}
-
-	/************************
-	 *
-	 * GETTERS AND SETTERS
-	 *
-	 ***********************/
-
-	/**
-	 * @param mixed $label
-	 */
-	public function setLabel( $label ) {
-		$this->label = $label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLabel() {
-		return $this->label;
 	}
 } 

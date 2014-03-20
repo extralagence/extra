@@ -11,13 +11,10 @@ class Hidden extends Field {
 	public static function init () {
 	}
 
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
 		<?php $this->mb->the_field($this->get_single_field_name('hidden')); ?>
-		<input <?php echo (empty($bloc_classes))? '' : 'class="'.$bloc_classes.'"'; ?> id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>" >
+		<input <?php echo (empty($this->css_class))? '' : 'class="'.$this->css_class.'"'; ?> id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>" >
 	<?php
-	}
-
-	public function extract_properties($properties) {
 	}
 } 

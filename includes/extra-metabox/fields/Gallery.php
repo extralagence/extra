@@ -8,16 +8,13 @@
 
 class Gallery extends Field {
 
-	protected $label;
-
 	public static function init () {
 		wp_enqueue_script('extra-gallery-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-gallery.js', array('jquery'), null, true);
 	}
 
-
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
-		<div class="<?php echo $bloc_classes; ?>">
+		<div class="<?php echo $this->css_class; ?>">
 			<h2><div class="dashicons dashicons-format-gallery"></div><?php echo ($this->label == null) ? __("Galerie d'images", 'extra-admin') : $this->label; ?></h2>
 			<div class="extra-custom-gallery">
 				<?php $this->mb->the_field($this->get_single_field_name("gallery_shortcode")); ?>
@@ -37,10 +34,6 @@ class Gallery extends Field {
 			</div>
 		</div>
 		<?php
-	}
-
-	public function extract_properties($properties) {
-		$this->label = $properties['label'];
 	}
 
 	public static function explodeGalleryShortCode($shortcodes) {

@@ -10,10 +10,12 @@ abstract class Field {
 
 	protected $mb;
 	protected $name;
+	protected $label;
+	protected $icon;
+	protected $css_class;
 
-	function __construct(ExtraMetaBox $mb, $name) {
+	function __construct(ExtraMetaBox $mb) {
 		$this->mb = $mb;
-		$this->name = $name;
 	}
 
 	private function get_field_name($field_name, $is_prefix) {
@@ -47,7 +49,14 @@ abstract class Field {
 		return $this->get_field_name($field_name, false);
 	}
 
-	public abstract static function init ();
-	public abstract function the_admin($bloc_classes);
-	public abstract function extract_properties($properties);
+	public static function init() {
+		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-metabox.less');
+	}
+	public abstract function the_admin();
+	public function extract_properties($properties) {
+		$this->name = $properties['name'];
+		$this->label = $properties['label'];
+		$this->icon = $properties['icon'];
+		$this->css_class = $properties['css_class'];
+	}
 }

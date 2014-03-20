@@ -8,7 +8,6 @@
 
 class Text extends Field {
 
-	protected $label;
 	protected $regex;
 	protected $placeholder;
 
@@ -16,9 +15,9 @@ class Text extends Field {
 		wp_enqueue_script('extra-text-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-text.js', array('jquery'), null, true);
 	}
 
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
-		<div class="<?php echo $bloc_classes; ?> extra-text-container">
+		<div class="<?php echo $this->css_class; ?> extra-text-container">
 			<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
 			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 			<input
@@ -34,56 +33,8 @@ class Text extends Field {
 	}
 
 	public function extract_properties($properties) {
-		$this->label = $properties['label'];
+		parent::extract_properties($properties);
 		$this->regex = $properties['regex'];
 		$this->placeholder = $properties['placeholder'];
-	}
-
-	/************************
-	 *
-	 * GETTERS AND SETTERS
-	 *
-	 ***********************/
-
-	/**
-	 * @param mixed $label
-	 */
-	public function setLabel( $label ) {
-		$this->label = $label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLabel() {
-		return $this->label;
-	}
-
-	/**
-	 * @param mixed $regex
-	 */
-	public function setRegex( $regex ) {
-		$this->regex = $regex;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getRegex() {
-		return $this->regex;
-	}
-
-	/**
-	 * @param mixed $placeholder
-	 */
-	public function setPlaceholder( $placeholder ) {
-		$this->placeholder = $placeholder;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPlaceholder() {
-		return $this->placeholder;
 	}
 } 
