@@ -41,8 +41,6 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	}
 
 	public function extra_init() {
-		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-metabox.less');
-
 		if (isset($this->fields)) {
 			foreach ($this->fields as $properties) {
 				$this->initField($properties);
@@ -71,13 +69,12 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	 */
 	private function construct_field_from_properties($properties) {
 		$class = $this->construct_class_name($properties);
-		$name = (isset($properties['name'])) ? $properties['name'] : null;
-
 		/**
 		 * @var $field Field
 		 */
-		$field = new $class($this, $name);
-		if ($field->getName() == null) throw new Exception ('Extra Meta box "name" required');
+		$field = new $class($this);
+		$field->extract_properties($properties);
+		if ($field->getName() == null) throw new Exception ('Extra Meta box "name" required for '.$class);
 
 		return $field;
 	}
@@ -85,10 +82,7 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	public function the_admin($fields) {
 		foreach($fields as $properties) {
 			$field = $this->construct_field_from_properties($properties);
-			$field->extract_properties($properties);
-
-			$bloc_classes = (isset($properties['bloc_classes'])) ? $properties['bloc_classes'] : null;
-			$field->the_admin($bloc_classes);
+			$field->the_admin();
 		}
 	}
 }

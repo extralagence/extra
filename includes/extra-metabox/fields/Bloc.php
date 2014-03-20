@@ -11,31 +11,21 @@
  *
  * Define a bloc metabox (Only formatting)
  *
+ * type = bloc
+ *
  * Options for Bloc :
- * - name (optional): useless for bloc,
- * - subfields (mandatory): child fields for bloc,
- * - label (optional): bloc's title,
- * - icon (optional): bloc's icon
+ * - name (optional) useless for bloc
+ * - subfields (mandatory)
+ * - label (optional)
+ * - icon (optional)
  */
 class Bloc extends Field {
 
 	protected $subfields;
-	protected $label;
-	protected $icon;
 
-	public static function init () {
-	}
-
-	function __construct(ExtraMetaBox $mb, $name) {
-		parent::__construct($mb, $name);
-
-		if ($this->name == null || empty($this->name)) {
-			$this->name = 'bloc';
-		}
-	}
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
-		<div class="bloc <?php echo $bloc_classes; ?>">
+		<div class="bloc <?php echo $this->css_class; ?>">
 			<?php if ($this->label != null) : ?>
 				<h2><?php
 					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
@@ -50,44 +40,11 @@ class Bloc extends Field {
 	}
 
 	public function extract_properties($properties) {
-		$this->label = $properties['label'];
+		parent::extract_properties($properties);
+		if ($this->name == null || empty($this->name)) {
+			$this->name = 'bloc';
+		}
 		$this->subfields = $properties['subfields'];
-		$this->icon = $properties['icon'];
-
 		if (empty($this->subfields)) throw new Exception('Extra Meta box subfields properties required');
-	}
-
-	/************************
-	 *
-	 * GETTERS AND SETTERS
-	 *
-	 ***********************/
-
-	/**
-	 * @param mixed $label
-	 */
-	public function setLabel( $label ) {
-		$this->label = $label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLabel() {
-		return $this->label;
-	}
-
-	/**
-	 * @param mixed $subfields
-	 */
-	public function setSubfields( $subfields ) {
-		$this->subfields = $subfields;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getSubfields() {
-		return $this->subfields;
 	}
 } 

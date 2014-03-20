@@ -8,17 +8,14 @@
 
 class Map extends Field {
 
-	protected $label;
-
 	public static function init () {
 		wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBpFeTSnmCMi1Vb3LuLoAivc4D4CeA2YJs&sensor=false', array('jquery'), null, true);
 		wp_enqueue_script('extra-map-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-map.js', array('jquery'), null, true);
 	}
 
-
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
-		<div class="bloc <?php echo $bloc_classes; ?>">
+		<div class="bloc <?php echo $this->css_class; ?>">
 			<h2><?php echo ($this->label == null) ? __("Repérer sur la carte", "extra-admin") : $this->label; ?></h2>
 
 			<div class="extra-map">
@@ -55,29 +52,5 @@ class Map extends Field {
 			</div>
 		</div>
 		<?php
-	}
-
-	public function extract_properties($properties) {
-		$this->label = $properties['label'];
-	}
-
-	/************************
-	 *
-	 * GETTERS AND SETTERS
-	 *
-	 ***********************/
-
-	/**
-	 * @param mixed $label
-	 */
-	public function setLabel( $label ) {
-		$this->label = $label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLabel() {
-		return $this->label;
 	}
 } 

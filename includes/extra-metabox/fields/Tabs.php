@@ -9,7 +9,6 @@
 class Tabs extends Field {
 
 	protected $subfields;
-	protected $label;
 	protected $add_label;
 	protected $delete_label;
 	protected $bloc_label;
@@ -19,9 +18,9 @@ class Tabs extends Field {
 		wp_enqueue_script('extra-tabs-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-tabs.js', array('jquery'), null, true);
 	}
 
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
-		<div class="bloc <?php echo $bloc_classes; ?>">
+		<div class="bloc <?php echo $this->css_class; ?>">
 			<?php if ($this->label != null) : ?>
 				<h2><?php echo $this->label; ?></h2>
 			<?php endif; ?>
@@ -54,7 +53,7 @@ class Tabs extends Field {
 	}
 
 	public function extract_properties($properties) {
-		$this->label = $properties['label'];
+		parent::extract_properties($properties);
 		$this->add_label = $properties['add_label'];
 		$this->bloc_label = $properties['bloc_label'];
 		$this->delete_label = $properties['delete_label'];
@@ -62,80 +61,4 @@ class Tabs extends Field {
 
 		if (empty($this->subfields)) throw new Exception('Extra Meta box "subfields" required');
 	}
-
-	/************************
-	 *
-	 * GETTERS AND SETTERS
-	 *
-	 ***********************/
-
-	/**
-	 * @param mixed $label
-	 */
-	public function setLabel( $label ) {
-		$this->label = $label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLabel() {
-		return $this->label;
-	}
-
-	/**
-	 * @param mixed $add_label
-	 */
-	public function setAddLabel( $add_label ) {
-		$this->add_label = $add_label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getAddLabel() {
-		return $this->add_label;
-	}
-
-	/**
-	 * @param mixed $delete_label
-	 */
-	public function setDeleteLabel( $delete_label ) {
-		$this->delete_label = $delete_label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getDeleteLabel() {
-		return $this->delete_label;
-	}
-
-	/**
-	 * @param mixed $bloc_label
-	 */
-	public function setBlocLabel( $bloc_label ) {
-		$this->bloc_label = $bloc_label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getBlocLabel() {
-		return $this->bloc_label;
-	}
-
-	/**
-	 * @param mixed $subfields
-	 */
-	public function setSubfields( $subfields ) {
-		$this->subfields = $subfields;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getSubfields() {
-		return $this->subfields;
-	}
-} 
+}

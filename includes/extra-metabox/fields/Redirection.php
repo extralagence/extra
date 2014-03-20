@@ -8,8 +8,6 @@
 
 class Redirection extends Field {
 
-	protected $label;
-
 	public static function init () {
 		wp_enqueue_style('extra-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/extra-metabox.less');
 
@@ -18,10 +16,9 @@ class Redirection extends Field {
 		wp_enqueue_script('extra-redirection-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-redirection.js', array('jquery', 'jquery-ui-autocomplete', 'extra-accent-fold-metabox'));
 
 		wp_localize_script('extra-redirection-metabox', 'ajax', array( 'url' => admin_url( 'admin-ajax.php' )));
-
 	}
 
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
 		<style>
 			#<?php echo $this->mb->id; ?>_metabox {
@@ -43,7 +40,7 @@ class Redirection extends Field {
 			}
 		</style>
 
-		<div class="extra-redirection bloc <?php echo $bloc_classes; ?>">
+		<div class="extra-redirection bloc <?php echo $this->css_class; ?>">
 			<h2><?php echo ($this->label == null) ? __('Attention cette page est redirigée !', 'extra-admin') : $this->label; ?></h2>
 
 			<div class="extra-checkbox">
@@ -124,10 +121,6 @@ class Redirection extends Field {
 
 		echo json_encode($data);
 		die();
-	}
-
-	public function extract_properties($properties) {
-		$this->label = $properties['label'];
 	}
 }
 

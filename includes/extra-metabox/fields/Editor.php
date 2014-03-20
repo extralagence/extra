@@ -8,14 +8,9 @@
 
 class Editor extends Field {
 
-	protected $label;
-
-	public static function init () {
-	}
-
-	public function the_admin($bloc_classes) {
+	public function the_admin() {
 		?>
-		<div <?php echo (!empty($bloc_classes)) ? ' class="'.$bloc_classes.'"' : ''; ?>>
+		<div <?php echo (!empty($this->css_class)) ? ' class="'.$this->css_class.'"' : ''; ?>>
 			<?php if ($this->title != null) : ?>
 				<h2><?php echo $this->title; ?></h2>
 			<?php endif; ?>
@@ -35,29 +30,5 @@ class Editor extends Field {
 			)); ?>
 		</div>
 	<?php
-	}
-
-	public function extract_properties($properties) {
-		$this->label = $properties['label'];
-	}
-
-	/************************
-	 *
-	 * GETTERS AND SETTERS
-	 *
-	 ***********************/
-
-	/**
-	 * @param mixed $label
-	 */
-	public function setLabel( $label ) {
-		$this->label = $label;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLabel() {
-		return $this->label;
 	}
 } 
