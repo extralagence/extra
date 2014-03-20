@@ -29,7 +29,8 @@ class Bloc extends Field {
 			<?php if ($this->label != null) : ?>
 				<h2><?php
 					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
-					echo $this->label; ?></h2>
+					echo $this->label; ?>
+				</h2>
 			<?php endif; ?>
 
 			<?php

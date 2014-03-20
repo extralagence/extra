@@ -29,6 +29,7 @@ class CustomEditor extends Field {
 		?>
 		<div class="extra-custom-editor-wrapper <?php echo $this->css_class; ?>">
 			<?php $this->mb->the_field($this->get_single_field_name('editor')); ?>
+			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
 			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 			<div class="extra-custom-editor">
 				<div class="wp-editor-tools">

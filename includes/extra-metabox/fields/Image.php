@@ -15,8 +15,11 @@ class Image extends Field {
 
 	public function the_admin() {
 		?>
-		<div class="bloc <?php echo $this->css_class; ?>">
-			<h2><?php echo ($this->label == null) ? __('Image', 'extra-admin') : $this->label; ?></h2>
+		<div class="<?php echo $this->css_class; ?>">
+			<h2>
+				<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
+				<?php echo ($this->label == null) ? __('Image', 'extra-admin') : $this->label; ?>
+			</h2>
 			<?php $this->mb->the_field($this->get_single_field_name("image")); ?>
 			<div class="extra-custom-image">
 

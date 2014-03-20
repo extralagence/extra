@@ -16,8 +16,11 @@ class Map extends Field {
 
 	public function the_admin() {
 		?>
-		<div class="bloc <?php echo $this->css_class; ?>">
-			<h2><?php echo ($this->label == null) ? __("Repérer sur la carte", "extra-admin") : $this->label; ?></h2>
+		<div class="<?php echo $this->css_class; ?>">
+			<h2>
+				<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
+				<?php echo ($this->label == null) ? __("Repérer sur la carte", "extra-admin") : $this->label; ?>
+			</h2>
 
 			<div class="extra-map">
 

@@ -23,7 +23,10 @@ class Tabs extends Field {
 		?>
 		<div class="bloc <?php echo $this->css_class; ?>">
 			<?php if ($this->label != null) : ?>
-				<h2><?php echo $this->label; ?></h2>
+				<h2><?php
+					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
+					echo $this->label; ?>
+				</h2>
 			<?php endif; ?>
 
 			<div class="repeatable extra-tabs">

@@ -8,11 +8,16 @@
 
 class Editor extends Field {
 
+	protected $title;
+
 	public function the_admin() {
 		?>
 		<div <?php echo (!empty($this->css_class)) ? ' class="'.$this->css_class.'"' : ''; ?>>
 			<?php if ($this->title != null) : ?>
-				<h2><?php echo $this->title; ?></h2>
+				<h2><?php
+					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
+					echo $this->title; ?>
+				</h2>
 			<?php endif; ?>
 
 			<?php if ($this->label != null) : ?>
@@ -29,6 +34,13 @@ class Editor extends Field {
 				)
 			)); ?>
 		</div>
-	<?php
+		<?php
 	}
+
+	public function extract_properties( $properties ) {
+		parent::extract_properties( $properties );
+		$this->title = $properties['title'];
+	}
+
+
 } 
