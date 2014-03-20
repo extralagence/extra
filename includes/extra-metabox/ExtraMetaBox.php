@@ -8,19 +8,14 @@
 
 require_once 'MetaBox.php';
 require_once 'Field.php';
-require_once 'fields/Map.php';
-require_once 'fields/Gallery.php';
-require_once 'fields/Redirection.php';
-require_once 'fields/Image.php';
-require_once 'fields/Tabs.php';
-require_once 'fields/Text.php';
-require_once 'fields/Textarea.php';
-require_once 'fields/CustomEditor.php';
-require_once 'fields/Editor.php';
-require_once 'fields/Bloc.php';
-require_once 'fields/Slider.php';
-require_once 'fields/Range.php';
-require_once 'fields/Hidden.php';
+
+//Require once each fields
+foreach (scandir(dirname(__FILE__).'/fields') as $filename) {
+	$path = dirname(__FILE__).'/fields/'.$filename;
+	if (is_file($path)) {
+		require_once $path;
+	}
+}
 
 class ExtraMetaBox extends WPAlchemy_MetaBox {
 
