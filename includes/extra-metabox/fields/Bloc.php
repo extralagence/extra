@@ -13,7 +13,7 @@
  *
  * type = bloc
  *
- * Options for Bloc :
+ * Options :
  * - name (optional) useless for bloc
  * - subfields (mandatory)
  * - label (optional)

@@ -6,6 +6,23 @@
  * Time: 11:02
  */
 
+/**
+ * Class Range
+ *
+ * Define a slider with 2 handles and respectively 2 text inputs
+ *
+ * type = range
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional): useless
+ * - icon (optional): useless
+ * - max (mandatory): max value
+ * - label_min (optional): label before minimum text input
+ * - suffix_min (optional): text after minimum text input
+ * - label_max (optional): label before maximum text input
+ * - suffix_max (optional): text after maximum text input
+ */
 class Range extends Field {
 
 	protected $label_min;

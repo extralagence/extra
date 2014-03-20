@@ -6,6 +6,18 @@
  * Time: 11:02
  */
 
+/**
+ * Class Image
+ *
+ * Define a image metabox
+ *
+ * type = image
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ */
 class Image extends Field {
 
 	public static function init () {

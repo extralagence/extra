@@ -6,6 +6,18 @@
  * Time: 11:02
  */
 
+/**
+ * Class Map
+ *
+ * Define a map metabox
+ *
+ * type = map
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ */
 class Map extends Field {
 
 	public static function init () {

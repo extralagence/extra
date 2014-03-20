@@ -6,6 +6,19 @@
  * Time: 11:02
  */
 
+/**
+ * Class Editor
+ *
+ * Define an wordpress editor metabox
+ *
+ * type = editor
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ * - title (optional): bigger than label
+ */
 class Editor extends Field {
 
 	protected $title;

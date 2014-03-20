@@ -6,6 +6,18 @@
  * Time: 11:02
  */
 
+/**
+ * Class Gallery
+ *
+ * Define a gallery metabox
+ *
+ * type = gallery
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ */
 class Gallery extends Field {
 
 	public static function init () {

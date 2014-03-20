@@ -6,6 +6,22 @@
  * Time: 11:02
  */
 
+/**
+ * Class Tabs
+ *
+ * Define a tabs metabox
+ *
+ * type = tabs
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ * - subfields (mandatory): children fields
+ * - add_label (optional): label for the add button
+ * - delete_label (optional): label for the delete button
+ * - bloc_label (optional): title for each child
+ */
 class Tabs extends Field {
 
 	protected $subfields;

@@ -6,6 +6,18 @@
  * Time: 11:02
  */
 
+/**
+ * Class Redirection
+ *
+ * Define a redirection metabox
+ *
+ * type = redirection
+ *
+ * Options :
+ * - name (mandatory)
+ * - label (optional)
+ * - icon (optional)
+ */
 class Redirection extends Field {
 
 	public static function init () {

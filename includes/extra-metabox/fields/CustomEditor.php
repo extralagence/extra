@@ -9,11 +9,11 @@
 /**
  * Class CustomEditor
  *
- * Define a bloc metabox (Only formatting)
+ * Define an editor metabox (addable to tabs and other group)
  *
  * type = custom_editor
  *
- * Options for Bloc :
+ * Options :
  * - name (mandatory)
  * - label (optional)
  * - icon (optional)
