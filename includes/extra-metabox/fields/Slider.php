@@ -14,10 +14,10 @@
  * type = slider
  *
  * Options :
- * - name (mandatory)
+ * - name (required)
  * - label (optional): label before text input
  * - icon (optional)
- * - max (mandatory): max value
+ * - max (required): max value
  */
 class Slider extends Field {
 
@@ -52,6 +52,6 @@ class Slider extends Field {
 		$this->suffix = $properties['suffix'];
 		$this->max = $properties['max'];
 
-		if (empty($this->max)) throw new Exception('Extra Meta box "max" required');
+		if (empty($this->max)) throw new Exception('Extra Meta box "max" required for Slider');
 	}
 } 

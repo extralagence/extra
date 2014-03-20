@@ -14,7 +14,7 @@
  * type = gallery
  *
  * Options :
- * - name (mandatory)
+ * - name (required)
  * - label (optional)
  * - icon (optional)
  */

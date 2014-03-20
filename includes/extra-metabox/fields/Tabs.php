@@ -14,10 +14,10 @@
  * type = tabs
  *
  * Options :
- * - name (mandatory)
+ * - name (required)
  * - label (optional)
  * - icon (optional)
- * - subfields (mandatory): children fields
+ * - subfields (required): children fields
  * - add_label (optional): label for the add button
  * - delete_label (optional): label for the delete button
  * - bloc_label (optional): title for each child

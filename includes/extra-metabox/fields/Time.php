@@ -7,21 +7,23 @@
  */
 
 /**
- * Class Date
+ * TODO FINISHED
  *
- * Define a date input metabox
+ * Class Time
  *
- * type = date
+ * Define a time input metabox
+ *
+ * type = time
  *
  * Options :
  * - name (required)
  * - label (optional)
  * - icon (optional)
- * - format (optional): php date format, ex: yy-mm-dd
+ * - format (optional): php time format, ex: H:i
  * - required (optional): true|false
  * - error_label (optional): label displayed in case of error
  */
-class Date extends Field {
+class Time extends Field {
 
 	protected $format;
 	protected $required;
@@ -29,25 +31,26 @@ class Date extends Field {
 
 	public static function init () {
 		parent::init();
+
 		//wp_enqueue_style('jquery-style', EXTRA_INCLUDES_URI . '/extra-metabox/css/jquery-ui-1.9.2.custom.css');
 		wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
 		wp_enqueue_style('extra-date-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-date.less');
 
-		wp_enqueue_script('jquery-ui-datepicker');
+		wp_enqueue_script('jquery-ui-timepicker');
 		wp_enqueue_script('jquery-ui-slider');
 
-		wp_enqueue_script('extra-date-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-date.js', array('jquery-ui-datepicker'), null, true);
+		wp_enqueue_script('extra-time-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-time.js', array('jquery-ui-timepicker', 'jquery-ui-slider', 'jquery'), null, true);
 	}
 
 	public function the_admin() {
 		?>
-		<div class="<?php echo $this->css_class; ?> extra-date-container <?php echo ($this->required) ? 'required' : '' ?>">
-			<?php $this->mb->the_field($this->get_single_field_name('date')); ?>
+		<div class="<?php echo $this->css_class; ?> extra-time-container <?php echo ($this->required) ? 'required' : '' ?>">
+			<?php $this->mb->the_field($this->get_single_field_name('time')); ?>
 
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
-			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? _("Date", "extra") : $this->label; ?><?php echo ($this->required) ? ' *' : '' ?></label>
+			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? _("Heure", "extra") : $this->label; ?><?php echo ($this->required) ? ' *' : '' ?></label>
 			<input
-				class="extra-datepicker"
+				class="extra-timepicker"
 				id="<?php $this->mb->the_name(); ?>"
 				name="<?php $this->mb->the_name(); ?>"
 				type="text"
@@ -59,7 +62,7 @@ class Date extends Field {
 				<?php echo ($this->error_label == null) ? _("Ce champs est requis", "extra") : $this->error_label; ?>
 			</span>
 			<?php $this->mb->the_field($this->get_prefixed_field_name('en', '-')); ?>
-			<input class="extra-datepicker-en" id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>" />
+			<input class="extra-timepicker-en" id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>" />
 		</div>
 		<?php
 	}
@@ -71,7 +74,7 @@ class Date extends Field {
 		$this->error_label = $properties['error_label'];
 
 		if ($this->format == null) {
-			$this->format = 'yy-mm-dd';
+			$this->format = 'h:i';
 		}
 	}
 } 

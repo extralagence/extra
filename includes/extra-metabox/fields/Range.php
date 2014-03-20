@@ -14,10 +14,10 @@
  * type = range
  *
  * Options :
- * - name (mandatory)
+ * - name (required)
  * - label (optional): useless
  * - icon (optional): useless
- * - max (mandatory): max value
+ * - max (required): max value
  * - label_min (optional): label before minimum text input
  * - suffix_min (optional): text after minimum text input
  * - label_max (optional): label before maximum text input
@@ -66,6 +66,6 @@ class Range extends Field {
 		$this->suffix_max = $properties['suffix_max'];
 		$this->max = $properties['max'];
 
-		if (empty($this->max)) throw new Exception('Extra Meta box "max" required');
+		if (empty($this->max)) throw new Exception('Extra Meta box "max" required for Range');
 	}
 } 

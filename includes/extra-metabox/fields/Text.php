@@ -14,7 +14,7 @@
  * type = text
  *
  * Options :
- * - name (mandatory)
+ * - name (required)
  * - label (optional)
  * - icon (optional)
  * - placeholder (optional): label when the field is empty

@@ -14,7 +14,7 @@
  * type = custom_editor
  *
  * Options :
- * - name (mandatory)
+ * - name (required)
  * - label (optional)
  * - icon (optional)
  */
