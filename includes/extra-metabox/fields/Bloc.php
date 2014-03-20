@@ -15,7 +15,7 @@
  *
  * Options :
  * - name (optional) useless for bloc
- * - subfields (mandatory)
+ * - subfields (required)
  * - label (optional)
  * - icon (optional)
  */
