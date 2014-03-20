@@ -1,12 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: vincent
- * Date: 27/02/2014
- * Time: 11:02
- */
-
-/**
  * Class Image
  *
  * Define a image metabox
