@@ -6,6 +6,17 @@
  * Time: 11:02
  */
 
+/**
+ * Class Bloc
+ *
+ * Define a bloc metabox (Only formatting)
+ *
+ * Options for Bloc :
+ * - name (optional): useless for bloc,
+ * - subfields (mandatory): child fields for bloc,
+ * - label (optional): bloc's title,
+ * - icon (optional): bloc's icon
+ */
 class Bloc extends Field {
 
 	protected $subfields;
@@ -15,6 +26,13 @@ class Bloc extends Field {
 	public static function init () {
 	}
 
+	function __construct(ExtraMetaBox $mb, $name) {
+		parent::__construct($mb, $name);
+
+		if ($this->name == null || empty($this->name)) {
+			$this->name = 'bloc';
+		}
+	}
 	public function the_admin($bloc_classes) {
 		?>
 		<div class="bloc <?php echo $bloc_classes; ?>">

@@ -53,13 +53,6 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		Tabs::init();
 	}
 
-	private function get_name_from_properties($properties) {
-		$name = (isset($properties['name'])) ? $properties['name'] : null;
-		if ($name == null) throw new Exception ('Extra Meta box "name" required');
-
-		return $name;
-	}
-
 	/**
 	 * Construct a field object from properties
 	 *
@@ -69,7 +62,7 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	 * @throws Exception
 	 */
 	private function construct_field_from_properties($properties) {
-		$name = $this->get_name_from_properties($properties);
+		$name = (isset($properties['name'])) ? $properties['name'] : null;
 
 		if (!isset($properties['type'])) throw new Exception ('Extra Meta box "type" required');
 		$array_type = explode('_', $properties['type']);
@@ -82,6 +75,8 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		 * @var $field Field
 		 */
 		$field = new $class($this, $name);
+
+		if ($field->getName() == null) throw new Exception ('Extra Meta box "name" required');
 
 		return $field;
 	}
