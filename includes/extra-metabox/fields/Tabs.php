@@ -22,9 +22,8 @@
  * - delete_label (optional): label for the delete button
  * - bloc_label (optional): title for each child
  */
-class Tabs extends Field {
+class Tabs extends Group {
 
-	protected $subfields;
 	protected $add_label;
 	protected $delete_label;
 	protected $bloc_label;
@@ -77,8 +76,5 @@ class Tabs extends Field {
 		$this->add_label = $properties['add_label'];
 		$this->bloc_label = $properties['bloc_label'];
 		$this->delete_label = $properties['delete_label'];
-		$this->subfields = $properties['subfields'];
-
-		if (empty($this->subfields)) throw new Exception('Extra Meta box "subfields" required');
 	}
 }

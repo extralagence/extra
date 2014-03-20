@@ -43,7 +43,7 @@ class Slider extends Field {
 			</p>
 			<div class="extra-slider"></div>
 		</div>
-	<?php
+		<?php
 	}
 
 	public function extract_properties($properties) {

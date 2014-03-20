@@ -28,6 +28,6 @@ class Textarea extends Field {
 			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 			<textarea id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>"><?php $this->mb->the_value(); ?></textarea>
 		</div>
-	<?php
+		<?php
 	}
 } 

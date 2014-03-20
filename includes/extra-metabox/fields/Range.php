@@ -54,7 +54,7 @@ class Range extends Field {
 			</p>
 			<div class="extra-range"></div>
 		</div>
-	<?php
+		<?php
 	}
 
 	public function extract_properties($properties) {

@@ -24,6 +24,6 @@ class Hidden extends Field {
 		?>
 		<?php $this->mb->the_field($this->get_single_field_name('hidden')); ?>
 		<input <?php echo (empty($this->css_class))? '' : 'class="'.$this->css_class.'"'; ?> id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>" >
-	<?php
+		<?php
 	}
 } 
