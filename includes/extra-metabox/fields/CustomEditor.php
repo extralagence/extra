@@ -22,6 +22,7 @@ class CustomEditor extends Field {
 
 	public static function init () {
 		parent::init();
+		wp_enqueue_style('extra-editor-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-editor.less');
 		wp_enqueue_script('extra-editor-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-editor.js', array('jquery'), null, true);
 	}
 

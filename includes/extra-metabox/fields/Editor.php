@@ -23,6 +23,12 @@ class Editor extends Field {
 
 	protected $title;
 
+	public static function init() {
+		parent::init();
+		wp_enqueue_style('extra-editor-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-editor.less');
+	}
+
+
 	public function the_admin() {
 		?>
 		<div <?php echo (!empty($this->css_class)) ? ' class="'.$this->css_class.'"' : ''; ?>>

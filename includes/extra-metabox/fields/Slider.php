@@ -26,6 +26,7 @@ class Slider extends Field {
 
 	public static function init () {
 		parent::init();
+		wp_enqueue_style('extra-slider-range-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-slider-range.less');
 		wp_enqueue_script('jquery-ui');
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-slider');

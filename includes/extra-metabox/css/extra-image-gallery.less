@@ -1,0 +1,76 @@
+/**********************
+ *
+ *
+ * IMAGE & GALLERIES MANAGER
+ *
+ *
+ **********************/
+.extra-metabox .extra-custom-image {
+	margin-top: 15px;
+	padding-top: 20px;
+
+}
+.extra-custom-gallery .floater,
+.extra-custom-gallery .image {
+	cursor: move;
+	float: left;
+}
+.extra-metabox .thumbs {
+	display: block;
+	margin-top: 10px;
+}
+.extra-metabox .image {
+	margin: 0 10px 10px 0;
+	position: relative;
+}
+.extra-metabox .image img {
+	display: block;
+}
+.extra-metabox .extra-gallery-placeholder {
+	background: rgba(0, 0, 0, 0.5);
+	display: block;
+	width: 150px;
+}
+.extra-metabox .image .close {
+	background: rgba(255, 255, 255, 0.2);
+	color: #777777;
+	display: block;
+	line-height: 30px;
+	position: absolute;
+	top: 5px; right: 5px;
+	text-align: center;
+	text-decoration: none;
+	width: 30px;
+	height: 30px;
+}
+.extra-metabox .image .close .dashicons {
+	display: block;
+	font-size: 20px;
+	line-height: 30px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.extra-metabox .image .close:hover {
+	background: rgba(0, 0, 0, 0.5);
+	color: red;
+	display: block;
+}
+
+/**********************
+ *
+ *
+ * EASY CLEARING
+ *
+ *
+ **********************/
+.extra-metabox .extra-custom-image:after,
+.extra-custom-gallery .thumbs:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}

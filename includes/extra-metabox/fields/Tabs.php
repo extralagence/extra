@@ -30,6 +30,7 @@ class Tabs extends Group {
 
 	public static function init () {
 		parent::init();
+		wp_enqueue_style('extra-tabs-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-tabs.less');
 		wp_enqueue_script('jquery-ui-tabs');
 		wp_enqueue_script('extra-tabs-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-tabs.js', array('jquery'), null, true);
 	}
