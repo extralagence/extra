@@ -8,6 +8,7 @@
 
 require_once 'MetaBox.php';
 require_once 'Field.php';
+require_once 'Group.php';
 
 //Require once each fields
 foreach (scandir(dirname(__FILE__).'/fields') as $filename) {

@@ -45,7 +45,7 @@ class Text extends Field {
 				<?php echo ($this->regex != null) ? 'data-regex="'.$this->regex.'"' : ''; ?>
 				<?php echo ($this->placeholder != null) ? 'placeholder="'.$this->placeholder.'"' : ''; ?>>
 		</div>
-	<?php
+		s<?php
 	}
 
 	public function extract_properties($properties) {

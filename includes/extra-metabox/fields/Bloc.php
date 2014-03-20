@@ -19,9 +19,7 @@
  * - label (optional)
  * - icon (optional)
  */
-class Bloc extends Field {
-
-	protected $subfields;
+class Bloc extends Group {
 
 	public function the_admin() {
 		?>
@@ -45,7 +43,5 @@ class Bloc extends Field {
 		if ($this->name == null || empty($this->name)) {
 			$this->name = 'bloc';
 		}
-		$this->subfields = $properties['subfields'];
-		if (empty($this->subfields)) throw new Exception('Extra Meta box subfields properties required');
 	}
 } 

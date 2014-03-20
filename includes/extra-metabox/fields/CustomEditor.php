@@ -38,6 +38,6 @@ class CustomEditor extends Field {
 				<textarea class="editor-slide" id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>"><?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?></textarea>
 			</div>
 		</div>
-	<?php
+		<?php
 	}
 } 
