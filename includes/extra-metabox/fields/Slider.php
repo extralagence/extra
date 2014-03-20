@@ -21,6 +21,7 @@ class Slider extends Field {
 
 	public function the_admin() {
 		?>
+		<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
 		<?php $this->mb->the_field($this->get_single_field_name('slider')); ?>
 		<div class="extra-slider-container <?php echo $this->css_class; ?>" data-max="<?php echo $this->max; ?>">
 			<p>

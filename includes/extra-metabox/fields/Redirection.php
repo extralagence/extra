@@ -40,7 +40,10 @@ class Redirection extends Field {
 		</style>
 
 		<div class="extra-redirection bloc <?php echo $this->css_class; ?>">
-			<h2><?php echo ($this->label == null) ? __('Attention cette page est redirigée !', 'extra-admin') : $this->label; ?></h2>
+			<h2>
+				<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
+				<?php echo ($this->label == null) ? __('Attention cette page est redirigée !', 'extra-admin') : $this->label; ?>
+			</h2>
 
 			<div class="extra-checkbox">
 				<?php $this->mb->the_field($this->get_prefixed_field_name("type")); ?>
