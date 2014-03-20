@@ -15,8 +15,8 @@
  *
  * Options :
  * - name (optional)
- * - label (optional)
- * - icon (required)
+ * - label (required)
+ * - icon (optional)
  */
 class Label extends Field {
 
