@@ -18,7 +18,7 @@
  * - label (optional)
  * - icon (optional)
  */
-class Gallery extends Field {
+class Gallery extends AbstractField {
 
 	public static function init () {
 		parent::init();
@@ -61,5 +61,10 @@ class Gallery extends Field {
 		}
 
 		return $data;
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		echo '-';
 	}
 } 

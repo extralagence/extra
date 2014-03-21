@@ -7,28 +7,29 @@
  */
 
 /**
- * Class Bloc
+ * Class Group
  *
- * Define a bloc metabox (Only formatting)
+ * Define a group metabox (Only formatting)
  *
- * type = bloc
+ * type = group
  *
  * Options :
  * - name (optional) useless for bloc
  * - subfields (required)
  * - label (optional)
+ * - label_level
  * - icon (optional)
  */
-class Bloc extends AbstractGroup {
+class Group extends AbstractGroup {
 
 	public function the_admin() {
 		?>
-		<div class="bloc <?php echo $this->css_class; ?>">
+		<div class="<?php echo $this->css_class; ?>">
 			<?php if ($this->label != null) : ?>
-				<h2><?php
+				<h3><?php
 					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
 					echo $this->label; ?>
-				</h2>
+				</h3>
 			<?php endif; ?>
 
 			<?php
@@ -41,11 +42,12 @@ class Bloc extends AbstractGroup {
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
 		if ($this->name == null || empty($this->name)) {
-			$this->name = 'bloc';
+			$this->name = 'group';
 		}
 	}
 
 	public function the_admin_column_value() {
+		//TODO
 		echo '-';
 	}
 } 

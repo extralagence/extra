@@ -18,7 +18,7 @@
  * - label (optional)
  * - icon (optional)
  */
-class CustomEditor extends Field {
+class CustomEditor extends AbstractField {
 
 	public static function init () {
 		parent::init();
@@ -41,4 +41,9 @@ class CustomEditor extends Field {
 		</div>
 		<?php
 	}
-} 
+
+	public function the_admin_column_value() {
+		//TODO
+		echo '-';
+	}
+}

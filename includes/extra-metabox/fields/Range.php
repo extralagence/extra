@@ -23,7 +23,7 @@
  * - label_max (optional): label before maximum text input
  * - suffix_max (optional): text after maximum text input
  */
-class Range extends Field {
+class Range extends AbstractField {
 
 	protected $label_min;
 	protected $suffix_min;
@@ -67,5 +67,10 @@ class Range extends Field {
 		$this->max = $properties['max'];
 
 		if (empty($this->max)) throw new Exception('Extra Meta box "max" required for Range');
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		echo '-';
 	}
 } 

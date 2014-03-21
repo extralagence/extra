@@ -21,7 +21,7 @@
  * - required (optional): true|false
  * - error_label (optional): label displayed in case of error
  */
-class Date extends Field {
+class Date extends AbstractField {
 
 	protected $format;
 	protected $required;
@@ -42,10 +42,11 @@ class Date extends Field {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?> extra-date-container <?php echo ($this->required) ? 'required' : '' ?>">
+
 			<?php $this->mb->the_field($this->get_single_field_name('date')); ?>
 
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
-			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? _("Date", "extra") : $this->label; ?><?php echo ($this->required) ? ' *' : '' ?></label>
+			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->required) ? ' *' : '' ?><?php echo ($this->label == null) ? _("Date", "extra") : $this->label; ?></label>
 			<input
 				class="extra-datepicker"
 				id="<?php $this->mb->the_name(); ?>"
@@ -72,6 +73,14 @@ class Date extends Field {
 
 		if ($this->format == null) {
 			$this->format = 'yy-mm-dd';
+		}
+	}
+	public function the_admin_column_value() {
+		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
+		if (empty($meta)) {
+			echo '-';
+		} else {
+			echo $meta;
 		}
 	}
 } 

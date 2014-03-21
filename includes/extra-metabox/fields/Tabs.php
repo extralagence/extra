@@ -14,10 +14,10 @@
  * type = tabs
  *
  * Options :
- * - name (required)
+ * - name (mandatory)
  * - label (optional)
  * - icon (optional)
- * - subfields (required): children fields
+ * - subfields (mandatory): children fields
  * - add_label (optional): label for the add button
  * - delete_label (optional): label for the delete button
  * - bloc_label (optional): title for each child
@@ -37,7 +37,7 @@ class Tabs extends Group {
 
 	public function the_admin() {
 		?>
-		<div class="bloc <?php echo $this->css_class; ?>">
+		<div class="<?php echo $this->css_class; ?>">
 			<?php if ($this->label != null) : ?>
 				<h2><?php
 					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
@@ -77,5 +77,10 @@ class Tabs extends Group {
 		$this->add_label = $properties['add_label'];
 		$this->bloc_label = $properties['bloc_label'];
 		$this->delete_label = $properties['delete_label'];
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		echo '-';
 	}
 }

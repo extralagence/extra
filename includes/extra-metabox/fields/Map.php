@@ -18,7 +18,7 @@
  * - label (optional)
  * - icon (optional)
  */
-class Map extends Field {
+class Map extends AbstractField {
 
 	public static function init () {
 		parent::init();
@@ -68,5 +68,10 @@ class Map extends Field {
 			</div>
 		</div>
 		<?php
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		echo '-';
 	}
 } 

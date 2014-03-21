@@ -18,7 +18,7 @@
  * - label (optional)
  * - icon (optional)
  */
-class Image extends Field {
+class Image extends AbstractField {
 
 	public static function init () {
 		parent::init();
@@ -29,10 +29,12 @@ class Image extends Field {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?>">
-			<h2>
-				<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
-				<?php echo ($this->label == null) ? __('Image', 'extra-admin') : $this->label; ?>
-			</h2>
+			<?php if (!empty($this->label)) : ?>
+				<h2>
+					<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
+					<?php echo ($this->label == null) ? __('Image', 'extra-admin') : $this->label; ?>
+				</h2>
+			<?php endif; ?>
 			<?php $this->mb->the_field($this->get_single_field_name("image")); ?>
 			<div class="extra-custom-image">
 
@@ -54,5 +56,11 @@ class Image extends Field {
 			</div>
 		</div>
 		<?php
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
+		echo $meta;
 	}
 } 

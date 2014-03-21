@@ -7,8 +7,8 @@
  */
 
 require_once 'MetaBox.php';
-require_once 'Field.php';
-require_once 'Group.php';
+require_once 'AbstractField.php';
+require_once 'AbstractGroup.php';
 
 //Require once each fields
 foreach (scandir(dirname(__FILE__).'/fields') as $filename) {
@@ -28,24 +28,120 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		}
 		parent::WPAlchemy_MetaBox($arr);
 		$this->add_action('init', array($this, 'extra_init'));
+
+		foreach ($this->types as $type) {
+			$add_admin_columns_filter = 'manage_'.$type.'_posts_columns';
+			add_filter($add_admin_columns_filter, array($this, 'add_admin_columns'));
+
+			$display_admin_columns_filter = 'manage_'.$type.'_posts_custom_column';
+			add_filter($display_admin_columns_filter, array($this, 'display_admin_columns'), 10, 2);
+		}
 	}
 
-	private function initField($properties) {
+	private function init_field($properties) {
 		$class = $this->construct_class_name($properties);
 		$class::init();
 
-		if (isset($properties['subfields'])) {
-			foreach ($properties['subfields'] as $child) {
-				$this->initField($child);
-			}
+		$subfields = $this->get_subfields($properties);
+		foreach ($subfields as $child) {
+			$this->init_field($child);
 		}
+	}
+
+	private function get_subfields($properties) {
+		$children = array();
+		if (isset($properties['subfields'])) {
+			$children = array_merge($children, $properties['subfields']);
+		}
+		if (isset($properties['subfields_false'])) {
+			$children = array_merge($children, $properties['subfields_false']);
+		}
+		if (isset($properties['subfields_true'])) {
+			$children = array_merge($children, $properties['subfields_true']);
+		}
+
+		return $children;
 	}
 
 	public function extra_init() {
 		if (isset($this->fields)) {
 			foreach ($this->fields as $properties) {
-				$this->initField($properties);
+				$this->init_field($properties);
 			}
+		}
+	}
+
+	private function add_admin_column($fields, $columns) {
+		foreach ($fields as $properties) {
+			if ($properties['show_in_admin_column'] && !empty($properties['name']) && !empty($properties['admin_column_label'])) {
+				$columns[$properties['name']] = $properties['admin_column_label'];
+			}
+
+			$subfields = $this->get_subfields($properties);
+			$columns = array_merge($columns, $this->add_admin_column($subfields, $columns));
+		}
+
+		return $columns;
+	}
+
+	public function add_admin_columns($columns) {
+		$columns = array_merge($columns, $this->add_admin_column($this->fields, $columns));
+
+		return $columns;
+	}
+
+	/**
+	 * @param $fields
+	 * @param $field_name
+	 * @param $post_id
+	 *
+	 * @return $field AbstractField
+	 */
+	private function get_field_from_properties($fields, $field_name, $post_id) {
+		$field = null;
+		$i = 0;
+		while ($i < count($fields) && $field == null) {
+			$properties = $fields[$i];
+			if ($properties['name'] == $field_name) {
+				if ($properties['show_in_admin_column'] && !empty($properties['name']) && !empty($properties['admin_column_label'])) {
+					$field = $this->construct_field_from_properties($properties);
+
+					break;
+				}
+			} else {
+				$subfields = $this->get_subfields($properties);
+				$field = $this->get_field_from_properties($subfields, $field_name, $post_id);
+			}
+			$i++;
+		}
+
+		return $field;
+	}
+
+	public function get_meta($meta_name, $metas) {
+		$meta = null;
+		if (is_array($metas) && !empty($metas)) {
+			foreach ($metas as $current_name => $current_value) {
+				if ($current_name == $meta_name) {
+					$meta = $current_value;
+				}
+				if ($meta == null && is_array($current_value) ) {
+					$meta = $this->get_meta($meta_name, $current_value);
+				}
+				if ($meta != null) {
+					break;
+				}
+			}
+		}
+
+		return $meta;
+	}
+
+	public function display_admin_columns($column, $post_id) {
+		$field = $this->get_field_from_properties($this->fields, $column, $post_id);
+		if ($field != null) {
+			$this->the_meta($post_id);
+			$field->the_admin_column_value();
 		}
 	}
 
@@ -65,13 +161,13 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	 *
 	 * @param $properties
 	 *
-	 * @return Field
+	 * @return AbstractField
 	 * @throws Exception
 	 */
 	private function construct_field_from_properties($properties) {
 		$class = $this->construct_class_name($properties);
 		/**
-		 * @var $field Field
+		 * @var $field AbstractField
 		 */
 		$field = new $class($this);
 		$field->extract_properties($properties);

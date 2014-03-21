@@ -6,7 +6,7 @@
  * Time: 12:01
  */
 
-abstract class Group extends Field {
+abstract class AbstractGroup extends AbstractField {
 	protected $subfields;
 
 	public function extract_properties($properties) {

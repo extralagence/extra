@@ -7,33 +7,43 @@
  */
 
 /**
- * Class Textarea
+ * Class Checkbox
  *
- * Define a simple textarea metabox
+ * Define a checkbox input metabox
  *
- * type = textarea
+ * type = checkbox
  *
  * Options :
  * - name (required)
  * - label (optional)
  * - icon (optional)
  */
-class Textarea extends AbstractField {
+class Checkbox extends AbstractField {
 
 	public function the_admin() {
 		?>
-		<div class="<?php echo $this->css_class; ?>">
+		<div class="<?php echo $this->css_class; ?> extra-checkbox-container">
 			<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
+			<input
+				class="extra-checkbox-input"
+				id="<?php $this->mb->the_name(); ?>"
+				name="<?php $this->mb->the_name(); ?>"
+				type="checkbox"
+				value="1"
+				<?php if ($this->mb->get_the_value()) echo ' checked="checked"'; ?>
+				>
 			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
-			<textarea id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>"><?php $this->mb->the_value(); ?></textarea>
 		</div>
 		<?php
 	}
 
 	public function the_admin_column_value() {
-		//TODO
 		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
-		echo $meta;
+		if ($meta) {
+			_e("Oui", "extra-admin");
+		} else {
+			echo '-';
+		}
 	}
 } 
