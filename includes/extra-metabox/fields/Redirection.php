@@ -18,7 +18,7 @@
  * - label (optional)
  * - icon (optional)
  */
-class Redirection extends Field {
+class Redirection extends AbstractField {
 
 	public static function init () {
 		parent::init();
@@ -136,6 +136,11 @@ class Redirection extends Field {
 
 		echo json_encode($data);
 		die();
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		echo '-';
 	}
 }
 

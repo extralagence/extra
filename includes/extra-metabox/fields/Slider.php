@@ -19,7 +19,7 @@
  * - icon (optional)
  * - max (required): max value
  */
-class Slider extends Field {
+class Slider extends AbstractField {
 
 	protected $suffix;
 	protected $max;
@@ -53,5 +53,11 @@ class Slider extends Field {
 		$this->max = $properties['max'];
 
 		if (empty($this->max)) throw new Exception('Extra Meta box "max" required for Slider');
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
+		echo $meta;
 	}
 } 

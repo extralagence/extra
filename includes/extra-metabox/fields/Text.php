@@ -20,7 +20,7 @@
  * - placeholder (optional): label when the field is empty
  * - regex (optional): regex checked for each changes
  */
-class Text extends Field {
+class Text extends AbstractField {
 
 	protected $regex;
 	protected $placeholder;
@@ -52,5 +52,11 @@ class Text extends Field {
 		parent::extract_properties($properties);
 		$this->regex = $properties['regex'];
 		$this->placeholder = $properties['placeholder'];
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
+		echo $meta;
 	}
 } 

@@ -23,7 +23,7 @@
  * - required (optional): true|false
  * - error_label (optional): label displayed in case of error
  */
-class Time extends Field {
+class Time extends AbstractField {
 
 	protected $format;
 	protected $required;
@@ -76,5 +76,11 @@ class Time extends Field {
 		if ($this->format == null) {
 			$this->format = 'h:i';
 		}
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
+		echo $meta;
 	}
 } 

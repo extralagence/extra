@@ -19,7 +19,7 @@
  * - icon (optional)
  * - title (optional): bigger than label
  */
-class Editor extends Field {
+class Editor extends AbstractField {
 
 	protected $title;
 
@@ -61,5 +61,8 @@ class Editor extends Field {
 		$this->title = $properties['title'];
 	}
 
-
+	public function the_admin_column_value() {
+		//TODO
+		echo '-';
+	}
 } 

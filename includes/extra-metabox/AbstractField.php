@@ -6,13 +6,16 @@
  * Time: 11:01
  */
 
-abstract class Field {
+abstract class AbstractField {
 
 	protected $mb;
 	protected $name;
 	protected $label;
 	protected $icon;
 	protected $css_class;
+
+	protected $show_in_admin_column;
+	protected $admin_column_label;
 
 	function __construct(ExtraMetaBox $mb) {
 		$this->mb = $mb;
@@ -58,7 +61,11 @@ abstract class Field {
 		$this->label = $properties['label'];
 		$this->icon = $properties['icon'];
 		$this->css_class = $properties['css_class'];
+
+		$this->show_in_admin_column = $properties['show_in_admin_column'];
+		$this->admin_column_label = $properties['admin_column_label'];
 	}
 
 	public abstract function the_admin();
+	public abstract function the_admin_column_value();
 }

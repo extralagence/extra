@@ -18,7 +18,7 @@
  * - label (required)
  * - icon (optional)
  */
-class Label extends Field {
+class Label extends AbstractField {
 
 	public function the_admin() {
 		?>
@@ -36,5 +36,10 @@ class Label extends Field {
 		if (empty($this->label)) {
 			throw new Exception('Extra Meta box "label" required for Label (ahah)');
 		}
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		echo '-';
 	}
 } 
