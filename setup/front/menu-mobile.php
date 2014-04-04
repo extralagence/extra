@@ -1,4 +1,4 @@
-<a id="switch-mobile-menu" href="#"><?php _e("Afficher ou masquer le menu mobile", "extra"); ?></a>
+<a id="switch-mobile-menu" href="#"><span class="icon icon-mobile"></span><?php _e("Afficher ou masquer le menu mobile", "extra"); ?></a>
 
 <nav id="mobile-menu-container">
 	<?php $args = array(

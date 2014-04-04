@@ -29,17 +29,17 @@ class Image extends AbstractField {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?>">
-			<?php if (!empty($this->label)) : ?>
+			<?php if (!empty($this->title)) : ?>
 				<h2>
 					<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
-					<?php echo ($this->label == null) ? __('Image', 'extra-admin') : $this->label; ?>
+					<?php echo ($this->title == null) ? __('Image', 'extra-admin') : $this->title; ?>
 				</h2>
 			<?php endif; ?>
 			<?php $this->mb->the_field($this->get_single_field_name("image")); ?>
 			<div class="extra-custom-image">
 
 				<div class="floater">
-					<label for="<?php $this->mb->the_name(); ?>"><?php _e("Sélectionner une image", "extra-admin"); ?></label>
+					<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? __('Sélectionner une image', 'extra-admin') : $this->label; ?></label>
 					<input class="image-input" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>" />
 					<input class="choose-button button" type="button" value="<?php _e("Ouvrir le gestionnaire d'images", "extra-admin"); ?>" />
 				</div>

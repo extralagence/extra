@@ -19,7 +19,8 @@ $redirection_metabox = new ExtraMetaBox(array(
 	'fields' => array(
 		array(
 			'type' => 'redirection',
-			'name' => 'redirection'
+			'name' => 'redirection',
+			'css_class' => 'bloc'
 		),
 	),
 ));

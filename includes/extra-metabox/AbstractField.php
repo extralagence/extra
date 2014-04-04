@@ -21,12 +21,12 @@ abstract class AbstractField {
 		$this->mb = $mb;
 	}
 
-	private function get_field_name($field_name, $pefix_separator) {
-		if (!empty($this->name)) {
+	protected static  function get_field_name($name, $field_name, $pefix_separator) {
+		if (!empty($name)) {
 			if ($pefix_separator != null) {
-				return $this->name.$pefix_separator.$field_name;
+				return $name.$pefix_separator.$field_name;
 			} else {
-				return $this->name;
+				return $name;
 			}
 		} else {
 			return $field_name;
@@ -45,11 +45,11 @@ abstract class AbstractField {
 	 * @return string
 	 */
 	protected function get_prefixed_field_name($field_name, $separator = '_') {
-		return $this->get_field_name($field_name, $separator);
+		return AbstractField::get_field_name($this->name, $field_name, $separator);
 	}
 
 	protected function get_single_field_name($field_name) {
-		return $this->get_field_name($field_name, null);
+		return AbstractField::get_field_name($this->name, $field_name, null);
 	}
 
 	public static function init() {
