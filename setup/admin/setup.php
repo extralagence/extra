@@ -52,7 +52,7 @@ add_filter('admin_footer_text', 'extra_footer_admin');
 function extra_tinymce($init) {
 	$init['theme_advanced_blockformats'] = 'p,h2,h3,h4';
 	$init['theme_advanced_styles'] = "";
-	$init['theme_advanced_buttons1'] = 'bold,italic,separator,formatselect,styleselect,blockquote,quote,hr,extra_cleaner,separator,charmap,separator,bullist,numlist,separator,link,unlink,separator,extra,separator,pastetext,removeformat,separator,hr,separator,fullscreen';
+	$init['theme_advanced_buttons1'] = 'bold,italic,separator,outdent,indent,formatselect,styleselect,blockquote,quote,hr,extra_cleaner,separator,charmap,separator,bullist,numlist,separator,link,unlink,separator,extra,separator,pastetext,removeformat,separator,hr,separator,fullscreen';
 	$init['theme_advanced_buttons2'] = '';
 	$init['theme_advanced_buttons3'] = '';
 	$init['theme_advanced_buttons4'] = '';
