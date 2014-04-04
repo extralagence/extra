@@ -1,5 +1,12 @@
 <?php
 /**
+ * Created by PhpStorm.
+ * User: vincent
+ * Date: 27/02/2014
+ * Time: 11:02
+ */
+
+/**
  * Class Image
  *
  * Define a image metabox
@@ -11,7 +18,7 @@
  * - label (optional)
  * - icon (optional)
  */
-class Image extends Field {
+class Image extends AbstractField {
 
 	public static function init () {
 		parent::init();
@@ -22,15 +29,17 @@ class Image extends Field {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?>">
-			<h2>
-				<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
-				<?php echo ($this->label == null) ? __('Image', 'extra-admin') : $this->label; ?>
-			</h2>
+			<?php if (!empty($this->title)) : ?>
+				<h2>
+					<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
+					<?php echo ($this->title == null) ? __('Image', 'extra-admin') : $this->title; ?>
+				</h2>
+			<?php endif; ?>
 			<?php $this->mb->the_field($this->get_single_field_name("image")); ?>
 			<div class="extra-custom-image">
 
 				<div class="floater">
-					<label for="<?php $this->mb->the_name(); ?>"><?php _e("Sélectionner une image", "extra-admin"); ?></label>
+					<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? __('Sélectionner une image', 'extra-admin') : $this->label; ?></label>
 					<input class="image-input" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>" />
 					<input class="choose-button button" type="button" value="<?php _e("Ouvrir le gestionnaire d'images", "extra-admin"); ?>" />
 				</div>
@@ -47,5 +56,11 @@ class Image extends Field {
 			</div>
 		</div>
 		<?php
+	}
+
+	public function the_admin_column_value() {
+		//TODO
+		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
+		echo $meta;
 	}
 } 
