@@ -11,7 +11,7 @@
  * - label (optional)
  * - icon (optional)
  */
-class ColorPicker extends Field {
+class ColorPicker extends AbstractField {
 
 	public static function init () {
 		parent::init();
@@ -36,4 +36,12 @@ class ColorPicker extends Field {
 		</div>
 	<?php
 	}
+
+    public function extract_properties($properties) {
+        // TODO
+    }
+
+    public function the_admin_column_value() {
+        // TODO
+    }
 } 
