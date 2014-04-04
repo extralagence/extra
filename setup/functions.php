@@ -367,4 +367,49 @@ function extra_shortify_text ($text, $max_length) {
 
 	return $text;
 }
-?>
+
+function extra_get_archive_title ($id = 0) {
+	global $post;
+	$old_post = $post;
+
+	if ($id != 0) {
+		$post = get_post($id);
+	}
+
+	$title = null;
+	if(isset($post) && !empty($post)) {
+		// CATEGORY
+		if (is_category()) {
+			$title = sprintf(__('Archive de la catégorie "%s"', 'extra'), single_cat_title('', false));
+		}
+
+		// SEARCH
+		else if (is_search()) {
+			$title = sprintf(__('Résultats pour la recherche "%s"', 'extra'), get_search_query());
+		}
+
+		// TIME - DAY
+		else if (is_day()) {
+			$title = sprintf(__('Archive du %s', 'extra'), get_the_time('d F Y'));
+
+		}
+
+		// TIME - MONTH
+		else if (is_month()) {
+			$title = sprintf(__('Archive %s', 'extra'), get_the_time('F Y'));
+		}
+
+		// TIME - YEAR
+		else if (is_year()) {
+			$title = sprintf(__('Archive %s', 'extra'), get_the_time('Y'));
+		}
+	}
+
+	$post = $old_post;
+
+	return $title;
+}
+
+function extra_the_archive_title ($id = 0) {
+	echo extra_get_archive_title($id);
+}
