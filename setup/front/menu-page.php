@@ -16,21 +16,35 @@ global $post;
  *
  *
  *********************/
+
+$has_no_children = false;
 // SET PARENT
 if ($post->post_parent !== 0){
 	$ancestors = get_post_ancestors($post->ID);
 	$parent = get_post($ancestors[count($ancestors)-1]);
 } else {
 	$parent = $post;
+
+	$children = get_pages(
+		array(
+			'parent'     	=> $parent->ID,
+			'sort_column'  	=> 'menu_order',
+			'sort_order'	=> 'ASC'
+		)
+	);
+	$has_no_children = empty($children);
+
 }
 $parent = apply_filters('set_submenu_parent', $parent);
 
 // SELECTED
 $selectedID = $post->ID;
 $selectedID = apply_filters('set_submenu_selected', $selectedID);
-// SET ARGS
+
+
 
 function menu_page($id, $current_parent, $level = 1) {
+	// SET ARGS
 	$args = array(
 		'parent'     	=> $current_parent->ID,
 		'sort_column'  	=> 'menu_order',
@@ -61,7 +75,7 @@ function menu_page($id, $current_parent, $level = 1) {
 	}
 }
 ?>
-<div class="menu-page">
+<div class="menu-page<?php echo ($has_no_children) ? ' menu-page-empty' : ''; ?>">
 	<?php
 	$selected = ($post->ID == $parent->ID) ? " current-page-item" : "";
 	$parent_page_template = get_post_meta($parent->ID, '_wp_page_template', true);

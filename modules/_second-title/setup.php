@@ -10,10 +10,12 @@
  *********************/
 
 $extra_second_title_post_types = apply_filters('extra_second_title_post_types', array('page'));
+$extra_second_title_exclude_template = apply_filters('extra_second_title_exclude_template', array('template-redirect.php'));
 
 global $second_title_metabox;
 $second_title_metabox = new ExtraMetaBox(array(
 	'exclude_post_id' => get_option('page_on_front'),
+	'exclude_template' => $extra_second_title_exclude_template,
 	'id' => '_second_title',
 	'init_action' => 'extra_second_title_metabox_enqueue_assets',
 	'lock' => WPALCHEMY_LOCK_AFTER_POST_TITLE,
