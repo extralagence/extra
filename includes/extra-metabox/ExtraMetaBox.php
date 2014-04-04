@@ -49,22 +49,22 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	}
 
 	private function get_subfields($properties) {
-		$children = array();
-		if (isset($properties['subfields'])) {
-			$children = array_merge($children, $properties['subfields']);
+		$subfields = array();
+		if (isset($properties['subfields']) && !empty($properties['subfields'])) {
+			$subfields = array_merge($subfields, $properties['subfields']);
 		}
-		if (isset($properties['subfields_false'])) {
-			$children = array_merge($children, $properties['subfields_false']);
+		if (isset($properties['subfields_false']) && !empty($properties['subfields_false'])) {
+			$subfields = array_merge($subfields, $properties['subfields_false']);
 		}
-		if (isset($properties['subfields_true'])) {
-			$children = array_merge($children, $properties['subfields_true']);
+		if (isset($properties['subfields_true']) && !empty($properties['subfields_true'])) {
+			$subfields = array_merge($subfields, $properties['subfields_true']);
 		}
 
-		return $children;
+		return $subfields;
 	}
 
 	public function extra_init() {
-		if (isset($this->fields)) {
+		if (isset($this->fields) && !empty($this->fields)) {
 			foreach ($this->fields as $properties) {
 				$this->init_field($properties);
 			}
@@ -176,8 +176,8 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		return $field;
 	}
 
-	public function the_admin($fields) {
-		foreach($fields as $properties) {
+	public function the_admin($current_level) {
+		foreach($current_level as $properties) {
 			$field = $this->construct_field_from_properties($properties);
 			$field->the_admin();
 		}

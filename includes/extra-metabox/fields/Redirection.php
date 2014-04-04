@@ -52,7 +52,7 @@ class Redirection extends AbstractField {
 			}
 		</style>
 
-		<div class="extra-redirection bloc <?php echo $this->css_class; ?>">
+		<div class="extra-redirection <?php echo $this->css_class; ?>">
 			<h2>
 				<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
 				<?php echo ($this->label == null) ? __('Attention cette page est redirigée !', 'extra-admin') : $this->label; ?>

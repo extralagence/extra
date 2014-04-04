@@ -224,23 +224,32 @@ $(function () {
 		 *
 		 *
 		 *************************/
-		if ($("body").hasClass("admin-bar")) {
-			var wpadminbar = $("#wpadminbar");
-			$(window).on('extra.resize', function () {
+
+		var wpadminbar = $("#wpadminbar");
+		$(window).on('extra.resize', function () {
+			if (wpadminbar.length) {
 				$switcher.css("top", wpadminbar.height());
-			});
-		}
+			}
+
+			if (menuOpen) {
+				showMenu(true);
+			} else {
+				hideMenu(true);
+			}
+		});
+
+
 		// SHOW
-		function showMenu() {
+		function showMenu(fast) {
 			if (small) {
 				menuOpen = true;
 				$("html").addClass('menu-open');
 				if (transform3d) {
-					TweenMax.to($menu, 0.4, {x: 0, y: 0, z: 1, ease: Quad.EaseOut});
-					TweenMax.to([$wrapper, $switcher], 0.5, {x: $menu.width() + 'px', y: 0, z: 2, ease: Quad.EaseOut});
+					TweenMax.to($menu, (fast ? 0 : 0.4), {x: 0, y: 0, z: 1, ease: Quad.EaseOut});
+					TweenMax.to([$wrapper, $switcher], (fast ? 0 : 0.5), {x: $menu.width() + 'px', y: 0, z: 2, ease: Quad.EaseOut});
 				} else {
-					TweenMax.to($menu, 0.4, {x: 0, ease: Quad.EaseOut});
-					TweenMax.to([$wrapper, $switcher], 0.5, {x: $menu.width() + 'px', ease: Quad.EaseOut});
+					TweenMax.to($menu, (fast ? 0 : 0.4), {x: 0, ease: Quad.EaseOut});
+					TweenMax.to([$wrapper, $switcher], (fast ? 0 : 0.5), {x: $menu.width() + 'px', ease: Quad.EaseOut});
 				}
 				$(document).swipe("enable");
 			} else {
@@ -292,7 +301,7 @@ $(function () {
 
 		// INIT
 		hideMenu(true);
-
+		$menu.css('visibility', 'visible');
 	}
 
 });

@@ -8,7 +8,6 @@ jQuery(function ($) {
 		$choice = $('.extra-search-choice');
 
 	$inputs.on('click', function () {
-		console.log('click');
 		$conditionals.hide();
 		$(this).parent().find('.extra-conditional').show();
 	});
