@@ -373,7 +373,7 @@
 			/*********************************** ON INIT ***********************************/
 			// TRIGGER ON INIT
 			if (opt.onInit) {
-				opt.onInit($items.eq(0 + numClones), total, $(this));
+				opt.onInit($items.eq(1 + numClones), total, $(this));
 			}
 
 			/*********************************** FIRST UPDATE ***********************************/
