@@ -17,7 +17,6 @@
  *********************/
 get_template_part(apply_filters("extra-template-before-content", "setup/front/before-content"));
 
-
 /**********************
  *
  * CONTENT
