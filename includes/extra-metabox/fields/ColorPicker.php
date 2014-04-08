@@ -4,7 +4,7 @@
  *
  * Define a colorpicker metabox
  *
- * type = colorpicker
+ * type = color_picker
  *
  * Options :
  * - name (required)
