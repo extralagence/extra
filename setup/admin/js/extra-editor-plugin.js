@@ -19,7 +19,7 @@ var DOM = tinymce.DOM;
 			// Register buttons
 			ed.addButton('extra_cleaner', {
 				title : 'Séparateur',
-				image : _url+'/../img/extra-cleaner-button.png',
+				icon : 'wp_more',
 				cmd : 'Extra_Cleaner'
 			});
 			
