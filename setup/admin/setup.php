@@ -50,19 +50,32 @@ add_filter('admin_footer_text', 'extra_footer_admin');
  *
  *********************/
 function extra_tinymce($init) {
-	$init['theme_advanced_blockformats'] = 'p,h2,h3,h4';
-	$init['theme_advanced_styles'] = "";
-	$init['theme_advanced_buttons1'] = 'bold,italic,separator,outdent,indent,formatselect,styleselect,blockquote,quote,hr,extra_cleaner,separator,charmap,separator,bullist,numlist,separator,link,unlink,separator,extra,separator,pastetext,removeformat,separator,hr,separator,fullscreen';
-	$init['theme_advanced_buttons2'] = '';
-	$init['theme_advanced_buttons3'] = '';
-	$init['theme_advanced_buttons4'] = '';
-	$init['extended_valid_elements'] = 'iframe[id|class|title|style|align|frameborder|height|longdesc|marginheight|marginwidth|name|scrolling|src|width]';
+    
+    $toolbar1 = apply_filters('extra_tinymce_toolbar1', 'formatselect,alignleft,aligncenter,alignright,styleselect,bold,italic,link,unlink,separator,outdent,indent,blockquote,quote,hr,extra_cleaner,separator,charmap,separator,bullist,numlist'); 
+    $toolbar2 = apply_filters('extra_tinymce_toolbar2', ''); 
+    $toolbar3 = apply_filters('extra_tinymce_toolbar3', ''); 
+    $toolbar4 = apply_filters('extra_tinymce_toolbar4', ''); 
+	
+    $init['theme_advanced_buttons1'] = $init['toolbar1'] = $toolbar1;
+    $init['theme_advanced_buttons2'] = $init['toolbar2'] = $toolbar2;
+    $init['theme_advanced_buttons3'] = $init['toolbar3'] = $toolbar3;
+    $init['theme_advanced_buttons4'] = $init['toolbar4'] = $toolbar4;
+    
+    $init['theme_advanced_blockformats'] = 'p,h2,h3,h4';
+    $init['block_formats'] = 'Paragraph=p;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6';
+    $init['theme_advanced_styles'] = "";
+    
+    $init['resize'] = true;
+    unset($init['preview_styles']);
+    
     $style_formats = json_decode($init['style_formats']);
 	if(empty($style_formats) || !is_array($style_formats)) {
 		$style_formats = array();
 	}
-	$style_formats = array_merge($style_formats, array());
+    $style_formats = array_merge($style_formats, array());
     $init['style_formats'] = json_encode( $style_formats );
+    
+    
     global $typenow;
 	global $post;
     if($typenow == 'page' || (isset($_REQUEST['post_id']) && get_post_type($_REQUEST['post_id']) == 'page')) {
