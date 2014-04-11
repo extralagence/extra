@@ -65,7 +65,7 @@ function extra_tinymce($init) {
     $init['block_formats'] = 'Paragraph=p;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6';
     $init['theme_advanced_styles'] = "";
     
-    $init['resize'] = true;
+    $init['resize'] = false;
     unset($init['preview_styles']);
     
     $style_formats = json_decode($init['style_formats']);
@@ -81,6 +81,8 @@ function extra_tinymce($init) {
     if($typenow == 'page' || (isset($_REQUEST['post_id']) && get_post_type($_REQUEST['post_id']) == 'page')) {
 		$init['body_class'] .= ' page-'.$post->post_name;
 	}
+    
+    //var_dump($init);
 
 	return $init;
 }
@@ -155,7 +157,6 @@ function extra_sanitize_file_name ($filename) {
 	return remove_accents($filename);
 }
 add_filter('sanitize_file_name', 'extra_sanitize_file_name', 10);
-
 /**********************
  *
  *
@@ -189,7 +190,18 @@ function extra_post_menu_labels() {
 	echo '';
 }
 add_action( 'admin_menu', 'extra_post_menu_labels' );
-
+/**********************
+ *
+ *
+ *
+ * ALWAYS VISUAL EDITOR BY DEFAULT
+ * 
+ *
+ *
+ *********************/  
+add_action( 'init', function() {
+    set_user_setting('editor', 'tinymce');
+});
 /**********************
  *
  *

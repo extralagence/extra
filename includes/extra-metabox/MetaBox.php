@@ -1410,8 +1410,7 @@ class WPAlchemy_MetaBox
 					}
 				});
 
-				$(document).on('click', '[class*=docopy-]', function(e)
-				{
+				$(document).on('click', '[class*=docopy-]', function(e) {
 					e.preventDefault();
 
 					var p = $(this).parents('.wpa_group:first');
@@ -1422,41 +1421,39 @@ class WPAlchemy_MetaBox
 
 					var the_name = $(this).attr('class').match(/docopy-([a-zA-Z0-9_-]*)/i)[1];
 
-					console.log(the_name);
-
 					var the_group = $('.wpa_group-'+ the_name +'.tocopy', p).first();
-
-					console.log(the_group);
 
 					var the_clone = the_group.clone().removeClass('tocopy last');
 
 					var the_props = ['name', 'id', 'for', 'class'];
 
-					the_group.find('*').each(function(i, elem)
-					{
-						for (var j = 0; j < the_props.length; j++)
-						{
+					the_group.find('*').each(function(i, elem) {
+						for (var j = 0; j < the_props.length; j++) {
 							var the_prop = $(elem).attr(the_props[j]);
 
-							if (the_prop)
-							{
-								var reg = new RegExp('\\['+the_name+'\\]\\[(\\d+)\\]', 'i');
-								var the_match = the_prop.match(reg);
+							if (the_prop) {
+							    
+                                var reg1 = new RegExp('\\['+the_name+'\\]\\[(\\d+)\\]', 'i');
+                                var reg2 = new RegExp('_'+the_name+'-_(\\d+)-', 'i');
+                                var the_match1 = the_prop.match(reg1);
+                                var the_match2 = the_prop.match(reg2);
 
-								if (the_match)
-								{
-									the_prop = the_prop.replace(the_match[0], '['+ the_name + ']' + '['+ (+the_match[1]+1) +']');
+                                if (the_match1) {
+                                    the_prop = the_prop.replace(the_match1[0], '['+ the_name + ']' + '['+ (+the_match1[1]+1) +']');
+                                    $(elem).attr(the_props[j], the_prop);
+                                }
 
-									$(elem).attr(the_props[j], the_prop);
-								}
+                                if (the_match2) {
+                                    the_prop = the_prop.replace(the_match2[0], '_'+ the_name + '-' + '_'+ (+the_match2[1]+1) +'-');
+                                    $(elem).attr(the_props[j], the_prop);
+                                }
 
 								the_match = null;
 
 								// todo: this may prove to be too broad of a search
 								the_match = the_prop.match(/n(\d+)/i);
 
-								if (the_match)
-								{
+								if (the_match) {
 									the_prop = the_prop.replace(the_match[0], 'n' + (+the_match[1]+1));
 
 									$(elem).attr(the_props[j], the_prop);
@@ -1477,18 +1474,19 @@ class WPAlchemy_MetaBox
 //						the_group.attr("id", the_id.replace(the_match[0], '['+ (+the_match[1]+1) +']'));
 //					}
 
-					if ($(this).hasClass('ontop'))
-					{
+					if ($(this).hasClass('ontop')) {
 						$('.wpa_group-'+ the_name, p).first().before(the_clone);
 					}
-					else
-					{
+					else {
 						the_group.before(the_clone);
 					}
 
 					checkLoopLimit(the_name);
 
 					$.wpalchemy.trigger('wpa_copy', [the_clone]);
+					
+					return false;
+					
 				});
 
 				function checkLoopLimit(name)

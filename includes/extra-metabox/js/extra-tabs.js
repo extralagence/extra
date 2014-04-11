@@ -6,13 +6,8 @@ jQuery(document).ready(function($){
 			$nav = $('<ul class="extra-tab-navigation"></ul>').prependTo($wrapper),
 			idBase = $wrapper.attr("id"),
 			first = true,
+            wpautop = true,
 			textareaID, selectedEd, wpautop;
-	
-		if(typeof(tinyMCE) != 'undefined') {
-			wpautop = tinyMCE.settings.wpautop;
-		} else {
-			wpautop = true;
-		}
 	
 	
 		$.wpalchemy.bind('wpa_copy wpa_delete', function(e, elmt){
@@ -62,26 +57,26 @@ jQuery(document).ready(function($){
 	
 			// MAKE IT SORTABLE
 			$nav.sortable({
+				containment: "parent",
 				forcePlaceholderSize: true,
-				opacity: 0.5,
-				placeholder: "wpalchemy-placeholder",
-				start: function(event, ui) { // turn TinyMCE off while sorting (if not, it won't work when resorted)
+				opacity: 1,
+				placeholder: "extra-tabs-placeholder",
+				start: function(event, ui) { // turn tinymce off while sorting (if not, it won't work when resorted)
 					var item = ui.item;
 					var target = $("#"+item.attr("aria-controls"));
 					if(target.has(".extra-custom-editor-wrapper").size() > 0) {
 						textareaID = target.find('.extra-custom-editor-wrapper textarea').attr('id');
-						tinyMCE.settings.wpautop = false;
-						tinyMCE.execCommand('mceRemoveControl', false, textareaID);
+						tinymce.settings.wpautop = false;
+						tinymce.execCommand('mceRemoveEditor', false, textareaID);
 					}
 				},
-				stop: function(event, ui) { // re-initialize TinyMCE when sort is completed
+				stop: function(event, ui) { // re-initialize tinymce when sort is completed
 					var item = ui.item;
 					var target = $("#"+item.attr("aria-controls"));
-					console.log(item.index());
 					target.insertAfter($wrapper.children().eq(item.index()));
 					if(target.has(".extra-custom-editor-wrapper").size() > 0) {
-						tinyMCE.execCommand('mceAddControl', false, textareaID);
-						tinyMCE.settings.wpautop = wpautop;
+						tinymce.execCommand('mceAddEditor', false, textareaID);
+						tinymce.settings.wpautop = wpautop;
 					}
 					$wrapper.tabs( "refresh" );
 				}
@@ -97,20 +92,5 @@ jQuery(document).ready(function($){
 		updateMenu();
 	        
 	});
-	
-});
-
-jQuery(document).ready(function($){
-	
-	var wpautop;
-	
-	if(typeof(tinyMCE) != 'undefined') {
-		wpautop = tinyMCE.settings.wpautop;
-	} else {
-		wpautop = true;
-	}
-	
-	var textareaID;
-	var selectedEd;
 	
 });

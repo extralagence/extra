@@ -25,11 +25,17 @@ class Editor extends AbstractField {
 
 	public static function init() {
 		parent::init();
-		wp_enqueue_style('extra-editor-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-editor.less');
+        wp_enqueue_script('extra-editor-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-editor.js', array('jquery'), null, true);
 	}
 
 
 	public function the_admin() {
+	    
+        $editor_id = $this->mb->get_the_name();
+        $editor_id = str_replace('[', '_', $editor_id);
+        $editor_id = str_replace(']', '-', $editor_id);
+        $this->css_class = 'extra-editor-wrapper ' . $this->css_class;
+        
 		?>
 		<div <?php echo (!empty($this->css_class)) ? ' class="'.$this->css_class.'"' : ''; ?>>
 			<?php if ($this->title != null) : ?>
@@ -45,13 +51,21 @@ class Editor extends AbstractField {
 
 			<?php $this->mb->the_field($this->get_single_field_name('editor'));
 			$value = apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' ));
-			wp_editor($value, $this->mb->get_the_name(), array(
+			wp_editor($value, $editor_id, array(
 				'textarea_name' => $this->mb->get_the_name(),
-				'editor_height' => 800,
+				'editor_height' => 500,
 				'tinymce' => array(
 					'body_class' => $this->name
 				)
 			)); ?>
+            
+            <table class="post-status-info">
+                <tbody>
+                    <tr>
+                        <td data-id="<?php echo $editor_id; ?>" id="<?php echo $editor_id; ?>-resize-handle" class="content-resize-handle hide-if-no-js"><br /></td>
+                    </tr>
+                </tbody>
+            </table>
 		</div>
 		<?php
 	}

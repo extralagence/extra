@@ -70,8 +70,12 @@ function require_extra_module_setup ($module_name, $extra_module_path = EXTRA_MO
 }
 
 function require_extra_libraries () {
-	// INCLUDE WPALCHEMY
+
+	// INCLUDE EXTRA METABOX
 	require_once EXTRA_INCLUDES_PATH . '/extra-metabox/ExtraMetaBox.php';
+	
+	// INCLUDE EXTRA GALLERY
+	require_once EXTRA_INCLUDES_PATH . '/extra-gallery/setup.php';
 
 	// BFI THUMB
 	require_once EXTRA_INCLUDES_PATH . '/BFI_Thumb.php';
