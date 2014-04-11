@@ -68,6 +68,7 @@ function extra_tinymce($init) {
     if($typenow == 'page' || (isset($_REQUEST['post_id']) && get_post_type($_REQUEST['post_id']) == 'page')) {
 		$init['body_class'] .= ' page-'.$post->post_name;
 	}
+
 	return $init;
 }
 add_filter('tiny_mce_before_init', 'extra_tinymce' );

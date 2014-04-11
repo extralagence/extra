@@ -22,6 +22,7 @@
  */
 class Text extends AbstractField {
 
+	protected $suffix;
 	protected $regex;
 	protected $placeholder;
 
@@ -44,12 +45,14 @@ class Text extends AbstractField {
 				value="<?php $this->mb->the_value(); ?>"
 				<?php echo ($this->regex != null) ? 'data-regex="'.$this->regex.'"' : ''; ?>
 				<?php echo ($this->placeholder != null) ? 'placeholder="'.$this->placeholder.'"' : ''; ?>>
+			<?php echo ($this->suffix == null) ? '' : $this->suffix; ?>
 		</div>
 		<?php
 	}
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
+		$this->suffix = $properties['suffix'];
 		$this->regex = $properties['regex'];
 		$this->placeholder = $properties['placeholder'];
 	}

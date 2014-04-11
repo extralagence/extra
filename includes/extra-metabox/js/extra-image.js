@@ -61,10 +61,11 @@ jQuery(document).ready(function($) {
 		});
 	}
 	
-	
-	$.wpalchemy.bind('wpa_copy', function(e, elmt){
-		extra_process_images($(elmt));	
-	});
-	
+	if ($.wpalchemy !== undefined) {
+		$.wpalchemy.bind('wpa_copy', function(e, elmt){
+			extra_process_images($(elmt));
+		});
+	}
+
 	extra_process_images();
 });
