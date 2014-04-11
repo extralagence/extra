@@ -99,6 +99,8 @@ function require_extra_libraries () {
 
 // REQUIRE LIBRARIES
 require_extra_libraries();
+require_once 'functions.php';
+require_once 'admin/setup.php';
 
 // SCAN AND REQUIRE ALL MODULE ADMIN SETUP FILES FOR EXTRA
 $modules = scandir(EXTRA_MODULES_PATH);
@@ -114,8 +116,6 @@ if ('extra' != wp_get_theme()->stylesheet) {
 	}
 }
 
-require_once 'functions.php';
-require_once 'admin/setup.php';
 require_once 'scripts.php';
 require_once 'styles.php';
 if ('extra' != wp_get_theme()->stylesheet) {
@@ -126,3 +126,5 @@ if ('extra' != wp_get_theme()->stylesheet) {
 		require_once THEME_PATH.'/setup/styles.php';
 	}
 }
+
+do_action('extra_init');
