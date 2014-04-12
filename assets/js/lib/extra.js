@@ -12,11 +12,8 @@ var $window,
  * RESPONSIVE
  *
  *********************/
-var tabletCondition = 'only screen and (max-width: 960px)',
-	mobileCondition = 'only screen and (max-width: 690px)',
-	small = "",
-	tablet = "",
-	mobile = "";
+var extraResponsiveSizesTests = {},
+	small = null;
 /*********************
  *
  * JQUERY START
@@ -44,7 +41,6 @@ $(document).ready(function () {
 			$window.trigger('extra.resize');
 		}
 	}
-
 	/*********************
 	 *
 	 * MOBILE OR NOT MOBILE
@@ -52,9 +48,15 @@ $(document).ready(function () {
 	 *********************/
 	$(window).on('extra.resize',function () {
 		// IF STATE CHANGE, UPDATE
-		if (matchMedia(tabletCondition).matches != tabletCondition || matchMedia(mobileCondition).matches != small) {
-			small = tablet = matchMedia(tabletCondition).matches;
-			mobile = matchMedia(mobileCondition).matches;
+		var _tmpExtraResponsiveSizesTests = $.extend({}, extraResponsiveSizesTests);
+		$.each(extraResponsiveSizes, function(index, value) {
+			_tmpExtraResponsiveSizesTests[index] = matchMedia(value).matches;
+		});
+		if(extraResponsiveSizes['desktop'] !== undefined) {
+			small = _tmpExtraResponsiveSizesTests['desktop'];
+		}
+		if(JSON.stringify(_tmpExtraResponsiveSizesTests) !== JSON.stringify(extraResponsiveSizesTests)) {
+			extraResponsiveSizesTests = $.extend({}, _tmpExtraResponsiveSizesTests);
 			$(document).trigger("extra.responsive-resize");
 		}
 	}).trigger('extra.resize');
@@ -66,13 +68,13 @@ $(document).ready(function () {
 	 *
 	 *************************/
 	var getImageVersion = function () {
-		if (!small) {
-			return "desktop"; // default version
-		} else if (small && mobile) {
-			return "mobile";
-		} else if (small && tablet) {
-			return "tablet";
-		}
+		var toReturn = null;
+		$.each(extraResponsiveSizesTests, function(index, value) {
+			if(value === true) {
+				toReturn = index;
+			}
+		});
+		return toReturn;
 	};
 	/**************************
 	 *
@@ -86,10 +88,10 @@ $(document).ready(function () {
 	});
 	function initResponsiveImage(container) {
 
-		var datas = container.find("noscript");
-		var altTxt = datas.data("alt");
-		var size = getImageVersion();
-		var addImage = function (size) {
+		var datas = container.find("noscript"),
+			altTxt = datas.data("alt"),
+			size = getImageVersion(),
+			addImage = function (size) {
 
 			// SET NEW IMAGE
 			if (datas && container.data("size") != size) {
@@ -104,7 +106,7 @@ $(document).ready(function () {
 							'height': this.height
 						}).appendTo(container);
 						container.find("img").not(imgElement).css('position', 'absolute');
-						TweenMax.from(imgElement, 1, {autoAlpha: 0, onComplete: function() {
+						TweenMax.from(imgElement, 0.1, {autoAlpha: 0, onComplete: function() {
 							container.find("img").not(imgElement).remove();
 						}});
 					});
@@ -224,7 +226,6 @@ $(function () {
 		 *
 		 *
 		 *************************/
-
 		var wpadminbar = $("#wpadminbar");
 		$(window).on('extra.resize', function () {
 			if (wpadminbar.length) {

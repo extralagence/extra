@@ -142,7 +142,7 @@ add_filter('excerpt_more', 'extra_excerpt_more');
  *
  *
  *********************/
-function extra_img_caption_shortcode($x=null, $attr, $content){
+function extra_img_caption_shortcode($x = null, $attr, $content){
 	extract(shortcode_atts(array(
 		'id'	=> '',
 		'align'	=> 'alignnone',
@@ -293,6 +293,13 @@ function extra_submit_shortcode_handler( $tag ) {
  */
 function extra_get_responsive_image($src = 0, $params= array(), $class = '', $alt = '') {
 
+	// hook it to override available sizes
+	$sizes = apply_filters('extra_responsive_sizes', array(
+		'desktop' => 'only screen and (min-width: 961px)',
+		'tablet' => 'only screen and (max-width: 960px)',
+		'mobile' => 'only screen and (max-width: 690px)'
+	));
+
 	if(is_numeric($src)) {
 		$src = wp_get_attachment_image_src($src, 'full');
 		$src = $src[0];
@@ -303,23 +310,26 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 			}
 		}
 	} else if(empty($src)) {
-		throw new Exception(__('La source de l\'image est vide', 'extra'));
+		throw new Exception(__("La source de l'image est vide", 'extra'));
 	} else if(!filter_var($src, FILTER_VALIDATE_URL)) {
-		throw new Exception(__('La source de l\'image n\'est pas valide', 'extra') . ' : ' . $src);
+		throw new Exception(__("La source de l'image n'est pas valide", 'extra') . ' : ' . $src);
 	}
 
-	if(!array_key_exists('mobile', $params) || !array_key_exists('tablet', $params) || !array_key_exists('desktop', $params)) {
-		throw new Exception(__('Il manque une taille d\'image  (mobile, tablet, desktop)', 'extra'));
+	foreach($sizes as $size => $details) {
+		if(!array_key_exists($size, $params)) {
+			throw new Exception(sprintf(__("Il manque la taille d'image <em>%s</em>", 'extra'), $size));
+		}
 	}
+
 	?>
 	<?php ob_start(); ?>
 	<span class="responsiveImagePlaceholder<?php echo (!empty($class)) ? ' ' . $class : ''; ?>">
 		<noscript
 			data-alt="<?php echo $alt; ?>"
-			data-src-mobile="<?php echo bfi_thumb($src, $params['mobile']); ?>"
-			data-src-tablet="<?php echo bfi_thumb($src, $params['tablet']); ?>"
-			data-src-desktop="<?php echo bfi_thumb($src, $params['desktop']); ?>">
-			<img alt="<?php echo $alt; ?>" src="<?php echo bfi_thumb($src, $params['desktop']); ?>">
+			<?php foreach($sizes as $size => $details): ?>
+			data-src-<?php echo $size; ?>="<?php echo bfi_thumb($src, $params[$size]); ?>"
+			<?php endforeach; ?>
+			<img alt="<?php echo $alt; ?>" src="<?php echo $src; ?>">
 		</noscript>
 		<img class="placeholder-image"
 		     src="<?php echo get_template_directory_uri(); ?>/assets/img/blank.gif"

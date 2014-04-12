@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
 	if(typeof(disableExtraEditorSlider) === 'undefined' || disableExtraEditorSlider === false) {
-	    console.log("coucou");
         $(".content .extra-editor-slider").extraSlider({
             navigate: true,
             resize: true,
