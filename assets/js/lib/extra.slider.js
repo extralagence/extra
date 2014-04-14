@@ -197,7 +197,7 @@ http://slider.extralagence.com
 
             /*********************************** SETUP VARS ***********************************/
            $items.each(function(index, elmt) {
-              $(this).data('id', index);
+              $(this).data('index', index);
            });
             singleWidth = getDimension('width');
             singleHeight = getDimension('height');
