@@ -99,8 +99,6 @@ function require_extra_libraries () {
 
 // REQUIRE LIBRARIES
 require_extra_libraries();
-require_once 'functions.php';
-require_once 'admin/setup.php';
 
 // SCAN AND REQUIRE ALL MODULE ADMIN SETUP FILES FOR EXTRA
 $modules = scandir(EXTRA_MODULES_PATH);
@@ -116,6 +114,8 @@ if ('extra' != wp_get_theme()->stylesheet) {
 	}
 }
 
+require_once 'functions.php';
+require_once 'admin/setup.php';
 require_once 'scripts.php';
 require_once 'styles.php';
 if ('extra' != wp_get_theme()->stylesheet) {
@@ -126,5 +126,49 @@ if ('extra' != wp_get_theme()->stylesheet) {
 		require_once THEME_PATH.'/setup/styles.php';
 	}
 }
+/**********************
+ *
+ *
+ *
+ * TEMPLATE WRAPPER
+ *
+ *
+ *
+ *********************/
+function extra_template_path() {
+    return Extra_Wrapping::$main_template;
+}
 
-do_action('extra_init');
+function extra_template_base() {
+    return Extra_Wrapping::$base;
+}
+
+class Extra_Wrapping {
+    /**
+     * Stores the full path to the main template file
+     */
+    static $main_template;
+    /**
+     * Stores the base name of the template file; e.g. 'page' for 'page.php' etc.
+     */
+    static $base;
+
+    static function wrap($template) {
+        self::$main_template = $template;
+        self::$base = substr(basename(self::$main_template), 0, -4);
+        if ('index' == self::$base) {
+            self::$base = false;
+        }
+        $templates = array('wrapper.php');
+        if (self::$base) {
+            array_unshift($templates, sprintf('wrapper-%s.php', self::$base));
+        }
+        return locate_template($templates);
+    }
+
+}
+
+add_filter('template_include', array(
+    'Extra_Wrapping',
+    'wrap'
+), 99);
