@@ -78,7 +78,7 @@ function require_extra_libraries () {
 	require_once EXTRA_INCLUDES_PATH . '/extra-gallery/setup.php';
 
 	// BFI THUMB
-	require_once EXTRA_INCLUDES_PATH . '/BFI_Thumb.php';
+	require_once EXTRA_INCLUDES_PATH . '/bfi_thumb/BFI_Thumb.php';
 
 	// WP LESS
 	require_once EXTRA_INCLUDES_PATH . '/wp-less.php';
