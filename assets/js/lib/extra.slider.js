@@ -98,7 +98,7 @@ http://slider.extralagence.com
 
                 // listener
                 if (opt.onMoveEnd && time > 0) {
-                    opt.onMoveEnd(currentItem, total, $this, $items.eq(currentItem + numClones));
+                    opt.onMoveEnd($items.eq(currentItem + numClones), total, $this);
                 }
             }
 
@@ -126,7 +126,7 @@ http://slider.extralagence.com
                     }
 
                     if (opt.onMoveStart && time > 0) {
-                        opt.onMoveStart(currentItem, total, $this);
+                        opt.onMoveStart($items.eq(currentItem + numClones), total, $this);
                     }
 
                     if (opt.paginate) {
@@ -351,7 +351,7 @@ http://slider.extralagence.com
             /*********************************** ON INIT ***********************************/
             // TRIGGER ON INIT
             if (opt.onInit) {
-                opt.onInit(currentItem, total, $this);
+                opt.onInit($items.eq(currentItem + numClones), total, $this);
             }
 
             /*********************************** FIRST UPDATE ***********************************/
