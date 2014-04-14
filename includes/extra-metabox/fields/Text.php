@@ -33,7 +33,7 @@ class Text extends AbstractField {
 
 	public function the_admin() {
 		?>
-		<div class="<?php echo $this->css_class; ?> extra-text-container">
+		<p class="<?php echo $this->css_class; ?> extra-text-container">
 			<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
 			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
@@ -46,7 +46,7 @@ class Text extends AbstractField {
 				<?php echo ($this->regex != null) ? 'data-regex="'.$this->regex.'"' : ''; ?>
 				<?php echo ($this->placeholder != null) ? 'placeholder="'.$this->placeholder.'"' : ''; ?>>
 			<?php echo ($this->suffix == null) ? '' : $this->suffix; ?>
-		</div>
+		</p>
 		<?php
 	}
 
