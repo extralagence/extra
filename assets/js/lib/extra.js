@@ -3,16 +3,17 @@
  * WINDOW VARS
  *
  *********************/
-var $window,
+var extra = {},
+    $window,
 	wWidth,
 	wHeight,
-	resizeTimer;
-/*********************
- *
- * RESPONSIVE
- *
- *********************/
-var tabletCondition = 'only screen and (max-width: 960px)',
+	resizeTimer,
+    /*********************
+     *
+     * RESPONSIVE
+     *
+     *********************/
+    tabletCondition = 'only screen and (max-width: 960px)',
 	mobileCondition = 'only screen and (max-width: 690px)',
 	small = "",
 	tablet = "",
@@ -44,7 +45,8 @@ $(document).ready(function () {
 			$window.trigger('extra.resize');
 		}
 	}
-
+    // GOOD RESIZE FOR EXTRA SLIDER
+    //extra.resizeEvent = 'extra.resize';
 	/*********************
 	 *
 	 * MOBILE OR NOT MOBILE

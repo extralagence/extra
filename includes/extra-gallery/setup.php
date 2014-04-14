@@ -118,7 +118,7 @@ function extra_gallery_handler($atts, $content = null) {
 			endforeach;
 			$return .= '     </ul>';
 			$return .= ' </div>';
-			$return .= apply_filters('extra_gallery_mosaic_navigation', '<div class="navigation"><a class="prev" href="#">' . __('Précédent', 'extra') . '</a><a class="next" href="#">' . __('Suivant', 'extra') . '</a></div>');
+			$return .= apply_filters('extra_gallery_mosaic_navigation', '<div class="pagination"></div><div class="navigation"><a class="prev" href="#">' . __('Précédent', 'extra') . '</a><a class="next" href="#">' . __('Suivant', 'extra') . '</a></div>');
 			$return .= '</div>';
 			break;
 	}
