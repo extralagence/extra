@@ -270,7 +270,6 @@ http://slider.extralagence.com
             // on resize
             if (opt.resizable) {
                 resizeEvent = extra.resizeEvent !== undefined ? extra.resizeEvent : 'resize';
-                console.log(resizeEvent);
                 $window.on(resizeEvent, function () {
                     update();
                 });
