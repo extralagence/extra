@@ -46,7 +46,7 @@ $(document).ready(function () {
 		}
 	}
     // GOOD RESIZE FOR EXTRA SLIDER
-    //extra.resizeEvent = 'extra.resize';
+    extra.resizeEvent = 'extra.resize';
 	/*********************
 	 *
 	 * MOBILE OR NOT MOBILE
