@@ -256,7 +256,6 @@ $(function () {
                     TweenMax.to($menu, (fast ? 0 : 0.4), {x: 0, ease: Quad.EaseOut});
                     TweenMax.to([$wrapper, $switcher], (fast ? 0 : 0.5), {x: $menu.width() + 'px', ease: Quad.EaseOut});
                 }
-                $(document).swipe("enable");
             } else {
                 hideMenu(true);
             }
@@ -280,7 +279,6 @@ $(function () {
                 $menu.removeAttr("style");
                 $wrapper.removeAttr("style");
             }
-            $(document).swipe("disable");
         }
 
         // TAP
