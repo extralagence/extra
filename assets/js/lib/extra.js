@@ -54,7 +54,7 @@ $(document).ready(function () {
             _tmpExtraResponsiveSizesTests[index] = matchMedia(value).matches;
         });
         if(extraResponsiveSizes['desktop'] !== undefined) {
-            small = _tmpExtraResponsiveSizesTests['desktop'];
+            small = !_tmpExtraResponsiveSizesTests['desktop'];
         }
         if(JSON.stringify(_tmpExtraResponsiveSizesTests) !== JSON.stringify(extraResponsiveSizesTests)) {
             extraResponsiveSizesTests = $.extend({}, _tmpExtraResponsiveSizesTests);

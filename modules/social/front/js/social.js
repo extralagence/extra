@@ -10,9 +10,12 @@
 			frag.appendChild( js );
 		};
 
-	jQuery.parseJSON(shareApis).forEach(function (share) {
-		add(share['url'], share['id']);
-	});
+	if (typeof shareApis !== 'undefined' && shareApis != undefined && shareApis != 'undefined' && shareApis != null) {
+		jQuery.parseJSON(shareApis).forEach(function (share) {
+			add(share['url'], share['id']);
+		});
+	}
+
 
 	fjs.parentNode.insertBefore(frag, fjs);
 }(document, 'script'));
