@@ -1,0 +1,3 @@
+[submodule "includes/bfi_thumb"]
+	path = includes/bfi_thumb
+	url = https://github.com/extralagence/bfi_thumb.git

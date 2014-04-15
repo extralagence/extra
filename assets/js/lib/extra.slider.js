@@ -45,11 +45,13 @@ http://slider.extralagence.com
                 $pagination = $this.find('.pagination'),
                 singleWidth = 0,
                 singleHeight = 0,
-                total = $items.length,
+                total = $items.length - 1,
                 visible = Math.ceil($wrapper.width() / singleWidth),
-                currentItem = 1,
+                currentItem = 0,
                 previousItem = total,
                 i = 0,
+                // RESIZE
+                resizeEvent,
                 // AUTOMATIC
                 autoTween,
                 // DRAG
@@ -59,13 +61,13 @@ http://slider.extralagence.com
             /*********************************** FUNCTIONS ***********************************/
             // adjust the slider position
             function adjustPosition() {
-                if (currentItem >= total) {
+                if (currentItem > total) {
                     // too far on the left (previous)
                     currentItem = 0;
                     TweenMax.set($slider, {css: {left: -(singleWidth * (currentItem + numClones))}});
                 } else if (currentItem < 0) {
                     // too far on the right (next)
-                    currentItem = total - 1;
+                    currentItem = total;
                     TweenMax.set($slider, {css: {left: -(singleWidth * (currentItem + numClones))}});
                 }
             }
@@ -98,7 +100,7 @@ http://slider.extralagence.com
 
                 // listener
                 if (opt.onMoveEnd && time > 0) {
-                    opt.onMoveEnd($items.eq(currentItem + numClones), total, $this);
+                    opt.onMoveEnd($items.eq(currentItem + numClones), total + 1, $this);
                 }
             }
 
@@ -108,6 +110,7 @@ http://slider.extralagence.com
                 time = (time !== undefined) ? time : opt.speed;
 
                 var dir = newPage < currentItem ? -1 : 1,
+                    realCurrentItem,
                     left;
 
                 $items.removeClass('active');
@@ -118,19 +121,28 @@ http://slider.extralagence.com
                     currentItem = parseInt(newPage, 10);
 
                     if (opt.type === 'fade') {
-                        if (currentItem === total && dir === 1) {
+                        if (currentItem === total - 1 && dir === 1) {
                             currentItem = 0;
-                        } else if (currentItem === 0  && dir === -1) {
-                            currentItem = total;
+                        } else if (currentItem === -1  && dir === -1) {
+                            currentItem = total - 1;
                         }
+                    }
+                    
+                    realCurrentItem = currentItem;
+                    if (realCurrentItem > total) {
+                        // too far on the left (previous)
+                        realCurrentItem = 0;
+                    } else if (realCurrentItem < 0) {
+                        // too far on the right (next)
+                        realCurrentItem = total;
                     }
 
                     if (opt.onMoveStart && time > 0) {
-                        opt.onMoveStart($items.eq(currentItem + numClones), total, $this);
+                        opt.onMoveStart($items.eq(realCurrentItem + numClones), total + 1, $this);
                     }
 
                     if (opt.paginate) {
-                        $pagination.find("a").removeClass("active").eq(currentItem - 1).addClass("active");
+                        $pagination.find("a").removeClass("active").eq(realCurrentItem).addClass("active");
                     }
 
                     switch (opt.type) {
@@ -209,10 +221,10 @@ http://slider.extralagence.com
                 $this.addClass('extra-slider-slide');
 
                 // CLONE BEFORE
-                $items.first().before($items.slice(-(visible + opt.margin)).clone().addClass('cloned'));
+                $items.first().before($items.slice(-(visible + opt.margin)).clone(true).addClass('cloned'));
 
                 // CLONE AFTER
-                $items.last().after($items.slice(0, visible + opt.margin).clone().addClass('cloned'));
+                $items.last().after($items.slice(0, visible + opt.margin).clone(true).addClass('cloned'));
 
                 // GET ALL ITEMS (clones included)
                 $items = $slider.find('> li');
@@ -257,7 +269,8 @@ http://slider.extralagence.com
             });
             // on resize
             if (opt.resizable) {
-                $window.on('extra.resize', function () {
+                resizeEvent = extra.resizeEvent !== undefined ? extra.resizeEvent : 'resize';
+                $window.on(resizeEvent, function () {
                     update();
                 });
             }
@@ -276,14 +289,14 @@ http://slider.extralagence.com
 
             /*********************************** PAGINATION ***********************************/
             if (opt.paginate && $pagination.length) {
-                for (i = 0; i < total; i += 1) {
+                for (i = 0; i <= total; i += 1) {
                     $("<a>", {'href': '#'}).html(opt.paginateContent !== '' ? opt.paginateContent : i + 1).appendTo($pagination);
                 }
-                $pagination.find("a").removeClass("active").eq(currentItem - 1).addClass("active");
+                $pagination.find("a").removeClass('active').eq(currentItem).addClass('active');
                 $('a', $pagination).each(function (i) {
                     $(this).click(function () {
-                        if (i + 1 !== currentItem) {
-                            gotoPage(i + 1);
+                        if (!$(this).hasClass('active')) {
+                            gotoPage(i);
                         }
                         return false;
                     });
@@ -326,7 +339,6 @@ http://slider.extralagence.com
                 $this.addClass('extra-slider-draggable');
 
                 if (Draggable !== undefined) {
-                    console.log("ici drag");
                     drag = Draggable.create($slider, {
                         dragClickables: true,
                         type: 'left',
@@ -354,7 +366,7 @@ http://slider.extralagence.com
             /*********************************** ON INIT ***********************************/
             // TRIGGER ON INIT
             if (opt.onInit) {
-                opt.onInit($items.eq(currentItem + numClones), total, $this);
+                opt.onInit($items.eq(currentItem + numClones), total + 1, $this);
             }
 
             /*********************************** FIRST UPDATE ***********************************/
