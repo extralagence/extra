@@ -1,9 +1,10 @@
 <?php
 /*
- * when we have a metabox again
-$social_allowed_post_types = array('post');
-$extra_social_post_types = apply_filters('extra_second_title_post_types', $extra_social_post_types);
-*/
+ * When we have a metabox again
+ * $social_allowed_post_types = array('post');
+ * $extra_social_post_types = apply_filters('extra_second_title_post_types', $extra_social_post_types);
+ */
+
 /**********************
  *
  *
@@ -13,35 +14,60 @@ $extra_social_post_types = apply_filters('extra_second_title_post_types', $extra
  *
  *
  *********************/
-function extra_share() {
-	
-	global $post; 
-	$link = get_permalink($post->ID);
-	
+function extra_share($id = 0) {
+
+	$shares = array(
+		array(
+			'url' => 'https://apis.google.com/js/plusone.js',
+			'id' => null
+		),
+		array(
+			'url' => '//connect.facebook.net/fr_FR/all.js#xfbml=1',
+			'id' => 'facebook-jssdk'
+		),
+		array(
+			'url' => 'http://platform.twitter.com/widgets.js',
+			'id' => null
+		)
+	);
+	wp_localize_script('extra-social', 'shareApis', json_encode($shares));
+
+	global $post;
+
+	if ($id == 0) {
+		$id = $post->ID;
+	}
+
+	$link = get_permalink($id);
+
 	// IF LINK, ECHO SHARE
 	if(!empty($link)) {
 		$return = '';
-		$return .= '<div class="share">';    
-		$return .= '<a href="http://twitter.com/share" class="twitter-share-button" data-url="'.$link.'" data-count="horizontal" data-lang="fr"></a>';
-        $return .= '<a href="https://twitter.com/share" class="twitter-share-button" data-url="'.$link.'" data-via="TWITTERACCOUNT" data-lang="fr">Tweeter</a>';                                                                                                                                                                      
-		$return .= '<g:plusone size="medium" href="'.$link.'"></g:plusone>';
-		$return .= '<iframe src="//www.facebook.com/plugins/like.php?href='.urlencode($link).'&amp;width=400&amp;height=35&amp;colorscheme=light&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;send=false&amp;appId=220611784722096" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:400px; height:20px;" allowTransparency="true"></iframe>';
+		$return .= '<div class="share">';
+		$return .= '<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-url="'.$link.'" data-lang="fr"></a>';
+		$return .= '<div class="g-plusone-wrapper"><div class="g-plusone" data-size="medium" data-count="true" data-href="'.$link.'"></div></div>';
+		$return .= '<div class="fb-like" data-href="'.$link.'" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>';
 		$return .= '</div>';
-		//echo $return;
+		echo apply_filters('extra_share_html', $return);
 	}
-} 
+}
 /**********************
  *
  *
  *
  * ENQUEUE ASSETS
- * 
  *
  *
- *********************/ 
-function extra_share_enqueue_assets() {
-	wp_enqueue_script('twitter', 'http://platform.twitter.com/widgets.js', null, false, true);
-	wp_enqueue_script('googleplus', 'https://apis.google.com/js/plusone.js', null, false, true);
-}
-//add_action('wp_enqueue_scripts', 'extra_share_enqueue_assets');
+ *
+ *********************/
+add_action('wp_enqueue_scripts', function () {
+	wp_enqueue_style('extra-social', EXTRA_MODULES_URI.'/social/front/css/social.less');
+	wp_enqueue_script('extra-social', EXTRA_MODULES_URI.'/social/front/js/social.js', null, false, true);
+});
+
+
+add_action('wp_head', function () {
+	echo '<div id="fb-root"></div>';
+});
+
 ?>
