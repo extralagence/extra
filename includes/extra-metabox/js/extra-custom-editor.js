@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 			});
 
 			// SET NEW VALUES
-			tinymce.settings.body_class = init_body_class + " " + $textarea.attr("class");
+			tinymce.settings.body_class = init_body_class + " " + $textarea.data("extra-name");
 			tinymce.settings.id = id;
 			tinymce.settings.height = 300;
 

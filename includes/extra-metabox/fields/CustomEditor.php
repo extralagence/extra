@@ -73,7 +73,7 @@ class CustomEditor extends AbstractField {
     				</div>
     			</div>
     			<div id="wp-<?php echo $editor_id; ?>-editor-container" class="wp-editor-container">
-				    <textarea class="wp-editor-area extra-custom-editor" id="<?php echo $editor_id; ?>" name="<?php $this->mb->the_name(); ?>"><?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?></textarea>
+				    <textarea class="wp-editor-area extra-custom-editor" data-extra-name="<?php echo $this->name; ?>" id="<?php echo $editor_id; ?>" name="<?php $this->mb->the_name(); ?>"><?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?></textarea>
 				</div>
 			</div>
 			<table class="post-status-info">

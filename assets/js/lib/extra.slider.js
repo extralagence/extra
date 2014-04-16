@@ -86,13 +86,15 @@ http://slider.extralagence.com
                 return max;
             }
             // when the first animation is finished
-            function endHandler(time) {
+            function endHandler(time, previousItem) {
                 // endHandler for slide
                 if (opt.type === "slide") {
                     adjustPosition();
                     if (opt.draggable && opt.type === 'slide' && drag !== undefined) {
                         Draggable.get($slider).enable();
                     }
+                } else if(opt.type === "fade" && previousItem.length) {
+                    TweenMax.set(previousItem, {autoAlpha: 0});
                 }
 
                 // set active
@@ -151,8 +153,8 @@ http://slider.extralagence.com
                         TweenMax.to($slider, time, {css: {left: left}, onComplete: endHandler, onCompleteParams: [time]});
                         break;
                     case "fade":
-                        TweenMax.to($items.eq(previousItem - 1).css("zIndex", 1), time, {css: {autoAlpha: 0}});
-                        TweenMax.to($items.eq(currentItem - 1).css("zIndex", 2), time, {css: {autoAlpha: 1}, onComplete: endHandler, onCompleteParams: [time]});
+                        $items.eq(previousItem).css("zIndex", 1);
+                        TweenMax.to($items.eq(currentItem).css("zIndex", 2), time, {css: {autoAlpha: 1}, onComplete: endHandler, onCompleteParams: [time, $items.eq(previousItem)]});
                         break;
                     }
                 }
@@ -241,7 +243,7 @@ http://slider.extralagence.com
 
                 // INITIALIZE ALPHA AND ZINDEX
                 $items.each(function (i) {
-                    if (i === 0) {
+                    if (i === currentItem) {
                         TweenMax.set($(this), {css: {autoAlpha: 1, zIndex: 2}});
                     } else {
                         TweenMax.set($(this), {css: {autoAlpha: 0, zIndex: 1}});
@@ -289,8 +291,10 @@ http://slider.extralagence.com
 
             /*********************************** PAGINATION ***********************************/
             if (opt.paginate && $pagination.length) {
+                if(opt.paginateContent != '') {
+                }
                 for (i = 0; i <= total; i += 1) {
-                    $("<a>", {'href': '#'}).html(opt.paginateContent !== '' ? opt.paginateContent : i + 1).appendTo($pagination);
+                    $("<a>", {'href': '#'}).html(opt.paginateContent !== '' ? opt.paginateContent.replace("%d", (i + 1)) : i + 1).appendTo($pagination);
                 }
                 $pagination.find("a").removeClass('active').eq(currentItem).addClass('active');
                 $('a', $pagination).each(function (i) {
