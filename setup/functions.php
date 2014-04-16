@@ -296,7 +296,7 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 	// hook it to override available sizes
 	$sizes = apply_filters('extra_responsive_sizes', array(
 		'desktop' => 'only screen and (min-width: 961px)',
-		'tablet' => 'only screen and (max-width: 960px)',
+		'tablet' => 'only screen and (min-width: 691px) and (max-width: 960px)',
 		'mobile' => 'only screen and (max-width: 690px)'
 	));
 

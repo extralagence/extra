@@ -38,9 +38,9 @@ function extra_template_enqueue_scripts() {
 	// EXTRA
 	wp_enqueue_script('extra', get_template_directory_uri() . '/assets/js/lib/extra.js', array('jquery', 'tweenmax'), null, true);
 	$sizes = apply_filters('extra_responsive_sizes', array(
-		'desktop' => 'only screen and (min-width: 961px)',
-		'tablet' => 'only screen and (max-width: 960px)',
-		'mobile' => 'only screen and (max-width: 690px)'
+        'desktop' => 'only screen and (min-width: 961px)',
+        'tablet' => 'only screen and (min-width: 691px) and (max-width: 960px)',
+        'mobile' => 'only screen and (max-width: 690px)'
 	));
 	wp_localize_script('extra', 'extraResponsiveSizes', $sizes);
 	// EXTRA-SLIDER
