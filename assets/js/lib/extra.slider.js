@@ -29,6 +29,7 @@ http://slider.extralagence.com
             'onInit': null,
             'onMoveStart': null,
             'onMoveEnd': null,
+            'onUpdate': null,
             'onPause': null,
             'onResume': null
         }, options);
@@ -40,15 +41,17 @@ http://slider.extralagence.com
                 $wrapper = $('> .wrapper', this),
                 $slider = $wrapper.find('> ul'),
                 $items = $slider.find('> li'),
-                numClones,
+                numClones = 0,
                 $navigation = $this.find('.navigation'),
                 $pagination = $this.find('.pagination'),
                 singleWidth = 0,
                 singleHeight = 0,
                 total = $items.length - 1,
-                visible = Math.ceil($wrapper.width() / singleWidth),
+                visible = -1,
+                totalWidth = singleWidth,
                 currentItem = 0,
                 previousItem = total,
+                offset = 0,
                 i = 0,
                 // RESIZE
                 resizeEvent,
@@ -64,12 +67,12 @@ http://slider.extralagence.com
                 if (currentItem > total) {
                     // too far on the left (previous)
                     currentItem = 0;
-                    TweenMax.set($slider, {css: {left: -(singleWidth * (currentItem + numClones))}});
                 } else if (currentItem < 0) {
                     // too far on the right (next)
                     currentItem = total;
-                    TweenMax.set($slider, {css: {left: -(singleWidth * (currentItem + numClones))}});
                 }
+                var left = -(totalWidth * (currentItem) + (numClones * singleWidth));
+                TweenMax.set($slider, {css: {left: left}});
             }
             // get the blocs dimensions
             function getDimension(type) {
@@ -149,7 +152,15 @@ http://slider.extralagence.com
 
                     switch (opt.type) {
                     case "slide":
-                        left = -(singleWidth * (currentItem + numClones));
+                        left = -(totalWidth * (currentItem) + (numClones * singleWidth));
+                        if(offset !== 0) {
+                            if(currentItem > total) {
+                                left += singleWidth * offset;
+                            }
+                            if(currentItem < 0) {
+                                left -= singleWidth * offset;
+                            }
+                        }
                         TweenMax.to($slider, time, {css: {left: left}, onComplete: endHandler, onCompleteParams: [time]});
                         break;
                     case "fade":
@@ -162,6 +173,9 @@ http://slider.extralagence.com
 
             /*********************************** UPDATE ***********************************/
             function update() {
+                
+                var newVisible = visible;
+                
                 // RESET DIMENSIONS
                 $slider.css('width', '');
                 $items.css('width', '').css('height', '');
@@ -170,26 +184,61 @@ http://slider.extralagence.com
                 // GET DIMENSIONS
                 singleWidth = getDimension('width');
                 singleHeight = getDimension('height');
-
-                if (opt.type === 'slide') {
-                    // SET DIMENSIONS
-                    $slider.width(99999);
-                    TweenMax.set($slider, {css: {left: -(singleWidth * (currentItem + numClones))}});
+                
+                // MULTIPLE AT A TIME
+                totalWidth = singleWidth * visible;
+                newVisible = Math.ceil($wrapper.width() / singleWidth);
+                if(newVisible !== visible) {
+                    visible = newVisible; 
+                    total = Math.floor(($items.not('.cloned').length - 1) / visible);
+                    offset = Math.abs((total + 1) * visible - ($items.not('.cloned').length));
+                    if(opt.type == 'slide') {
+                        updateClones();
+                    }
                 }
+                
                 // SET DIMENSIONS
                 $items.css({
                     'width': singleWidth + 'px',
                     'height': singleHeight + 'px'
                 });
                 $wrapper.css({
-                    'width': (singleWidth * visible) + 'px',
+                    'width': totalWidth + 'px',
                     'height': singleHeight + 'px'
                 });
+                
+                // POSITION AND WIDTH
+                if(opt.type == 'slide') {
+                    adjustPosition();
+                    $slider.width(99999);
+                }
 
                 // ACTIVE CLASS
                 $items.removeClass('active');
                 $items.eq(currentItem + numClones).addClass('active');
+                
+                // TRIGGER ON UPDATE
+                if (opt.onUpdate) {
+                    opt.onUpdate($items.eq(currentItem + numClones), total + 1, $this);
+                }
 
+            }
+            function updateClones() {
+                
+                // REMOVE ALL CLONES
+                $items.find('.cloned').remove();
+                
+                // CLONE BEFORE
+                $items.first().before($items.slice(-(visible + opt.margin + offset)).clone(true).addClass('cloned'));
+
+                // CLONE AFTER
+                $items.last().after($items.slice(0, visible + opt.margin + offset).clone(true).addClass('cloned'));
+
+                // GET ALL ITEMS (clones included)
+                $items = $slider.find('> li');
+
+                // COUNT CLONES
+                numClones = $items.filter('.cloned').size() / 2 || 0;
             }
 
             /*********************************** HELPER FUNCTIONS ***********************************/
@@ -221,19 +270,6 @@ http://slider.extralagence.com
             case "slide":
                 // ADD A CLASS TO STYLE IT
                 $this.addClass('extra-slider-slide');
-
-                // CLONE BEFORE
-                $items.first().before($items.slice(-(visible + opt.margin)).clone(true).addClass('cloned'));
-
-                // CLONE AFTER
-                $items.last().after($items.slice(0, visible + opt.margin).clone(true).addClass('cloned'));
-
-                // GET ALL ITEMS (clones included)
-                $items = $slider.find('> li');
-
-                // COUNT CLONES
-                numClones = $items.filter('.cloned').size() / 2;
-
                 break;
 
 
@@ -278,7 +314,10 @@ http://slider.extralagence.com
             }
 
             /*********************************** NAVIGATION ***********************************/
-            if (opt.navigate && $navigation.length) {
+            if (opt.navigate) {
+                if(!$navigation.length) {
+                    $navigation = $('<div class="navigation"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>').insertAfter($wrapper);
+                }
                 $('a.prev', $navigation).click(function () {
                     gotoPrev();
                     return false;
@@ -290,7 +329,10 @@ http://slider.extralagence.com
             }
 
             /*********************************** PAGINATION ***********************************/
-            if (opt.paginate && $pagination.length) {
+            if (opt.paginate) {
+                if(!$pagination.length) {
+                    $pagination = $('<div class="pagination"></div>').insertAfter($wrapper);
+                }
                 if(opt.paginateContent != '') {
                 }
                 for (i = 0; i <= total; i += 1) {

@@ -127,6 +127,8 @@ $(document).ready(function () {
             addImage(size);
         });
         addImage(size);
+        
+        container.data('responsiveImageProcessed', true);
 
     }
 
