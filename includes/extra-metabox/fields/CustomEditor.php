@@ -17,6 +17,7 @@
  * - name (required)
  * - label (optional)
  * - icon (optional)
+ * - editor_class (optional)
  */
 class CustomEditor extends AbstractField {
 
@@ -72,8 +73,26 @@ class CustomEditor extends AbstractField {
                         <a id="<?php echo $editor_id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);"><?php _e("Visual"); ?></a>
     				</div>
     			</div>
+    			<?php
+    			if(isset($this->custom_css) && !empty($this->custom_css)) {
+    			     $stylesheets = $this->extract_stylesheets($this->custom_css);
+    			}
+    			?>
+
     			<div id="wp-<?php echo $editor_id; ?>-editor-container" class="wp-editor-container">
-				    <textarea class="wp-editor-area extra-custom-editor" data-extra-name="<?php echo $this->name; ?>" id="<?php echo $editor_id; ?>" name="<?php $this->mb->the_name(); ?>"><?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?></textarea>
+				    <textarea 
+				        class="wp-editor-area extra-custom-editor"
+				        <?php if(isset($stylesheets)): ?>
+				        data-custom-css="<?php echo $stylesheets; ?>"
+				        <?php endif; ?>
+				        data-extra-name="<?php 
+				            echo $this->name;
+				            echo (isset($this->editor_class) && !empty($this->editor_class)) ? ' ' . $this->editor_class : ''; 
+			             ?>" 
+				        id="<?php echo $editor_id; ?>" 
+				        name="<?php $this->mb->the_name(); ?>">
+				            <?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?>
+			             </textarea>
 				</div>
 			</div>
 			<table class="post-status-info">
@@ -86,6 +105,37 @@ class CustomEditor extends AbstractField {
         </div>
 		<?php
 	}
+
+    private function extract_stylesheets($custom_css) {
+        $stylesheets = array();
+        $counter = 0;
+        $less = wp_less::instance();
+        if(is_array($custom_css)) {
+            foreach($custom_css as $css) {
+                $path = pathinfo($css);
+                if($path['extension'] === 'less') {
+                    $css = $less->parse_stylesheet($css, $this->name . '-' . $counter);
+                }
+                $stylesheets[] = $css;
+                $counter++;
+            }
+        } else {
+            $path = pathinfo($custom_css);
+            if($path['extension'] === 'less') {
+                $custom_css = $less->parse_stylesheet($custom_css, $this->name);
+            }
+            $stylesheets[] = $custom_css;
+        }
+        $stylesheets = implode(',', $stylesheets);
+        return $stylesheets;
+    }
+
+
+    public function extract_properties($properties) {
+        parent::extract_properties($properties);
+        $this->editor_class = $properties['editor_class'];
+        $this->custom_css = $properties['custom_css'];
+    }
 
 	public function the_admin_column_value() {
 		//TODO

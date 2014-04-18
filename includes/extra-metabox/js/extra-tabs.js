@@ -62,22 +62,40 @@ jQuery(document).ready(function($){
 				opacity: 1,
 				placeholder: "extra-tabs-placeholder",
 				start: function(event, ui) { // turn tinymce off while sorting (if not, it won't work when resorted)
-					var item = ui.item;
-					var target = $("#"+item.attr("aria-controls"));
-					if(target.has(".extra-custom-editor-wrapper").size() > 0) {
-						textareaID = target.find('.extra-custom-editor-wrapper textarea').attr('id');
-						tinymce.settings.wpautop = false;
-						tinymce.execCommand('mceRemoveEditor', false, textareaID);
+					var item = ui.item,
+                        target = $("#"+item.attr("aria-controls")),
+                        editors = target.find('.extra-editor-processed');
+					
+					if(editors.length) {
+					    editors.each(function() {
+    						var textarea = $(this).find('textarea.extra-custom-editor'),
+                                textareaId = textarea.attr('id'),
+                                editor = tinymce.EditorManager.get(textareaId);
+                            textarea.data('tinymceSettings', editor.settings);
+    						tinymce.settings.wpautop = false;
+    						tinymce.execCommand('mceRemoveEditor', false, textarea.attr('id'));
+						});
 					}
 				},
 				stop: function(event, ui) { // re-initialize tinymce when sort is completed
-					var item = ui.item;
-					var target = $("#"+item.attr("aria-controls"));
+                    var item = ui.item,
+                        target = $("#"+item.attr("aria-controls")),
+                        editors = target.find('.extra-editor-processed');
+                        
+                    // move the target
 					target.insertAfter($wrapper.children().eq(item.index()));
-					if(target.has(".extra-custom-editor-wrapper").size() > 0) {
-						tinymce.execCommand('mceAddEditor', false, textareaID);
-						tinymce.settings.wpautop = wpautop;
-					}
+					
+					// reset the editors
+					if(editors.length) {
+                        editors.each(function() {
+                            var textarea = $(this).find('textarea.extra-custom-editor'),
+                                textareaId = textarea.attr('id');
+                            tinymce.settings = textarea.data('tinymceSettings');
+                            tinymce.execCommand('mceAddEditor', false, textareaId);
+                        });
+                    }
+                    
+                    // refresh the tabs
 					$wrapper.tabs( "refresh" );
 				}
 			}).disableSelection();

@@ -10,6 +10,10 @@ jQuery(document).ready(function($) {
 	    if(elmt === undefined) {
 	        elmt = $('.wpa_group:not(".tocopy") .extra-custom-editor-wrapper:not(".extra-editor-processed")'); 
 	    }
+	    
+	    if(!elmt.hasClass('extra-custom-editor-wrapper')) {
+	        elmt = elmt.find('.extra-custom-editor-wrapper');
+	    }
         
 		elmt.not('.extra-editor-processed').each(function() {
             
@@ -20,9 +24,12 @@ jQuery(document).ready(function($) {
 			// ELEMENTS
 			var $wrapper = $(this), 
                 $textarea = $wrapper.find("textarea.extra-custom-editor:first").addClass("mceEditor"),
-                id = $textarea.attr("id"), 
-                init_body_class = tinymce.settings.body_class, 
-                init_id = tinymce.settings.id, 
+                id = $textarea.attr("id"),  
+                default_body_class = tinymce.settings.body_class,
+                default_id = tinymce.settings.id,
+                default_height = tinymce.settings.height,
+                default_content_css = tinymce.settings.content_css,
+                tempSettings = $.extend({}, tinymce.settings),
                 $handle = $("#" + id + "-resize-handle"), 
                 mce = false, 
                 editor, 
@@ -34,17 +41,16 @@ jQuery(document).ready(function($) {
 			});
 
 			// SET NEW VALUES
-			tinymce.settings.body_class = init_body_class + " " + $textarea.data("extra-name");
+			tinymce.settings.body_class = tinymce.settings.body_class + " " + $textarea.data("extra-name");
 			tinymce.settings.id = id;
 			tinymce.settings.height = 300;
-
+			if($textarea.data('custom-css')) {
+                tinymce.settings.content_css = tinymce.settings.content_css + ',' + $textarea.data('custom-css');
+			}
 			tinymce.settings.wpautop = false;
+			
+			// SET NEW EDITOR
 			tinymce.execCommand('mceAddEditor', false, id);
-			tinymce.settings.wpautop = true;
-
-			// RESET DEFAULT VALUES
-			tinymce.settings.body_class = init_body_class;
-			tinymce.settings.id = init_id;
 
 			// MAKE IT RESIZABLE
             $handle.on('mousedown.extra-editor-resize', function(event) {
@@ -104,6 +110,13 @@ jQuery(document).ready(function($) {
 			// OK, PROCESSED
 			$(document).trigger("extra-editor-processed", [$wrapper, id]);
 			$wrapper.addClass('extra-editor-processed');
+
+            // RESET DEFAULT VALUES
+            tinymce.settings.body_class = default_body_class;
+            tinymce.settings.id = default_id;
+            tinymce.settings.height = default_height;
+            tinymce.settings.content_css = default_content_css;
+            tinymce.settings = $.extend({}, tempSettings);
 
 		});
 

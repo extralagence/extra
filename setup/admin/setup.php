@@ -51,7 +51,7 @@ add_filter('admin_footer_text', 'extra_footer_admin');
  *********************/
 function extra_tinymce($init) {
     
-    $toolbar1 = apply_filters('extra_tinymce_toolbar1', 'formatselect,alignleft,aligncenter,alignright,styleselect,bold,italic,link,unlink,separator,outdent,indent,blockquote,quote,hr,extra_cleaner,separator,charmap,separator,bullist,numlist'); 
+    $toolbar1 = apply_filters('extra_tinymce_toolbar1', 'formatselect,styleselect,alignleft,aligncenter,alignright,bold,italic,link,unlink,separator,outdent,indent,blockquote,quote,hr,extra_cleaner,separator,charmap,separator,bullist,numlist'); 
     $toolbar2 = apply_filters('extra_tinymce_toolbar2', ''); 
     $toolbar3 = apply_filters('extra_tinymce_toolbar3', ''); 
     $toolbar4 = apply_filters('extra_tinymce_toolbar4', ''); 
@@ -81,8 +81,6 @@ function extra_tinymce($init) {
     if($typenow == 'page' || (isset($_REQUEST['post_id']) && get_post_type($_REQUEST['post_id']) == 'page')) {
 		$init['body_class'] .= ' page-'.$post->post_name;
 	}
-    
-    //var_dump($init);
 
 	return $init;
 }
