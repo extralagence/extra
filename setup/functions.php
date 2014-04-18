@@ -38,7 +38,6 @@ if ( ! function_exists( 'extra_setup' ) ) {
 	}
 }
 add_action('after_setup_theme', 'extra_setup');
-
 /**********************
  *
  *
