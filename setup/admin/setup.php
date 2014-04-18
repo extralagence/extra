@@ -79,7 +79,11 @@ function extra_tinymce($init) {
     global $typenow;
 	global $post;
     if($typenow == 'page' || (isset($_REQUEST['post_id']) && get_post_type($_REQUEST['post_id']) == 'page')) {
-		$init['body_class'] .= ' page-'.$post->post_name;
+        $init['body_class'] .= ' page-'.$post->post_name;
+        $page_template = substr(basename(get_page_template_slug($post->id)), 0, -4);
+        if(!empty($page_template)) {
+            $init['body_class'] .= ' ' . $page_template;
+        }
 	}
 
 	return $init;
