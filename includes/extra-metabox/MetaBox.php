@@ -2714,7 +2714,7 @@ class WPAlchemy_MetaBox
 	 */
 	function _extra_add_postbox_classes ($classes) {
 		array_push($classes,'extra-metabox');
-		if($this->hide_ui == TRUE) {
+		if(isset($this->hide_ui) && $this->hide_ui === true) {
 			array_push($classes,'extra-metabox-minimal-ui');
 		}
 		return $classes;

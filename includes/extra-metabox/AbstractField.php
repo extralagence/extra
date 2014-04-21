@@ -57,13 +57,13 @@ abstract class AbstractField {
 	}
 
 	public function extract_properties($properties) {
-		$this->name = $properties['name'];
-		$this->label = $properties['label'];
-		$this->icon = $properties['icon'];
-		$this->css_class = $properties['css_class'];
+		$this->name = isset($properties['name']) ? $properties['name'] : null;
+		$this->label = isset($properties['label']) ? $properties['label'] : null;
+		$this->icon = isset($properties['icon']) ? $properties['icon'] : null;
+		$this->css_class = isset($properties['css_class']) ? $properties['css_class'] : null;
 
-		$this->show_in_admin_column = $properties['show_in_admin_column'];
-		$this->admin_column_label = $properties['admin_column_label'];
+		$this->show_in_admin_column = isset($properties['show_in_admin_column']) ? $properties['show_in_admin_column'] : null;
+		$this->admin_column_label = isset($properties['admin_column_label']) ? $properties['admin_column_label'] : null;
 	}
 
 	public abstract function the_admin();

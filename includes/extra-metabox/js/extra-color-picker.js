@@ -3,5 +3,6 @@
  */
 jQuery(function ($) {
 	'use strict';
+    console.log("coucou");
 	$('.extra-color-picker-input').wpColorPicker();
 });
