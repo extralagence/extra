@@ -59,6 +59,7 @@ abstract class AbstractField {
 	public function extract_properties($properties) {
 		$this->name = isset($properties['name']) ? $properties['name'] : null;
 		$this->label = isset($properties['label']) ? $properties['label'] : null;
+		$this->title = isset($properties['title']) ? $properties['title'] : null;
 		$this->icon = isset($properties['icon']) ? $properties['icon'] : null;
 		$this->css_class = isset($properties['css_class']) ? $properties['css_class'] : null;
 
@@ -66,6 +67,9 @@ abstract class AbstractField {
 		$this->admin_column_label = isset($properties['admin_column_label']) ? $properties['admin_column_label'] : null;
 	}
 
+	public function the_admin_column_value() {
+		return null;
+	}
+
 	public abstract function the_admin();
-	public abstract function the_admin_column_value();
 }
