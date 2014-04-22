@@ -72,7 +72,7 @@ class Editor extends AbstractField {
 
 	public function extract_properties( $properties ) {
 		parent::extract_properties( $properties );
-		$this->title = $properties['title'];
+		$this->title = isset($properties['title']) ? $properties['title'] : null;
 	}
 
 	public function the_admin_column_value() {

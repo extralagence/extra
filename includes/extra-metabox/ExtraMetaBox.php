@@ -102,7 +102,7 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		$i = 0;
 		while ($i < count($fields) && $field == null) {
 			$properties = $fields[$i];
-			if ($properties['name'] == $field_name) {
+			if (isset($properties['name']) && $properties['name'] === $field_name) {
 				if ($properties['show_in_admin_column'] && !empty($properties['name']) && !empty($properties['admin_column_label'])) {
 					$field = $this->construct_field_from_properties($properties);
 

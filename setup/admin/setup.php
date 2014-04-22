@@ -139,7 +139,7 @@ function extra_gettext_filter( $translated, $original, $domain ) {
 		'Déplacer dans la Corbeille' => 'Mettre à la corbeille'
 	);
 	if(isset( $strings[$translated])) {
-		$translations = &get_translations_for_domain($domain);
+		$translations = get_translations_for_domain($domain);
 		$translated = $translations->translate($strings[$translated]);
 	}
 	return $translated;

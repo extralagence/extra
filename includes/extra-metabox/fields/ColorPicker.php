@@ -38,6 +38,7 @@ class ColorPicker extends AbstractField {
 	}
 
     public function extract_properties($properties) {
+        parent::extract_properties($properties);
         // TODO
     }
 

@@ -52,9 +52,9 @@ class Text extends AbstractField {
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
-		$this->suffix = $properties['suffix'];
-		$this->regex = $properties['regex'];
-		$this->placeholder = $properties['placeholder'];
+		$this->suffix = isset($properties['suffix']) ? $properties['suffix'] : null;
+		$this->regex = isset($properties['regex']) ? $properties['regex'] : null;
+		$this->placeholder = isset($properties['placeholder']) ? $properties['placeholder'] : null;
 	}
 
 	public function the_admin_column_value() {
