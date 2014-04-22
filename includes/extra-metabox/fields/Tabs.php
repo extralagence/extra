@@ -44,21 +44,25 @@ class Tabs extends Group {
 					echo $this->label; ?>
 				</h2>
 			<?php endif; ?>
-
+			
 			<div class="repeatable extra-tabs">
 
+                <?php if($this->fixed === false): ?>
 				<div class="repeat-actions">
 					<a href="#" class="docopy-<?php echo $this->get_single_field_name("tab"); ?> copy-btn"><div class="dashicons dashicons-plus"></div><?php echo ($this->add_label == null) ? __("Ajouter un onglet", "extra") : $this->add_label; ?></a>
 					<a href="#" class="dodelete-<?php echo $this->get_single_field_name("tab"); ?> delete-btn"><div class="dashicons dashicons-dismiss"></div><?php _e("Tout supprimer", "extra"); ?></a>
 				</div>
+				<?php endif; ?>
 
-				<?php while($this->mb->have_fields_and_multi($this->get_single_field_name("tab"))): ?>
+				<?php while($this->mb->have_fields_and_multi($this->get_single_field_name("tab"), array('length' => $this->num_tabs, 'limit' => $this->max_tabs))): ?>
 					<?php $this->mb->the_group_open(); ?>
 					<div class="bloc">
 
 						<h2><?php echo ($this->bloc_label == null) ? __("Détail", "extra-admin") : $this->bloc_label; ?></h2>
 
+                        <?php if($this->fixed === false): ?>
 						<a href="#" class="dodelete"><span class="label"><?php echo ($this->delete_label == null) ? __("Supprimer l'onglet", "extra") : $this->delete_label; ?></span><div class="dashicons dashicons-dismiss"></div></a>
+                        <?php endif; ?>
 
 						<?php
 						$this->mb->the_admin($this->subfields);
@@ -74,9 +78,12 @@ class Tabs extends Group {
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
-		$this->add_label = $properties['add_label'];
+        $this->fixed = isset($properties['fixed']) ? $properties['fixed'] : false;
+        $this->num_tabs = isset($properties['num_tabs']) ? $properties['num_tabs'] : 1;
+        $this->max_tabs = $properties['max_tabs'];
+        $this->add_label = $properties['add_label'];
 		$this->bloc_label = $properties['bloc_label'];
-		$this->delete_label = $properties['delete_label'];
+        $this->delete_label = $properties['delete_label'];
 	}
 
 	public function the_admin_column_value() {
