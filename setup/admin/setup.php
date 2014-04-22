@@ -65,7 +65,7 @@ function extra_tinymce($init) {
     $init['block_formats'] = 'Paragraph=p;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6';
     $init['theme_advanced_styles'] = "";
     
-    $init['resize'] = false;
+    //$init['resize'] = false;
     unset($init['preview_styles']);
     
     $style_formats = json_decode($init['style_formats']);
