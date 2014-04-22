@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
 	function extra_process_editors(elmt) {
 	    
 	    if(elmt === undefined) {
-	        elmt = $('.wpa_group:not(".tocopy") .extra-custom-editor-wrapper:not(".extra-editor-processed")'); 
+	        elmt = $('.extra-custom-editor-wrapper:not(".extra-editor-processed")'); 
 	    }
 	    
 	    if(!elmt.hasClass('extra-custom-editor-wrapper')) {

@@ -2,9 +2,21 @@ jQuery(document).ready(function($) {
 	
 	google.maps.visualRefresh = true;
 
-	function extra_process_map(){
-		
-		$('.wpa_group:not(".tocopy") .extra-map:not(".extra_map_processed")').each(function(){
+	function extra_process_map(elmt){
+	            
+        if(elmt === undefined) {
+            elmt = $('.extra-map:not(".extra-map-processed")'); 
+        }
+        
+        if(!elmt.hasClass('extra-map')) {
+            elmt = elmt.find('.extra-map');
+        }
+    
+        elmt.not('.extra-map-processed').each(function() {
+            
+            if($(this).parents('.wpa_group.tocopy').length) {
+                return;
+            }
 	
 			/***********************
 			 *
@@ -20,7 +32,7 @@ jQuery(document).ready(function($) {
 				lat = $element.find(".lat"),
 				lon = $element.find(".lon");
 				
-			$element.addClass("extra_map_processed");
+			$element.addClass("extra-map-processed");
 			/***********************
 			 *
 			 *
