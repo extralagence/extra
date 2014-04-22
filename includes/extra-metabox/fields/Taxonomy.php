@@ -97,7 +97,7 @@ class Taxonomy extends AbstractField {
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
-		$this->taxonomy = $properties['taxonomy'];
+		$this->taxonomy = isset($properties['taxonomy']) ? $properties['taxonomy'] : null;
 		$this->label_default_taxomony = $properties['label_default_taxomony'];
 	}
 
