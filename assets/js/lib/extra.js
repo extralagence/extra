@@ -174,25 +174,37 @@ $(document).ready(function () {
             }
         }
     }).each(function () {
-        var $this = $(this);
-        var $img = $this.find(" > img");
-        var $icon = zoomIcon.clone();
-        $(this).addClass("zoom");
-        $(this).width($img.outerWidth()).height($img.outerHeight());
+        var $this = $(this),
+            $img = $this.find(" > img"),
+            $icon = zoomIcon.clone(),
+            width = 0,
+            height = 0;
         if ($img.length) {
-            $this.append($icon);
-            TweenMax.set($icon, {css: {opacity: 0}});
-            $this.hover(function () {
-                TweenMax.to($icon, 0.3, {css: {opacity: 1}});
-            }, function () {
-                TweenMax.to($icon, 0.3, {css: {opacity: 0}});
-            });
-        }
-        if ($img.hasClass("alignleft")) {
-            $this.addClass("alignleft");
-        }
-        if ($img.hasClass("alignright")) {
-            $this.addClass("alignright");
+            width = $img.outerWidth();
+            height = $img.outerHeight();
+            $(this).addClass("zoom");
+            if(width === 0 || height === 0) {
+                $img.load(function() {
+                   width = $img.outerWidth();
+                   height = $img.outerHeight();
+                    $(this).width($img.outerWidth()).height($img.outerHeight());
+                });
+            } else {
+                $(this).width($img.outerWidth()).height($img.outerHeight());
+            }
+                $this.append($icon);
+                TweenMax.set($icon, {css: {opacity: 0}});
+                $this.hover(function () {
+                    TweenMax.to($icon, 0.3, {css: {opacity: 1}});
+                }, function () {
+                    TweenMax.to($icon, 0.3, {css: {opacity: 0}});
+                });
+            if ($img.hasClass("alignleft")) {
+                $this.addClass("alignleft");
+            }
+            if ($img.hasClass("alignright")) {
+                $this.addClass("alignright");
+            }
         }
     });
     /*********************
