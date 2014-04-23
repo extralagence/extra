@@ -302,7 +302,7 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 			data-alt="<?php echo $alt; ?>"
 			<?php foreach($sizes as $size => $details): ?>
 			data-src-<?php echo $size; ?>="<?php echo bfi_thumb($src, $params[$size]); ?>"
-			<?php endforeach; ?>
+			<?php endforeach; ?>>
 			<img alt="<?php echo $alt; ?>" src="<?php echo $src; ?>">
 		</noscript>
 		<img class="placeholder-image"
