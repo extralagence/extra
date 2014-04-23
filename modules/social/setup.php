@@ -61,9 +61,4 @@ add_action('wp_enqueue_scripts', function () {
 	wp_enqueue_script('extra-social', EXTRA_MODULES_URI.'/social/front/js/social.js', null, false, true);
 });
 
-
-add_action('wp_head', function () {
-	echo '<div id="fb-root"></div>';
-});
-
 ?>
