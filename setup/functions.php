@@ -418,3 +418,41 @@ if(!function_exists('extra_post_limits')) {
 		return $limits;
 	}
 }
+
+/**********************
+ *
+ *
+ *
+ * SITE TITLE
+ *
+ *
+ *
+ *********************/
+if(!function_exists('extra_wp_title')) {
+	add_filter('wp_title', 'extra_wp_title', 20, 2);
+	function extra_wp_title ($title, $sep) {
+		global $paged, $page, $post;
+
+		if (!is_feed()) {
+			$title = get_bloginfo( 'name' );
+
+			if (is_singular()) {
+				if ($post != null) {
+					$title .= ' '.$sep.' '.$post->post_title;
+				}
+			} else if (is_archive()) {
+				$title .= ' '.$sep.' '.__("Archive", "extra-admin");
+			}
+
+			// Add a page number if necessary.
+			if ( $paged >= 2 || $page >= 2 ) {
+				$title = "$title $sep " . sprintf( __( 'Page %s', 'extra-admin' ), max( $paged, $page ) );
+			}
+		}
+
+
+		return $title;
+	}
+}
+
+

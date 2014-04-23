@@ -11,31 +11,31 @@ global $extra_options;
 <!--[if IE 9 ]><html <?php language_attributes(); ?> class="no-js ie ie9 lte9 recent"><![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--><html <?php language_attributes(); ?> class="recent noie no-js"><!--<![endif]-->
     <head>
-        
+
         <meta charset="<?php bloginfo( 'charset' ); ?>" />
-        <link rel="profile" href="http://gmpg.org/xfn/11" />        
+        <link rel="profile" href="http://gmpg.org/xfn/11" />
         <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
-        
+
         <!--
-        EEEEEEEEEEE               EEEE                          
-        EEEEEEEEEEE EEEE   EEEE EEEEEEEE EEEEEEEEEEEEEEEEE      
-        EEEE         EEEEEEEEE  EEEEEEEE EEEEEEEE EEEEEEEEEE    
-        EEEEEEEEEE    EEEEEEE     EEEE    EEEE        EEEEEE    
-        EEEE           EEEEE      EEEE    EEEE    EEEEEEEEEE    
-        EEEEEEEEEEE  EEEEEEEEE    EEEEEE  EEEE    EEEE EEEEE    
-        EEEEEEEEEEE EEEE   EEEE   EEEEEE  EEEE     EEEEE EEEE                                                                                                             
-        -->  
-      
-        <!-- TITLE -->       
+        EEEEEEEEEEE               EEEE
+        EEEEEEEEEEE EEEE   EEEE EEEEEEEE EEEEEEEEEEEEEEEEE
+        EEEE         EEEEEEEEE  EEEEEEEE EEEEEEEE EEEEEEEEEE
+        EEEEEEEEEE    EEEEEEE     EEEE    EEEE        EEEEEE
+        EEEE           EEEEE      EEEE    EEEE    EEEEEEEEEE
+        EEEEEEEEEEE  EEEEEEEEE    EEEEEE  EEEE    EEEE EEEEE
+        EEEEEEEEEEE EEEE   EEEE   EEEEEE  EEEE     EEEEE EEEE
+        -->
+
+        <!-- TITLE -->
         <title><?php wp_title( '|' ); ?></title>
-        
+
         <!-- REMOVE NO-JS -->
         <!--noptimize--><script>document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'') + ' js';</script><!--/noptimize-->
-        
+
         <!-- ANALYTICS TRACKER -->
         <?php get_template_part("google-analytics"); ?>
-        
-        <!-- MOBILE FRIENDLY -->        
+
+        <!-- MOBILE FRIENDLY -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- IE9.js -->
@@ -46,11 +46,10 @@ global $extra_options;
         <![endif]-->
 
         <!-- WORDPRESS HOOK -->
-        <?php wp_head(); ?>  
-        
+        <?php wp_head(); ?>
+
     </head>
     <body <?php body_class(); ?>>
-    
         <div id="fb-root"></div>
-        
+
         <?php get_template_part('extra-header'); ?>
