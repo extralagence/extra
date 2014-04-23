@@ -276,7 +276,7 @@ $(function () {
 				TweenMax.to([$wrapper, $switcher], (fast ? 0 : 0.5), {x: 0, y: 0, z: 0, ease: Strong.EaseIn});
 			} else {
 				TweenMax.to($menu, (fast ? 0 : 0.6), {x: -$menu.width() + 'px', ease: Strong.EaseIn});
-				TweenMax.to($wrapper, (fast ? 0 : 0.5), {x: 0, ease: Strong.EaseIn});
+				TweenMax.to([$wrapper, $switcher], (fast ? 0 : 0.5), {x: 0, ease: Strong.EaseIn});
 			}
 			if (!small) {
 				$menu.removeAttr("style");
