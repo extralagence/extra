@@ -52,16 +52,3 @@ body.index-php #screen-meta,
 body.index-php #screen-meta-links {
 	display: none;
 }
-
-
-/*********************
- *
- * DEBUG UGLY CSS FOR REDUX
- *
- ********************/
-#redux-header {
-	border-bottom: none;
-}
-#redux-header h2 {
-	color: #000000;
-}
