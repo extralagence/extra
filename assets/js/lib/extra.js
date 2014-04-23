@@ -175,7 +175,7 @@ $(document).ready(function () {
         }
     }).each(function () {
         var $this = $(this),
-            $img = $this.find(" > img"),
+            $img = $this.find(" > img").first(),
             $icon = zoomIcon.clone(),
             width = 0,
             height = 0;
