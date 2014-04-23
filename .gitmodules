@@ -4,3 +4,4 @@
 [submodule "includes/redux-framework"]
 	path = includes/redux-framework
 	url = https://github.com/ReduxFramework/redux-framework.git
+        branch = tags/3.2.2

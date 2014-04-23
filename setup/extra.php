@@ -84,8 +84,8 @@ function require_extra_libraries () {
 	require_once EXTRA_INCLUDES_PATH . '/wp-less.php';
 
 	// REDUX FRAMEWORK
-	if (!class_exists('ReduxFramework') && file_exists(EXTRA_INCLUDES_PATH . '/ReduxFramework/ReduxCore/framework.php')) {
-		require_once EXTRA_INCLUDES_PATH . '/ReduxFramework/ReduxCore/framework.php';
+	if (!class_exists('ReduxFramework') && file_exists(EXTRA_INCLUDES_PATH . '/redux-framework/ReduxCore/framework.php')) {
+		require_once EXTRA_INCLUDES_PATH . '/redux-framework/ReduxCore/framework.php';
 	}
 }
 

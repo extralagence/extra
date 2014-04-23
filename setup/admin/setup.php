@@ -67,10 +67,10 @@ function extra_tinymce($init) {
     
     //$init['resize'] = false;
     unset($init['preview_styles']);
-    
-    $style_formats = json_decode($init['style_formats']);
-	if(empty($style_formats) || !is_array($style_formats)) {
-		$style_formats = array();
+
+	$style_formats = array();
+	if(isset($init['style_formats'])) {
+    	$style_formats = json_decode($init['style_formats']);
 	}
     $style_formats = array_merge($style_formats, array());
     $init['style_formats'] = json_encode( $style_formats );
