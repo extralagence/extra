@@ -132,78 +132,80 @@ $(document).ready(function () {
 
 	}
 
-	$window.on('extra.responsiveImage', function(event, obj) {
-		obj.each(function() {
-			var $elem = $(this);
-			if($elem.hasClass('responsiveImagePlaceholder')) {
-				initResponsiveImage($elem.data("size", ""));
-			} else {
-				initResponsiveImage($elem.find('.responsiveImagePlaceholder').data("size", ""));
-			}
-		});
-	});
 
-	/*********************
-	 *
-	 * LOGO HOVER
-	 *
-	 *********************/
-	var homeBtn = $("#main-menu .menu-item-home > a");
-	$(".site-title a").hover(function () {
-		homeBtn.addClass("hover");
-	}, function () {
-		homeBtn.removeClass("hover");
-	});
-	/*********************
-	 *
-	 * ALL LINKS TO IMAGES
-	 *
-	 *********************/
-	var zoomIcon = $("<span />", {
-		"class": "zoom-icon"
-	});
-	$("a[href$='.jpg'], a[href$='.png'], a[href$='.gif'], .fancybox").not('.no-fancybox').filter(function () {
-		return $(this).attr("target") != "_blank";
-	}).attr("data-fancybox-group", "gallery").fancybox({
-			margin: 50,
-			padding: 0,
-			type: 'image',
-			helpers: {
-				title: {
-					type: 'over'
-				}
-			}
-		}).each(function () {
-			var $this = $(this);
-			var $img = $this.find(" > img");
-			var $icon = zoomIcon.clone();
-			$(this).addClass("zoom");
-			$(this).width($img.outerWidth()).height($img.outerHeight());
-			if ($img.length) {
-				$this.append($icon);
-				TweenMax.set($icon, {css: {opacity: 0}});
-				$this.hover(function () {
-					TweenMax.to($icon, 0.3, {css: {opacity: 1}});
-				}, function () {
-					TweenMax.to($icon, 0.3, {css: {opacity: 0}});
-				});
-			}
-			if ($img.hasClass("alignleft")) {
-				$this.addClass("alignleft");
-			}
-			if ($img.hasClass("alignright")) {
-				$this.addClass("alignright");
-			}
-		});
-	/*********************
-	 *
-	 * BACK TO TOP
-	 *
-	 *********************/
-	$(".totop").click(function () {
-		TweenMax.to($window, 0.5, {scrollTo: {y: 0}});
-		return false;
-	});
+    /*********************
+     *
+     * LOGO HOVER
+     *
+     *********************/
+    var homeBtn = $("#main-menu .menu-item-home > a");
+    $(".site-title a").hover(function () {
+        homeBtn.addClass("hover");
+    }, function () {
+        homeBtn.removeClass("hover");
+    });
+    /*********************
+     *
+     * ALL LINKS TO IMAGES
+     *
+     *********************/
+    var zoomIcon = $("<span />", {
+        "class": "zoom-icon"
+    });
+    $("a[href$='.jpg'], a[href$='.png'], a[href$='.gif'], .fancybox").not('.no-fancybox').filter(function () {
+        return $(this).attr("target") != "_blank";
+    }).attr("data-fancybox-group", "gallery").fancybox({
+        margin: 50,
+        padding: 0,
+        type: 'image',
+        helpers: {
+            title: {
+                type: 'over'
+            }
+        }
+    }).each(function () {
+        var $this = $(this),
+            $img = $this.find(" > img").first(),
+            $icon = zoomIcon.clone(),
+            width = 0,
+            height = 0;
+        if ($img.length) {
+            width = $img.outerWidth();
+            height = $img.outerHeight();
+            $(this).addClass("zoom");
+            if(!$img[0].complete) {
+                $img.load(function() {
+                   width = $img.outerWidth();
+                   height = $img.outerHeight();
+                    $(this).width($img.outerWidth()).height($img.outerHeight());
+                });
+            } else {
+                $(this).width($img.outerWidth()).height($img.outerHeight());
+            }
+                $this.append($icon);
+                TweenMax.set($icon, {css: {opacity: 0}});
+                $this.hover(function () {
+                    TweenMax.to($icon, 0.3, {css: {opacity: 1}});
+                }, function () {
+                    TweenMax.to($icon, 0.3, {css: {opacity: 0}});
+                });
+            if ($img.hasClass("alignleft")) {
+                $this.addClass("alignleft");
+            }
+            if ($img.hasClass("alignright")) {
+                $this.addClass("alignright");
+            }
+        }
+    });
+    /*********************
+     *
+     * BACK TO TOP
+     *
+     *********************/
+    $(".totop").click(function () {
+        TweenMax.to($window, 0.5, {scrollTo: {y: 0}});
+        return false;
+    });
 });
 $(function () {
 	var $menu = $("#mobile-menu-container");

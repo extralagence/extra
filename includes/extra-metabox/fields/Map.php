@@ -30,10 +30,12 @@ class Map extends AbstractField {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?>">
+		    <?php if(isset($this->title)): ?>
 			<h2>
 				<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
-				<?php echo ($this->label == null) ? __("Repérer sur la carte", "extra-admin") : $this->label; ?>
+				<?php echo $this->title; ?>
 			</h2>
+			<?php endif; ?>
 
 			<div class="extra-map">
 
@@ -73,6 +75,5 @@ class Map extends AbstractField {
 
 	public function the_admin_column_value() {
 		//TODO
-		echo '-';
 	}
 } 

@@ -73,8 +73,15 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 
 	private function add_admin_column($fields, $columns) {
 		foreach ($fields as $properties) {
-			if ($properties['show_in_admin_column'] && !empty($properties['name']) && !empty($properties['admin_column_label'])) {
-				$columns[$properties['name']] = $properties['admin_column_label'];
+			if ($properties['show_in_admin_column'] == true && !empty($properties['name'])) {
+				$column_label = $properties['admin_column_label'];
+				if (empty($column_label)) {
+					$column_label = $properties['label'];
+					if (empty($column_label)) {
+						$column_label = $properties['name'];
+					}
+				}
+				$columns[$properties['name']] = $column_label;
 			}
 
 			$subfields = $this->get_subfields($properties);
@@ -103,7 +110,7 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		while ($i < count($fields) && $field == null) {
 			$properties = $fields[$i];
 			if (isset($properties['name']) && $properties['name'] === $field_name) {
-				if ($properties['show_in_admin_column'] && !empty($properties['name']) && !empty($properties['admin_column_label'])) {
+				if ($properties['show_in_admin_column'] && !empty($properties['name'])) {
 					$field = $this->construct_field_from_properties($properties);
 
 					break;
