@@ -4,3 +4,6 @@
 [submodule "redux-framework"]
 	path = redux-framework
 	url = https://github.com/ReduxFramework/redux-framework.git
+[submodule "includes/redux-framework"]
+	path = includes/redux-framework
+	url = https://github.com/ReduxFramework/redux-framework.git
