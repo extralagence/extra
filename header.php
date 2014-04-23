@@ -12,6 +12,10 @@ global $extra_options;
 <!--[if (gt IE 9)|!(IE)]><!--><html <?php language_attributes(); ?> class="recent noie no-js"><!--<![endif]-->
     <head>
         
+        <meta charset="<?php bloginfo( 'charset' ); ?>" />
+        <link rel="profile" href="http://gmpg.org/xfn/11" />        
+        <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+        
         <!--
         EEEEEEEEEEE               EEEE                          
         EEEEEEEEEEE EEEE   EEEE EEEEEEEE EEEEEEEEEEEEEEEEE      
@@ -21,13 +25,9 @@ global $extra_options;
         EEEEEEEEEEE  EEEEEEEEE    EEEEEE  EEEE    EEEE EEEEE    
         EEEEEEEEEEE EEEE   EEEE   EEEEEE  EEEE     EEEEE EEEE                                                                                                             
         -->  
-        
-        <meta charset="<?php bloginfo( 'charset' ); ?>" />
-        <link rel="profile" href="http://gmpg.org/xfn/11" />        
-        <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
       
         <!-- TITLE -->       
-        <title><?php wp_title( '|', true, 'right' ); ?><?php bloginfo('name'); ?></title>
+        <title><?php wp_title( '|' ); ?></title>
         
         <!-- REMOVE NO-JS -->
         <!--noptimize--><script>document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'') + ' js';</script><!--/noptimize-->

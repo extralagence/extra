@@ -183,7 +183,7 @@ $(document).ready(function () {
             width = $img.outerWidth();
             height = $img.outerHeight();
             $(this).addClass("zoom");
-            if(width === 0 || height === 0) {
+            if(!$img[0].complete) {
                 $img.load(function() {
                    width = $img.outerWidth();
                    height = $img.outerHeight();
