@@ -11,7 +11,8 @@ http://slider.extralagence.com
 (function ($) {
     'use strict';
     /*global console, jQuery, $, window, TweenMax, Draggable */
-    var $window = window.$window || $(window);
+    var $window = window.$window || $(window),
+        extra = window.extra || {};
 
     $.fn.extraSlider = function (options) {
 
