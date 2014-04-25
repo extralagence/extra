@@ -30,44 +30,44 @@ class CustomEditor extends AbstractField {
 	public function the_admin() {
 		?>
 		<div class="extra-custom-editor-wrapper <?php echo $this->css_class; ?>">
-		    
-			<?php 
+
+			<?php
                 // SETUP
     			$this->mb->the_field($this->get_single_field_name('editor'));
-    			$editor_id = $this->mb->get_the_name(); 
+    			$editor_id = $this->mb->get_the_name();
                 $editor_id = str_replace('[', '_', $editor_id);
                 $editor_id = str_replace(']', '-', $editor_id);
 			?>
-			
-			
-			<?php 
+
+
+			<?php
                 // ICON
-    			echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; 
+    			echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
 			?>
-			
-			
-			<?php 
-                // LABEL ? 
+
+
+			<?php
+                // LABEL ?
                 if($this->label !== null): ?>
                 <label for="<?php echo $editor_id; ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 			<?php endif; ?>
-			
-			
-			
+
+
+
 			<div id="wp-<?php echo $editor_id; ?>-wrap" class="wp-core-ui wp-editor-wrap tmce-active extra-custom-editor">
-			    
+
                 <div id="wp-<?php echo $editor_id; ?>-editor-tools" class="wp-editor-tools hide-if-no-js">
-			    
-    			    <?php 
+
+    			    <?php
         			    if (!function_exists('media_buttons')) {
                             include(ABSPATH . 'wp-admin/includes/media.php');
                         }
                     ?>
-    
+
                     <div id="wp-<?php echo $editor_id; ?>-media-buttons" class="wp-media-buttons">
                         <?php do_action( 'media_buttons', $editor_id ); ?>
                     </div>
-    			    
+
     			    <div class="wp-editor-tabs">
                         <a id="<?php echo $editor_id; ?>-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);"><?php _e("Text"); ?></a>
                         <a id="<?php echo $editor_id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);"><?php _e("Visual"); ?></a>
@@ -80,16 +80,16 @@ class CustomEditor extends AbstractField {
     			?>
 
     			<div id="wp-<?php echo $editor_id; ?>-editor-container" class="wp-editor-container">
-				    <textarea 
+				    <textarea
 				        class="wp-editor-area extra-custom-editor"
 				        <?php if(isset($stylesheets)): ?>
 				        data-custom-css="<?php echo $stylesheets; ?>"
 				        <?php endif; ?>
-				        data-extra-name="<?php 
+				        data-extra-name="<?php
 				            echo $this->name;
-				            echo (isset($this->editor_class) && !empty($this->editor_class)) ? ' ' . $this->editor_class : ''; 
-			             ?>" 
-				        id="<?php echo $editor_id; ?>" 
+				            echo (isset($this->editor_class) && !empty($this->editor_class)) ? ' ' . $this->editor_class : '';
+			             ?>"
+				        id="<?php echo $editor_id; ?>"
 				        name="<?php $this->mb->the_name(); ?>">
 				            <?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?>
 			             </textarea>
@@ -133,12 +133,7 @@ class CustomEditor extends AbstractField {
 
     public function extract_properties($properties) {
         parent::extract_properties($properties);
-        $this->editor_class = $properties['editor_class'];
-        $this->custom_css = $properties['custom_css'];
+        $this->editor_class = isset($properties['editor_class']) ? $properties['editor_class'] : null;
+        $this->custom_css = isset($properties['custom_css']) ? $properties['custom_css'] : null;
     }
-
-	public function the_admin_column_value() {
-		//TODO
-		echo '-';
-	}
 }

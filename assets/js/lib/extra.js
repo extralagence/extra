@@ -143,6 +143,18 @@ $(document).ready(function () {
 		});
 	});
 
+  /*********************
+   *
+   * EXTRA SLIDERS
+   *
+   *********************/
+  $window.on('updateClones.extra.slider', function(event, currentItem, total, slider) {
+    slider.find('.cloned .responsiveImagePlaceholder').each(function() {
+      console.log($(this));
+      $window.trigger('extra.responsiveImage', [$(this).data("size", "")]);
+    });
+  });
+
 	/*********************
 	 *
 	 * LOGO HOVER

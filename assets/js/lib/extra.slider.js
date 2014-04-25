@@ -30,6 +30,7 @@ http://slider.extralagence.com
             'onMoveStart': null,
             'onMoveEnd': null,
             'onUpdate': null,
+            'onUpdateClones': null,
             'onPause': null,
             'onResume': null
         }, options);
@@ -107,6 +108,7 @@ http://slider.extralagence.com
                 if (opt.onMoveEnd && time > 0) {
                     opt.onMoveEnd($items.eq(currentItem + numClones), total + 1, $this);
                 }
+                $window.trigger('moveEnd.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
             }
 
             /*********************************** GO TO PAGE ***********************************/
@@ -132,7 +134,7 @@ http://slider.extralagence.com
                             currentItem = total - 1;
                         }
                     }
-                    
+
                     realCurrentItem = currentItem;
                     if (realCurrentItem > total) {
                         // too far on the left (previous)
@@ -145,6 +147,7 @@ http://slider.extralagence.com
                     if (opt.onMoveStart && time > 0) {
                         opt.onMoveStart($items.eq(realCurrentItem + numClones), total + 1, $this);
                     }
+                    $window.trigger('moveStart.extra.slider', [$items.eq(realCurrentItem + numClones), total + 1, $this]);
 
                     if (opt.paginate) {
                         $pagination.find("a").removeClass("active").eq(realCurrentItem).addClass("active");
@@ -173,9 +176,9 @@ http://slider.extralagence.com
 
             /*********************************** UPDATE ***********************************/
             function update() {
-                
-                var newVisible = visible;
-                
+
+                var newVisible;
+
                 // RESET DIMENSIONS
                 $slider.css('width', '');
                 $items.css('width', '').css('height', '');
@@ -184,19 +187,21 @@ http://slider.extralagence.com
                 // GET DIMENSIONS
                 singleWidth = getDimension('width');
                 singleHeight = getDimension('height');
-                
+
                 // MULTIPLE AT A TIME
                 totalWidth = singleWidth * visible;
-                newVisible = Math.ceil($wrapper.width() / singleWidth);
+                newVisible = Math.max(1, Math.floor($wrapper.width() / singleWidth));
                 if(newVisible !== visible) {
-                    visible = newVisible; 
+                    visible = newVisible;
                     total = Math.floor(($items.not('.cloned').length - 1) / visible);
                     offset = Math.abs((total + 1) * visible - ($items.not('.cloned').length));
                     if(opt.type == 'slide') {
                         updateClones();
                     }
+                    update();
+                    return false;
                 }
-                
+
                 // SET DIMENSIONS
                 $items.css({
                     'width': singleWidth + 'px',
@@ -206,7 +211,7 @@ http://slider.extralagence.com
                     'width': totalWidth + 'px',
                     'height': singleHeight + 'px'
                 });
-                
+
                 // POSITION AND WIDTH
                 if(opt.type == 'slide') {
                     adjustPosition();
@@ -216,18 +221,19 @@ http://slider.extralagence.com
                 // ACTIVE CLASS
                 $items.removeClass('active');
                 $items.eq(currentItem + numClones).addClass('active');
-                
+
                 // TRIGGER ON UPDATE
                 if (opt.onUpdate) {
                     opt.onUpdate($items.eq(currentItem + numClones), total + 1, $this);
                 }
+                $window.trigger('update.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
 
             }
             function updateClones() {
-                
+
                 // REMOVE ALL CLONES
                 $items.find('.cloned').remove();
-                
+
                 // CLONE BEFORE
                 $items.first().before($items.slice(-(visible + opt.margin + offset)).clone(true).addClass('cloned'));
 
@@ -239,6 +245,12 @@ http://slider.extralagence.com
 
                 // COUNT CLONES
                 numClones = $items.filter('.cloned').size() / 2 || 0;
+
+                // TRIGGER ON UPDATE
+                if (opt.onUpdateClones) {
+                    opt.onUpdateClones($items.eq(currentItem + numClones), total + 1, $this);
+                }
+                $window.trigger('updateClones.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
             }
 
             /*********************************** HELPER FUNCTIONS ***********************************/
@@ -369,12 +381,14 @@ http://slider.extralagence.com
                     if (opt.onPause) {
                         opt.onPause($this);
                     }
+                    $window.trigger('pause.extra.slider', [$this]);
                     autoTween.pause();
                 }).on('mouseleave resume', function () {
                     // listener
                     if (opt.onResume) {
                         opt.onResume($this);
                     }
+                    $window.trigger('resume.extra.slider', [$this]);
                     autoTween.resume();
                 });
             }
@@ -414,6 +428,7 @@ http://slider.extralagence.com
             if (opt.onInit) {
                 opt.onInit($items.eq(currentItem + numClones), total + 1, $this);
             }
+            $window.trigger('init.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
 
             /*********************************** FIRST UPDATE ***********************************/
             update();
