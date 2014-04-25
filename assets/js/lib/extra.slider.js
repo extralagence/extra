@@ -109,7 +109,7 @@ http://slider.extralagence.com
                 if (opt.onMoveEnd && time > 0) {
                     opt.onMoveEnd($items.eq(currentItem + numClones), total + 1, $this);
                 }
-                $window.trigger('moveEnd.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
+                $this.trigger('moveEnd.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
             }
 
             /*********************************** GO TO PAGE ***********************************/
@@ -129,10 +129,10 @@ http://slider.extralagence.com
                     currentItem = parseInt(newPage, 10);
 
                     if (opt.type === 'fade') {
-                        if (currentItem === total - 1 && dir === 1) {
+                        if (currentItem > total) {
                             currentItem = 0;
-                        } else if (currentItem === -1  && dir === -1) {
-                            currentItem = total - 1;
+                        } else if (currentItem < 0) {
+                            currentItem = total;
                         }
                     }
 
@@ -148,7 +148,7 @@ http://slider.extralagence.com
                     if (opt.onMoveStart && time > 0) {
                         opt.onMoveStart($items.eq(realCurrentItem + numClones), total + 1, $this);
                     }
-                    $window.trigger('moveStart.extra.slider', [$items.eq(realCurrentItem + numClones), total + 1, $this]);
+                    $this.trigger('moveStart.extra.slider', [$items.eq(realCurrentItem + numClones), total + 1, $this]);
 
                     if (opt.paginate) {
                         $pagination.find("a").removeClass("active").eq(realCurrentItem).addClass("active");
@@ -227,7 +227,7 @@ http://slider.extralagence.com
                 if (opt.onUpdate) {
                     opt.onUpdate($items.eq(currentItem + numClones), total + 1, $this);
                 }
-                $window.trigger('update.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
+                $this.trigger('update.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
 
             }
             function updateClones() {
@@ -251,7 +251,7 @@ http://slider.extralagence.com
                 if (opt.onUpdateClones) {
                     opt.onUpdateClones($items.eq(currentItem + numClones), total + 1, $this);
                 }
-                $window.trigger('updateClones.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
+                $this.trigger('updateClones.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
             }
 
             /*********************************** HELPER FUNCTIONS ***********************************/
@@ -382,14 +382,14 @@ http://slider.extralagence.com
                     if (opt.onPause) {
                         opt.onPause($this);
                     }
-                    $window.trigger('pause.extra.slider', [$this]);
+                    $this.trigger('pause.extra.slider', [$this]);
                     autoTween.pause();
                 }).on('mouseleave resume', function () {
                     // listener
                     if (opt.onResume) {
                         opt.onResume($this);
                     }
-                    $window.trigger('resume.extra.slider', [$this]);
+                    $this.trigger('resume.extra.slider', [$this]);
                     autoTween.resume();
                 });
             }
@@ -424,18 +424,18 @@ http://slider.extralagence.com
                 }
             }
 
-            /*********************************** ON INIT ***********************************/
-            // TRIGGER ON INIT
-            if (opt.onInit) {
-                opt.onInit($items.eq(currentItem + numClones), total + 1, $this);
-            }
-            $window.trigger('init.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
-
             /*********************************** FIRST UPDATE ***********************************/
             update();
             $window.load(function () {
                 update();
             });
+
+            /*********************************** ON INIT ***********************************/
+            // TRIGGER ON INIT
+            if (opt.onInit) {
+                opt.onInit($items.eq(currentItem + numClones), total + 1, $this);
+            }
+            $this.trigger('init.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
 
         });
 
