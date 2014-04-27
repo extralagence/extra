@@ -23,7 +23,7 @@ class Checkbox extends AbstractField {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?> extra-checkbox-container">
-			<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
+			<?php $this->mb->the_field($this->get_single_field_name('checkbox')); ?>
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
 			<input
 				class="extra-checkbox-input"
