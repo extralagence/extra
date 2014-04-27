@@ -5,15 +5,12 @@
 jQuery(function ($) {
 	'use strict';
 
-	console.log('extra-time');
 	$('#post').submit(function(event){ // the form submit function
 		var hasError = false;
 
-		console.log('extra-time submit');
 		$('#post .required').each(function(){
 			var value = $(this).children('.extra-timepicker').val();
 
-			console.log('extra-time value : '+value);
 			if( value == '-1' || value == '' || value == ' ' || value == null ){ // checks if empty or has a predefined string
 				//insert error handling here. eg $(this).addClass('error');
 

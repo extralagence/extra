@@ -113,6 +113,7 @@ $(document).ready(function () {
 								'height': this.height
 							}).appendTo(container);
 							container.find("img").not(imgElement).remove();
+                            container.trigger('complete.extra.responsiveImage')
 						});
 						imgElement.attr({
 							"alt": altTxt,
