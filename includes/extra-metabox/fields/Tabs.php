@@ -22,7 +22,7 @@
  * - delete_label (optional): label for the delete button
  * - bloc_label (optional): title for each child
  */
-class Tabs extends Group {
+class Tabs extends AbstractGroup {
 
 	protected $add_label;
 	protected $delete_label;

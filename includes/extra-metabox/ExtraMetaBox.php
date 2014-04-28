@@ -24,7 +24,7 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 
 	function __construct ($arr) {
 		if (!isset($arr['template']) || empty($arr['template'])) {
-			$arr['template'] = EXTRA_INCLUDES_PATH.'/extra-metabox/default_template.php';
+			$arr['template'] = EXTRA_INCLUDES_PATH.'/extra-metabox/default-template.php';
 		}
 		parent::WPAlchemy_MetaBox($arr);
 		$this->add_action('init', array($this, 'extra_init'));
