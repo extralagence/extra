@@ -73,7 +73,8 @@ function require_extra_libraries () {
 
 	// INCLUDE EXTRA METABOX
 	require_once EXTRA_INCLUDES_PATH . '/extra-metabox/ExtraMetaBox.php';
-	
+	require_once EXTRA_INCLUDES_PATH . '/extra-metabox/ExtraPageBuilder.php';
+
 	// INCLUDE EXTRA GALLERY
 	require_once EXTRA_INCLUDES_PATH . '/extra-gallery/setup.php';
 
