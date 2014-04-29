@@ -10,8 +10,6 @@ jQuery(document).ready(function($){
 			$row = $this.closest('.extra-page-builder-row'),
 			$rowContainer = $row.parent();
 
-		console.log('delete');
-
 		TweenMax.to($rowContainer, 0.3, {height: 0, onComplete: function () {
 			$rowContainer.remove();
 		}});
@@ -61,11 +59,10 @@ jQuery(document).ready(function($){
 	 *************************/
 	$(document).on('click', '.extra-page-builder .choose-block .choose-link', function () {
 		var $this = $(this),
-			$div = $this.closest('div'),
-			$mask = $this.closest('.choose-block-mask'),
-			move = $div.outerHeight(true);
+			$chooseBlock = $this.closest('.choose-block'),
+			$choices = $chooseBlock.find('.choose-block-choices');
 
-		TweenMax.to($mask, 0.3, {top: -move});
+		extraShowAdminModal('Choisir un bloc', $choices.clone(), {size: {height: '300', width: '400'}});
 
 		return false;
 	});
@@ -74,18 +71,30 @@ jQuery(document).ready(function($){
 		var $this = $(this),
 			$block = $this.closest('.extra-page-builder-block'),
 			$blockContent = $block.find('.extra-page-builder-block-content'),
+			$blockForm = $block.find('.extra-page-builder-block-form'),
 			$inputBlockChoice = $block.find('.extra-page-builder-block-choice'),
 			$mask = $block.find('.choose-block-mask'),
-			value = $this.data('value');
+			value = $this.data('value'),
+			blockId = $block.data('block-number');
 
 		$inputBlockChoice.val(value);
-		TweenMax.to($mask, 0, {top: 0});
 		$block.removeClass('not-selected');
 
 		//TODO replace with field content front
 		$blockContent.html(value);
 
-		extraPageBuilderShowEditModal(value);
+		$.get(
+			ajax_url,
+			{
+				action: 'extra_page_builder_block_content_form',
+				block_type: value,
+				block_id: blockId
+			},
+			function(data) {
+				$blockForm.html(data);
+				showForm($blockForm);
+			}
+		);
 
 
 		return false;
@@ -100,11 +109,14 @@ jQuery(document).ready(function($){
 		var $this = $(this),
 			$block = $this.closest('.extra-page-builder-block'),
 			$blockContent = $block.find('.extra-page-builder-block-content'),
-			$inputBlockChoice = $block.find('.extra-page-builder-block-choice'),
-			$templateBlank = $block.closest('.extra-page-builder').find('.extra-page-builder-template > .choose-block');
+			$blockForm = $block.find('.extra-page-builder-block-form'),
+			$inputBlockChoice = $block.find('.extra-page-builder-block-choice');
 
 		$block.addClass('not-selected');
 		$inputBlockChoice.val('');
+
+		$blockContent.html('');
+		$blockForm.html('');
 
 		return false;
 	});
@@ -116,25 +128,33 @@ jQuery(document).ready(function($){
 	 *
 	 *************************/
 	$(document).on('click', '.extra-page-builder .edit-block', function () {
+		var $this = $(this),
+			$block = $this.closest('.extra-page-builder-block'),
+			$blockForm = $block.find('.extra-page-builder-block-form');
 
-		console.log('edit-block');
-		//TODO get block choice
-		extraPageBuilderShowEditModal('map');
+		showForm($blockForm);
 
 		return false;
 	});
 
-	function extraPageBuilderShowEditModal(value) {
-		$.get(
-			ajax_url,
-			{
-				action: 'extra_page_builder_block_content_form',
-				block_type: value
-			},
-			function(data) {
-				// TODO show wordpress popup with form.
-				extraShowAdminModal('Modifier le bloc', data);
-			}
-		);
+	var $lastBlocForm = null;
+	var $lastFieldForm = null;
+	$(document).on('click', '.extra-admin-modal-save', function () {
+		var $closeModal = $('#extra-admin-modal-container .extra-admin-modal-close');
+		$closeModal.trigger('click');
+	});
+	$(document).on('extra-admin-modal-close', '.extra-admin-modal-close', function () {
+		if ($lastBlocForm != null) {
+			console.log($lastFieldForm);
+			$lastBlocForm.append($lastFieldForm);
+		}
+
+		$lastBlocForm = null;
+		$lastFieldForm = null;
+	});
+	function showForm($blockForm) {
+		$lastBlocForm = $blockForm;
+		$lastFieldForm = $blockForm.find('.extra-field-form');
+		extraShowAdminModal('Modifier le bloc', $lastFieldForm);
 	}
 });

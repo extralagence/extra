@@ -1,10 +1,27 @@
-function extraShowAdminModal(title, content) {
+function extraShowAdminModal(title, $content, options) {
 	var $modalContainer = jQuery('#extra-admin-modal-container'),
+		$modal = $modalContainer.find('.extra-admin-modal'),
 		$modalTitle = $modalContainer.find('.extra-admin-modal-title'),
 		$modalContent = $modalContainer.find('.extra-admin-modal-content');
 
+	$modal.attr('style', '');
+	if (options != null) {
+		if (options.size != null) {
+			if (options.size.width != null) {
+				$modal.css('left', '50%');
+				$modal.css('margin-left', '-'.options.size.width);
+				$modal.css('width', options.size.width);
+			}
+			if (options.size.height != null) {
+				$modal.css('top', '50%');
+				$modal.css('margin-top', '-'.options.size.height);
+				$modal.css('height', options.size.height);
+			}
+		}
+	}
+
 	$modalTitle.html(title);
-	$modalContent.html(content);
+	$modalContent.append($content);
 
 	$modalContainer.show();
 }
@@ -20,20 +37,24 @@ jQuery(document).ready(function($){
 		'			</a>' +
 		'		</div>' +
 		'		<div class="extra-admin-modal-content"></div>' +
-//		'		<div class="extra-admin-modal-footer"></div>' +
-			'</div>' +
+		'		<div class="extra-admin-modal-footer">' +
+		'			<a href="#" class="extra-admin-modal-save button button-primary right">Enregistrer</a>' +
+		'		</div>' +
+		'	</div>' +
 		'</div>';
-
 
 	$('body').append(html);
 
 	$(document).on('click', '#extra-admin-modal-container .extra-admin-modal-close', function () {
-		var $modalContainer = jQuery('#extra-admin-modal-container'),
+		var $this = $(this),
+			$modalContainer = jQuery('#extra-admin-modal-container'),
 			$modalTitle = $modalContainer.find('.extra-admin-modal-title'),
 			$modalContent = $modalContainer.find('.extra-admin-modal-content');
 
 		$modalContainer.hide();
 		$modalTitle.html('');
 		$modalContent.html('');
+
+		$this.trigger('extra-admin-modal-close');
 	});
 });

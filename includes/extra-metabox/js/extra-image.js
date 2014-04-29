@@ -1,5 +1,8 @@
 jQuery(document).ready(function($) {
-	var selectedSize = selected_size;
+	var selectedSize = null;
+	if (typeof selected_size != 'undefined') {
+		selectedSize = selected_size;
+	}
 
 	function extra_process_images(elmt){
 
@@ -17,6 +20,7 @@ jQuery(document).ready(function($) {
 			$element.addClass("extra-image-processed");
 
 			$element.on("click", ".choose-button", function(event) {
+				console.log('image choose-button click');
 
 				event.preventDefault();
 

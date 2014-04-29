@@ -171,7 +171,7 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	 * @return AbstractField
 	 * @throws Exception
 	 */
-	private function construct_field_from_properties($properties) {
+	protected function construct_field_from_properties($properties) {
 		$class = $this->construct_class_name($properties);
 		/**
 		 * @var $field AbstractField

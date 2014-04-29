@@ -99,6 +99,31 @@ class Image extends AbstractField {
 		<?php
 	}
 
+	public function the_front() {
+		$this->mb->the_field($this->get_single_field_name("image"));
+
+		$imgid = $this->mb->get_the_value();
+
+		$width = null;
+		$height = null;
+		$size_value = $this->mb->get_the_value($this->get_prefixed_field_name('size'));
+		if (!empty($size_value) && !empty($this->sizes) && array_key_exists($size_value, $this->sizes)) {
+			$size = $this->sizes[$size_value];
+			$width = $size['width'];
+			$height = $size['height'];
+		}
+
+		if(!empty($imgid)){
+			$src =  wp_get_attachment_image_src( $imgid, 'thumbnail' );
+			$width = ($width == null) ? $src[1] : $width;
+			$height = ($height == null) ? $src[2] : $height;
+
+			echo '<div class="image"><img src="'.$src[0].'" width="'.$width.'" height="'.$height.'" /></div>';
+		} else {
+			echo '<div class="image empty"><img src="" width="'.$width.'" height="'.$height.'" /></div>';
+		}
+	}
+
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
 		$this->sizes = isset($properties['sizes']) ? $properties['sizes'] : array();

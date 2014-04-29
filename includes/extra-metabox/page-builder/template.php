@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var $mb \ExtraPageBuilder
+ */
+$mb;
+?>
+
 <div class="extra-page-builder">
 	<div class="repeatable">
 
@@ -28,23 +35,13 @@
 				</div>
 
 				<div class="extra-page-builder-row-content extra-page-builder-row-content-<?php echo (!empty($page_builder_row_type)) ? $page_builder_row_type : '1'; ?>">
-					<?php $mb->extra_page_builder_the_block(1); ?>
-					<?php $mb->extra_page_builder_the_block(2); ?>
-					<?php $mb->extra_page_builder_the_block(3); ?>
+					<?php $mb->the_block(1); ?>
+					<?php $mb->the_block(2); ?>
+					<?php $mb->the_block(3); ?>
 				</div>
-
-
 			</div>
 			<?php $mb->the_group_close(); ?>
 		<?php endwhile; ?>
-
-		<div class="extra-page-builder-template">
-			<?php $this->extra_page_builder_the_block_blank(); ?>
-		</div>
-
-		<div class="extra-page-builder-template">
-			<?php $this->extra_page_builder_the_block_content(''); ?>
-		</div>
 
 		<div class="extra-page-builder-modal" style="display: none;">
 			Ceci est une modal.
