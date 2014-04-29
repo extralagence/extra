@@ -19,6 +19,7 @@ http://slider.extralagence.com
         var opt = $.extend({
             'auto': false,
             'draggable': false,
+            'forcedDimensions': true,
             'keyboard': false,
             'margin': 0,
             'navigate': true,
@@ -180,10 +181,12 @@ http://slider.extralagence.com
 
                 var newVisible;
 
-                // RESET DIMENSIONS
-                $slider.css('width', '');
-                $items.css('width', '').css('height', '');
-                $wrapper.css('width', '').css('height', '');
+                if(opt.forcedDimensions) {
+	                // RESET DIMENSIONS
+	                $slider.css('width', '');
+	                $items.css('width', '').css('height', '');
+	                $wrapper.css('width', '').css('height', '');
+                }
 
                 // GET DIMENSIONS
                 singleWidth = getDimension('width');
@@ -203,15 +206,18 @@ http://slider.extralagence.com
                     return false;
                 }
 
-                // SET DIMENSIONS
-                $items.css({
-                    'width': singleWidth + 'px',
-                    'height': singleHeight + 'px'
-                });
-                $wrapper.css({
-                    'width': totalWidth + 'px',
-                    'height': singleHeight + 'px'
-                });
+
+                if(opt.forcedDimensions) {
+	                // SET DIMENSIONS
+	                $items.css({
+	                    'width': singleWidth + 'px',
+	                    'height': singleHeight + 'px'
+	                });
+	                $wrapper.css({
+	                    'width': totalWidth + 'px',
+	                    'height': singleHeight + 'px'
+	                });
+                }
 
                 // POSITION AND WIDTH
                 if(opt.type == 'slide') {
