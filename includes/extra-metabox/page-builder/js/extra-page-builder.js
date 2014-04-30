@@ -1,4 +1,8 @@
+var extraAdminModal;
+
 jQuery(document).ready(function($){
+	$('body').append('<div id="extra-admin-modal-container"></div>');
+	extraAdminModal = $('#extra-admin-modal-container').extraAdminModal().data('extraAdminModal');
 
 	/**************************
 	 *
@@ -57,44 +61,54 @@ jQuery(document).ready(function($){
 	 * CHOOSE BLOCK
 	 *
 	 *************************/
+	var $block_choose = null;
 	$(document).on('click', '.extra-page-builder .choose-block .choose-link', function () {
 		var $this = $(this),
 			$chooseBlock = $this.closest('.choose-block'),
+			$block = $this.closest('.extra-page-builder-block'),
 			$choices = $chooseBlock.find('.choose-block-choices');
 
-		extraShowAdminModal('Choisir un bloc', $choices.clone(), {size: {height: '300', width: '400'}});
+		$block_choose = $block;
+
+		$last_modal_block = null;
+		extraAdminModal
+			.options({footer:[], size: {height: '358', width: '400'}})
+			.show('Choisir un bloc', $choices.clone());
 
 		return false;
 	});
 
-	$(document).on('click', '.extra-page-builder .choose-block .choose-block-button', function () {
-		var $this = $(this),
-			$block = $this.closest('.extra-page-builder-block'),
-			$blockContent = $block.find('.extra-page-builder-block-content'),
-			$blockForm = $block.find('.extra-page-builder-block-form'),
-			$inputBlockChoice = $block.find('.extra-page-builder-block-choice'),
-			$mask = $block.find('.choose-block-mask'),
-			value = $this.data('value'),
-			blockId = $block.data('block-number');
+	$(document).on('click', '.choose-block-choices .choose-block-button', function () {
+		if ($block_choose != null) {
+			var $this = $(this),
+				$block = $block_choose,
+				$blockWrapper = $block.find('.extra-page-builder-block-wrapper'),
+				$inputBlockChoice = $block.find('.extra-page-builder-block-choice'),
+				value = $this.data('value'),
+				blockId = $block.data('block-number'),
+				$inputReference = $block.find('.extra-page-builder-block-choice'),
+				rowId = $inputReference.attr('name').replace('[page_builder_block_choice_'+blockId+']', '');
 
-		$inputBlockChoice.val(value);
-		$block.removeClass('not-selected');
+			$inputBlockChoice.val(value);
+			$block_choose.removeClass('not-selected');
+			extraAdminModal.hide();
 
-		//TODO replace with field content front
-		$blockContent.html(value);
+			$.get(
+				ajax_url,
+				{
+					action: 'extra_page_builder_block',
+					block_type: value,
+					block_id: blockId,
+					row_id: rowId
+				},
+				function (data) {
+					$blockWrapper.html(data);
 
-		$.get(
-			ajax_url,
-			{
-				action: 'extra_page_builder_block_content_form',
-				block_type: value,
-				block_id: blockId
-			},
-			function(data) {
-				$blockForm.html(data);
-				showForm($blockForm);
-			}
-		);
+					$last_modal_block = $block;
+					$('.extra-page-builder').trigger('showform.pagebuilder.extra', [value, $block, $block.find('.extra-field-form')]);
+				}
+			);
+		}
 
 
 		return false;
@@ -130,31 +144,31 @@ jQuery(document).ready(function($){
 	$(document).on('click', '.extra-page-builder .edit-block', function () {
 		var $this = $(this),
 			$block = $this.closest('.extra-page-builder-block'),
-			$blockForm = $block.find('.extra-page-builder-block-form');
+			block_type = $block.find('.extra-page-builder-block-choice').val();
 
-		showForm($blockForm);
+		$last_modal_block = $block;
+		$('.extra-page-builder').trigger('showform.pagebuilder.extra', [block_type, $block, $block.find('.extra-field-form')]);
 
 		return false;
 	});
 
-	var $lastBlocForm = null;
-	var $lastFieldForm = null;
-	$(document).on('click', '.extra-admin-modal-save', function () {
-		var $closeModal = $('#extra-admin-modal-container .extra-admin-modal-close');
-		$closeModal.trigger('click');
+	var $last_modal_block = null;
+	$(document).on('showform.pagebuilder.extra', function (event, $block_type, $block, $form) {
+		extraAdminModal.show('Modifier le bloc',  $form);
 	});
-	$(document).on('extra-admin-modal-close', '.extra-admin-modal-close', function () {
-		if ($lastBlocForm != null) {
-			console.log($lastFieldForm);
-			$lastBlocForm.append($lastFieldForm);
-		}
 
-		$lastBlocForm = null;
-		$lastFieldForm = null;
+	$(document).on('close.adminmodal.extra', function (event, $form) {
+		if ($last_modal_block != null && $form != null) {
+			$('.extra-page-builder').trigger('hideForm.pagebuilder.extra', [$last_modal_block.find('.extra-page-builder-block-choice').val(), $last_modal_block, $form]);
+		}
 	});
-	function showForm($blockForm) {
-		$lastBlocForm = $blockForm;
-		$lastFieldForm = $blockForm.find('.extra-field-form');
-		extraShowAdminModal('Modifier le bloc', $lastFieldForm);
-	}
+
+	$(document).on('hideForm.pagebuilder.extra', function (event, $block_type, $block, $form) {
+		$last_modal_block.find('.extra-page-builder-block-form').append($form);
+		$('.extra-page-builder').trigger('refreshPreview.pagebuilder.extra', [$last_modal_block.find('.extra-page-builder-block-choice').val(), $last_modal_block, $block.find('.extra-field-form')]);
+	});
+
+	$(document).on('save.adminmodal.extra', function (event, $form) {
+		extraAdminModal.hide();
+	});
 });

@@ -14,7 +14,8 @@ $mb;
 		</div>
 
 		<?php while($mb->have_fields_and_multi("page_builder")) : ?>
-			<?php $mb->the_group_open(); ?>
+			<?php $mb->the_group_open();
+			?>
 			<div class="extra-page-builder-row">
 				<?php
 				$mb->the_field('page_builder_row_type');
@@ -35,9 +36,15 @@ $mb;
 				</div>
 
 				<div class="extra-page-builder-row-content extra-page-builder-row-content-<?php echo (!empty($page_builder_row_type)) ? $page_builder_row_type : '1'; ?>">
-					<?php $mb->the_block(1); ?>
-					<?php $mb->the_block(2); ?>
-					<?php $mb->the_block(3); ?>
+					<?php
+					$mb->the_block(1);
+					?>
+					<?php
+					$mb->the_block(2);
+					?>
+					<?php
+					$mb->the_block(3);
+					?>
 				</div>
 			</div>
 			<?php $mb->the_group_close(); ?>

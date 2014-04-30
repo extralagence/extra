@@ -28,6 +28,8 @@ abstract class AbstractBlock {
 
 	public abstract function the_admin($name);
 
+	public abstract function the_preview($name);
+
 	public abstract function the_front($name);
 
 	/**

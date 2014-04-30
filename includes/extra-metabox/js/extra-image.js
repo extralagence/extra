@@ -20,8 +20,6 @@ jQuery(document).ready(function($) {
 			$element.addClass("extra-image-processed");
 
 			$element.on("click", ".choose-button", function(event) {
-				console.log('image choose-button click');
-
 				event.preventDefault();
 
 				if ( file_frame ) {

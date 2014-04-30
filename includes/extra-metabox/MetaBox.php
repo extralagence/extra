@@ -1429,6 +1429,9 @@ class WPAlchemy_MetaBox
 
 					the_group.find('*').each(function(i, elem) {
 						for (var j = 0; j < the_props.length; j++) {
+
+							console.log($(elem));
+
 							var the_prop = $(elem).attr(the_props[j]);
 
 							if (the_prop) {
@@ -1461,6 +1464,9 @@ class WPAlchemy_MetaBox
 							}
 						}
 					});
+
+					// increment the group row id
+
 
 //					// increment the group id
 //					var reg       = new RegExp('\\[(\\d+)\\]$', 'i');
