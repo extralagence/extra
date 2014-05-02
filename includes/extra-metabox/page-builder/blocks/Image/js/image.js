@@ -19,11 +19,13 @@ jQuery(document).ready(function ($) {
 					text: "Ajouter l'image"
 				},
 				multiple: false,
-				filterable: 'uploaded'
+				filterable: 'uploaded',
+				library: {
+					type: 'image'
+				}
 			});
 
 			file_frame.on( 'close', function() {
-
 				if (file_frame.state().get('selection').first() !== undefined) {
 					//SELECT
 					attachment = file_frame.state().get('selection').first().toJSON();
@@ -41,6 +43,7 @@ jQuery(document).ready(function ($) {
 					// CANCEL
 					if ($input.val() == '') {
 						console.log('Doit virer');
+						extraPageBuilder.resetBlockChoice($block);
 					}
 				}
 			});

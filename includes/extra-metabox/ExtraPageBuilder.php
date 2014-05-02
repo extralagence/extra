@@ -43,7 +43,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 
 		// PAGE BUILDER
 		wp_enqueue_style('extra-page-builder-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/css/extra-page-builder.less');
-		wp_enqueue_script('extra-page-builder-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/js/extra-page-builder.js', array('jquery', 'extra-admin-modal'), null, true);
+		wp_enqueue_script('extra-page-builder-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/js/extra-page-builder.js', array('jquery', 'extra-admin-modal', 'jquery-ui-draggable', 'jquery-ui-droppable'), null, true);
 
 		$this->block_instances = array();
 		// BLOCKS
@@ -130,26 +130,28 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		?>
 
 		<div class="extra-page-builder-block extra-page-builder-block-<?php echo $block_id ?><?php ''; ?><?php echo (empty($block_type)) ? ' not-selected' : ''; ?>" data-block-number="<?php echo $block_id; ?>">
-			<input class="extra-page-builder-block-choice" type="hidden" name="<?php $this->the_name(); ?>" value="<?php echo (!empty($block_type)) ? $this->get_the_value() : ''; ?>">
-			<div class="choose-block">
-				<a href="#" class="choose-link"><?php _e("Choisir un bloc"); ?></a>
-				<div class="choose-block-choices">
-					<?php
-					/**
- 					 * @var $current \ExtraPageBuilder\AbstractBlock
-					 */
-					$current = null;
-					foreach ($this->block_instances as $type => $current) : ?>
-						<a href="#" class="choose-block-button choose-bloc-<?php echo $type; ?>" data-value="<?php echo $type; ?>"><span class="icon-extra-page-builder <?php echo $current->get_add_icon(); ?>"></span><?php echo $current->get_add_label(); ?></a>
-					<?php endforeach; ?>
-					<!--						<a href="#" class="choose-block-button choose-bloc-editor" data-value="custom_editor"><span class="icon-extra-page-builder icon-extra-page-builder-editor"></span>--><?php //_e("Editeur", "extra-page-builder"); ?><!--</a>-->
-					<!--						<a href="#" class="choose-block-button choose-bloc-map" data-value="map"><span class="icon-extra-page-builder icon-extra-page-builder-map"></span>--><?php //_e("Carte", "extra-page-builder"); ?><!--</a>-->
-					<!--						<a href="#" class="choose-block-button choose-bloc-image" data-value="image"><span class="icon-extra-page-builder icon-extra-page-builder-image"></span>--><?php //_e("Image", "extra-page-builder"); ?><!--</a>-->
-					<!--						<a href="#" class="choose-block-button choose-bloc-slider" data-value="slider"><span class="icon-extra-page-builder icon-extra-page-builder-slider"></span>--><?php //_e("Carrousel", "extra-page-builder"); ?><!--</a>-->
+			<div class="extra-page-builder-block-droppable-wrapper">
+				<input class="extra-page-builder-block-choice" type="hidden" name="<?php $this->the_name(); ?>" value="<?php echo (!empty($block_type)) ? $this->get_the_value() : ''; ?>">
+				<div class="choose-block">
+					<a href="#" class="choose-link"><?php _e("Choisir un bloc"); ?></a>
+					<div class="choose-block-choices">
+						<?php
+						/**
+						 * @var $current \ExtraPageBuilder\AbstractBlock
+						 */
+						$current = null;
+						foreach ($this->block_instances as $type => $current) : ?>
+							<a href="#" class="choose-block-button choose-bloc-<?php echo $type; ?>" data-value="<?php echo $type; ?>"><span class="icon-extra-page-builder <?php echo $current->get_add_icon(); ?>"></span><?php echo $current->get_add_label(); ?></a>
+						<?php endforeach; ?>
+						<!--						<a href="#" class="choose-block-button choose-bloc-editor" data-value="custom_editor"><span class="icon-extra-page-builder icon-extra-page-builder-editor"></span>--><?php //_e("Editeur", "extra-page-builder"); ?><!--</a>-->
+						<!--						<a href="#" class="choose-block-button choose-bloc-map" data-value="map"><span class="icon-extra-page-builder icon-extra-page-builder-map"></span>--><?php //_e("Carte", "extra-page-builder"); ?><!--</a>-->
+						<!--						<a href="#" class="choose-block-button choose-bloc-image" data-value="image"><span class="icon-extra-page-builder icon-extra-page-builder-image"></span>--><?php //_e("Image", "extra-page-builder"); ?><!--</a>-->
+						<!--						<a href="#" class="choose-block-button choose-bloc-slider" data-value="slider"><span class="icon-extra-page-builder icon-extra-page-builder-slider"></span>--><?php //_e("Carrousel", "extra-page-builder"); ?><!--</a>-->
+					</div>
 				</div>
-			</div>
-			<div class="extra-page-builder-block-wrapper">
-				<?php $this->the_block_wrapper($block, $block_id, $block_type); ?>
+				<div class="extra-page-builder-block-wrapper">
+					<?php $this->the_block_wrapper($block, $block_id, $block_type); ?>
+				</div>
 			</div>
 		</div>
 	<?php
@@ -169,12 +171,14 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 					?>
 				</div>
 				<div class="extra-page-builder-block-content-admin">
-					<a href="#" class="edit-block">
-						<span class="icon-extra-page-builder icon-extra-page-builder-edit"></span>
-					</a>
-					<a href="#" class="delete-block">
-						<span class="icon-extra-page-builder icon-extra-page-builder-cross"></span>
-					</a>
+					<div class="extra-page-builder-block-content-admin-wrapper">
+						<a href="#" class="edit-block">
+							<span class="icon-extra-page-builder icon-extra-page-builder-edit"></span>
+						</a>
+						<a href="#" class="delete-block">
+							<span class="icon-extra-page-builder icon-extra-page-builder-cross"></span>
+						</a>
+					</div>
 				</div>
 				<div class="extra-page-builder-block-form">
 					<div class="extra-field-form">

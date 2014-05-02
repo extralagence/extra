@@ -177,7 +177,6 @@ jQuery(document).ready(function ($) {
 			}
 
 			$editor.data('plugin_extraPageBuilderCustomEditor').disable();
-			console.log('popup options');
 			extraAdminModal
 				.options({footer: ['extra-admin-modal-save'], header: ['extra-admin-modal-title'], size: {height: 687}})
 				.show('Modifier le bloc',  $form);
@@ -185,8 +184,8 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	$('.extra-page-builder').on('hideForm.pagebuilder.extra', function (event, $block_type, $block, $form) {
-		if ($block_type == 'custom_editor') {
+	$('.extra-page-builder').on('hideForm.pagebuilder.extra', function (event, block_type, $block, $form) {
+		if (block_type == 'custom_editor') {
 			// We stop propagation to change default behavior
 			event.stopPropagation();
 
@@ -196,7 +195,9 @@ jQuery(document).ready(function ($) {
 			$block.find('.extra-page-builder-block-form').append($form);
 			$editor.data('plugin_extraPageBuilderCustomEditor').enable();
 
+
 			$block.find('.extra-page-builder-block-content').html($editor.find('textarea').val());
+			$editor.data('plugin_extraPageBuilderCustomEditor').disable();
 
 		}
 	});
