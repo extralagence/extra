@@ -24,6 +24,8 @@ $mb;
 				<input class="extra-page-builder-row-type" type="hidden" name="<?php $mb->the_name(); ?>" value="<?php echo (!empty($page_builder_row_type)) ? $mb->get_the_value() : ''; ?>">
 
 				<div class="extra-page-builder-row-admin">
+					<div class="grip">
+					</div>
 					<a href="#" class="layout-selected layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-<?php echo (!empty($page_builder_row_type)) ? $mb->get_the_value() : '1'; ?>"></span></a>
 					<div class="layout-choices">
 						<a href="#layout1" class="layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-1"></span></a>

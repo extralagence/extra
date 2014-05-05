@@ -60,18 +60,18 @@
 
 			this.element.on('click', '.extra-admin-modal-close', function (event) {
 				$(event.delegateTarget).data(pluginName).hide();
+				return false;
 			});
 
 			this.element.on('click', '.extra-admin-modal-save', function (event) {
 				$(event.delegateTarget).data(pluginName).save();
+				return false;
 			});
 		},
 		options: function (options) {
 			if (options) {
 				this.settings = $.extend( {}, defaults, options );
 			}
-
-			console.log(this.settings);
 
 			this.modal.attr('style', '');
 			this.modalFooterElements.attr('style', '');
@@ -95,7 +95,6 @@
 			this.modalFooterElements.css('display', 'none');
 			if (this.settings.footer.length > 0) {
 				for(var i= 0; i < this.settings.footer.length; i++) {
-					console.log(this.modalFooter.find('> .'+this.settings.footer[i]));
 					this.modalFooter.find('> .'+this.settings.footer[i]).css('display', 'block');
 				}
 			} else {
