@@ -201,4 +201,10 @@ jQuery(document).ready(function ($) {
 
 		}
 	});
+
+//	var $iframes = $('.extra-page-builder-block-custom-editor-content');
+//	$iframes.iframeAutoHeight();
+//
+//	$iframes.contents().find('html').html(custom_editor_content);
+//	$iframes.trigger('load');
 });

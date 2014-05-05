@@ -30,7 +30,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$this->add_action('init', array($this, 'extra_init'));
 
 		//AJAX
-		add_action('wp_ajax_extra_page_builder_block', array($this, 'extra_page_builder_block_callback'));
+		add_action('wp_ajax_extra_page_builder_block', array($this, 'builder_block_callback'));
 	}
 
 	public function extra_init() {
@@ -63,7 +63,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	/**
 	 * Callback for ajax method "extra_page_builder_block"
 	 */
-	public function extra_page_builder_block_callback() {
+	public function builder_block_callback() {
 		$block_type = $_GET['block_type'];
 		$block_id = $_GET['block_id'];
 		$row_id =  $_GET['row_id'];
@@ -72,18 +72,16 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		/**
 		 * @var $block \ExtraPageBuilder\AbstractBlock
 		 */
-		$block = new $class($this);
+		$block = new $class($this, $block_type);
 
 		// This is a hack to imitate wpalchemy group behavior
 		$this->id = $row_id;
-		$this->the_block_wrapper($block, $block_id, $block_type);
+		$this->the_block_wrapper($block, $block_id);
 
 		die;
 	}
 
-
-
-	private function construct_class_name($type) {
+	protected function construct_class_name($type) {
 		if (empty($type)) throw new Exception ('Extra Page Builder Block "type" required');
 		$array = explode('_', $type);
 		$class = '';
@@ -99,25 +97,16 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		/**
 		 * @var $block \ExtraPageBuilder\AbstractBlock
 		 */
-		$block = new $class($this);
+		$block = new $class($this, $type);
 		$block->extract_properties($properties);
 
 		return $block;
 	}
 
-	function the_block_blank() {
-		/**
-		 * @var $block \ExtraPageBuilder\AbstractBlock
-		 */
-		?>
-
-	<?php
-	}
-
 	/**
 	 * @param $block_id
 	 */
-	function the_block($block_id) {
+	public function the_block($block_id) {
 		?>
 		<?php
 		$this->the_field('page_builder_block_choice_'.$block_id);
@@ -150,7 +139,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 					</div>
 				</div>
 				<div class="extra-page-builder-block-wrapper">
-					<?php $this->the_block_wrapper($block, $block_id, $block_type); ?>
+					<?php $this->the_block_wrapper($block, $block_id); ?>
 				</div>
 			</div>
 		</div>
@@ -161,32 +150,118 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	 * @param $block \ExtraPageBuilder\AbstractBlock
 	 * @param $block_id int
 	 */
-	function the_block_wrapper($block, $block_id, $block_type) {
-		$name = 'extra_page_builder_'.$block_type.'_'.$block_id;
-		if ($block != null) :
+	protected function the_block_wrapper($block, $block_id) {
+		if ($block != null) : $name_suffix = $block->get_type().'_'.$block_id;
 			?>
-				<div class="extra-page-builder-block-content">
-					<?php
-					$block->the_preview($name);
-					?>
+			<div class="extra-page-builder-block-content">
+				<?php
+				$block->the_preview($name_suffix);
+				?>
+			</div>
+			<div class="extra-page-builder-block-content-admin">
+				<div class="extra-page-builder-block-content-admin-wrapper">
+					<a href="#" class="edit-block">
+						<span class="icon-extra-page-builder icon-extra-page-builder-edit"></span>
+					</a>
+					<a href="#" class="delete-block">
+						<span class="icon-extra-page-builder icon-extra-page-builder-cross"></span>
+					</a>
 				</div>
-				<div class="extra-page-builder-block-content-admin">
-					<div class="extra-page-builder-block-content-admin-wrapper">
-						<a href="#" class="edit-block">
-							<span class="icon-extra-page-builder icon-extra-page-builder-edit"></span>
-						</a>
-						<a href="#" class="delete-block">
-							<span class="icon-extra-page-builder icon-extra-page-builder-cross"></span>
-						</a>
-					</div>
+			</div>
+			<div class="extra-page-builder-block-form">
+				<div class="extra-field-form">
+					<?php $block->the_admin($name_suffix) ?>
 				</div>
-				<div class="extra-page-builder-block-form">
-					<div class="extra-field-form">
-						<?php $block->the_admin($name) ?>
-					</div>
-				</div>
+			</div>
 
-			<?php
+		<?php
 		endif;
+	}
+
+	public function get_front() {
+		$rows = $this->the_meta()['page_builder'];
+		$html = '<div class="extra-page-builder-wrapper">';
+		$row_number = 1;
+		foreach ($rows as $row) {
+			$row_css = 'row';
+			if ($row_number == 1) {
+				$row_css .= ' first';
+			}
+			if ($row_number = count($row)) {
+				$row_css .= ' last';
+			}
+			$html .= $this->get_front_row($row, $row_number, $row_css);
+			$row_number++;
+		}
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	protected function get_front_row($row, $row_number, $row_css) {
+		$row_type = isset($row['page_builder_row_type']) ? $row['page_builder_row_type'] : '1';
+		$html = '<div class="'.$row_css.'">';
+		switch ($row_type) {
+			case '1':
+				$html .= $this->get_front_block($row, $row_number, '1', 'col col-12 first last');
+				break;
+
+			case '11':
+				$html .= $this->get_front_block($row, $row_number, '1', 'col col-6 first');
+				$html .= $this->get_front_block($row, $row_number, '2', 'col col-6 last');
+				break;
+
+			case '111':
+				$html .= $this->get_front_block($row, $row_number, '1', 'col col-4 first');
+				$html .= $this->get_front_block($row, $row_number, '2', 'col col-4');
+				$html .= $this->get_front_block($row, $row_number, '3', 'col col-4 last');
+				break;
+
+			case '12':
+				$html .= $this->get_front_block($row, $row_number, '1', 'col col-4 first');
+				$html .= $this->get_front_block($row, $row_number, '2', 'col col-8 last');
+				break;
+
+			case '21':
+				$html .= $this->get_front_block($row, $row_number, '1', 'col col-8 first');
+				$html .= $this->get_front_block($row, $row_number, '2', 'col col-4 last');
+				break;
+
+			default :
+				break;
+		}
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	protected function endsWith($haystack, $needle)
+	{
+		return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+	}
+
+	protected function get_front_block($row_data, $row_number, $block_number, $block_css) {
+		$block_type = $row_data['page_builder_block_choice_'.$block_number];
+		$block_suffix = $block_type.'_'.$block_number;
+
+		$html = '<div class="'.$block_css.'">';
+		$block_data = array();
+		foreach ($row_data as $key => $data) {
+			if($this->endsWith($key, $block_suffix)) {
+				$block_data[$key] = $row_data[$key];
+			}
+		}
+
+		if (!empty($block_type)) {
+			$class = $this->construct_class_name($block_type);
+			$block_html = $class::get_front($block_data, $block_suffix);
+			$block_html = apply_filters('extra_page_builder_'.$block_type, $block_html, $block_data, $block_suffix, $block_css, $block_number, $row_number);
+
+			$html .= $block_html;
+		}
+
+		$html .= '</div>';
+
+		return $html;
 	}
 }

@@ -196,12 +196,15 @@
 						$(elem).attr('name', the_prop);
 					}
 
-					var reg_block = new RegExp(':(\\d+)\\]', 'i');
+					var reg_block = new RegExp('_(\\d+)\\]', 'i');
+					//console.log('the_prop : '+the_prop);
 					var the_block_match = the_prop.match(reg_block);
 
 					if (the_block_match) {
-						the_prop = the_prop.replace(the_block_match[0], ':'+ block2_number +']');
+						//console.log('block1 match : '+the_prop+' with '+the_block_match[0]+' replace by '+'_'+ block2_number +']');
+						the_prop = the_prop.replace(the_block_match[0], '_'+ block2_number +']');
 						$(elem).attr('name', the_prop);
+						//console.log('new name : '+$(elem).attr('name'));
 					}
 				}
 			});
@@ -221,29 +224,29 @@
 					var the_block_match = the_prop.match(reg_block);
 
 					if (the_block_match) {
-						the_prop = the_prop.replace(the_block_match[0], '___'+ block1_number +']');
+						the_prop = the_prop.replace(the_block_match[0], '_'+ block1_number +']');
 						$(elem).attr('name', the_prop);
 					}
 				}
 			});
-//
-//			// Swap DOM
-//			var a = $block1[0],
-//				b = $block2[0],
-//				t = a.parentNode.insertBefore(document.createTextNode(''), a);
-//			b.parentNode.insertBefore(a, b);
-//			t.parentNode.insertBefore(b, t);
-//			t.parentNode.removeChild(t);
-//
-//			// Swap block numbers
-//			$block1.data('block-number', block2_number);
-//			$block2.data('block-number', block1_number);
-//
-//			$block1.removeClass('extra-page-builder-block-'+block1_number);
-//			$block1.addClass('extra-page-builder-block-'+block2_number);
-//
-//			$block2.removeClass('extra-page-builder-block-'+block2_number);
-//			$block2.addClass('extra-page-builder-block-'+block1_number);
+
+			// Swap DOM
+			var a = $block1[0],
+				b = $block2[0],
+				t = a.parentNode.insertBefore(document.createTextNode(''), a);
+			b.parentNode.insertBefore(a, b);
+			t.parentNode.insertBefore(b, t);
+			t.parentNode.removeChild(t);
+
+			// Swap block numbers
+			$block1.data('block-number', block2_number);
+			$block2.data('block-number', block1_number);
+
+			$block1.removeClass('extra-page-builder-block-'+block1_number);
+			$block1.addClass('extra-page-builder-block-'+block2_number);
+
+			$block2.removeClass('extra-page-builder-block-'+block2_number);
+			$block2.addClass('extra-page-builder-block-'+block1_number);
 
 			return this;
 
@@ -319,30 +322,46 @@ jQuery(document).ready(function($){
 	});
 
 	// DRAG N DROP FOR BLOCKS
-	var dragElement = null,
-		blocks = $('.extra-page-builder-block');
-	blocks.draggable({
-		cursor: 'move',
-		handle: '.extra-page-builder-block-content-admin',
-		appendTo: document.body,
-		helper: 'clone',
-		start: function (event, ui) {
-			$('.extra-page-builder-block.ui-draggable-dragging').css('width', $(this).outerWidth());
-			$(this).addClass('extra-page-builder-block-dragging');
-		},
-		stop: function (event, ui) {
-			$(this).removeClass('extra-page-builder-block-dragging');
-		}
-	});
+	var $blocks = $('.extra-page-builder-block');
 
-	blocks.droppable({
-		accept: '.extra-page-builder-block',
-		tolerance: 'pointer',
-		activeClass: 'extra-page-builder-block-active',
-		hoverClass: 'extra-page-builder-block-hover',
-		drop: function (event, ui) {
-			extraPageBuilder.swapBlocks(ui.draggable, $(this));
-		}
-	});
+	setDraggable($blocks);
+	setDroppable($blocks);
+
+	function setDraggable($blocks) {
+		$blocks.draggable({
+			cursor: 'move',
+			handle: '.extra-page-builder-block-content-admin',
+			appendTo: document.body,
+			helper: 'clone',
+			start: function (event, ui) {
+				$('.extra-page-builder-block.ui-draggable-dragging').css('width', $(this).outerWidth());
+				$(this).addClass('extra-page-builder-block-dragging');
+			},
+			stop: function (event, ui) {
+				$(this).removeClass('extra-page-builder-block-dragging');
+			}
+		});
+	}
+
+	function setDroppable($blocks) {
+		$blocks.droppable({
+			accept: '.extra-page-builder-block',
+			tolerance: 'pointer',
+			activeClass: 'extra-page-builder-block-active',
+			hoverClass: 'extra-page-builder-block-hover',
+			drop: function (event, ui) {
+				extraPageBuilder.swapBlocks(ui.draggable, $(this));
+			}
+		});
+	}
+
+	if ($.wpalchemy !== undefined) {
+		$.wpalchemy.bind('wpa_copy', function(e, elmt){
+			var $inner_blocks = $(elmt).find('.extra-page-builder-block');
+
+			setDraggable($inner_blocks);
+			setDroppable($inner_blocks);
+		});
+	}
 
 });

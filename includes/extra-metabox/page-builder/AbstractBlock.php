@@ -11,11 +11,13 @@ namespace ExtraPageBuilder;
 abstract class AbstractBlock {
 
 	protected $mb;
+	protected $type;
 	protected $add_label;
 	protected $add_icon;
 
-	function __construct(\ExtraPageBuilder $mb) {
+	function __construct(\ExtraPageBuilder $mb, $type) {
 		$this->mb = $mb;
+		$this->type = $type;
 	}
 
 	public static function init() {
@@ -26,11 +28,13 @@ abstract class AbstractBlock {
 		$this->add_icon = isset($properties['add_icon']) ? $properties['add_icon'] : null;
 	}
 
-	public abstract function the_admin($name);
+	public abstract function the_admin($name_suffix);
 
-	public abstract function the_preview($name);
+	public abstract function the_preview($name_suffix);
 
-	public abstract function the_front($name);
+	public static function get_front($block_data, $name_suffix) {
+		// To be override
+	}
 
 	/**
 	 * @return mixed
@@ -44,5 +48,12 @@ abstract class AbstractBlock {
 	 */
 	public function get_add_label() {
 		return $this->add_label;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function get_type() {
+		return $this->type;
 	}
 }

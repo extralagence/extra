@@ -11,16 +11,14 @@ namespace ExtraPageBuilder\Blocks;
 use ExtraPageBuilder\AbstractBlock;
 
 /**
- * Class Image
+ * Class CustomEditor
  *
- * Define a image block
+ * Define a Custom Editor block
  *
- * type = image
+ * type = custom_editor
  *
  * Options :
  * - name (required)
- * - add_label (required)
- * - add_icon (required)
  */
 class CustomEditor extends AbstractBlock {
 
@@ -29,9 +27,15 @@ class CustomEditor extends AbstractBlock {
 
 		wp_enqueue_style('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/css/custom-editor.less');
 		wp_enqueue_script('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js', array('jquery', 'quicktags'), null, true);
+
+//		wp_enqueue_script('extra-page-builder-block-custom-editor-browser', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/jquery.browser.js', array('jquery'), null, true);
+//		wp_enqueue_script('extra-page-builder-block-custom-editor-iframe-auto-height', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/jquery.iframe-auto-height.js', array('jquery', 'extra-page-builder-block-custom-editor-browser'), null, true);
+//
+//		wp_enqueue_script('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js', array('jquery', 'quicktags', 'extra-page-builder-block-custom-editor-iframe-auto-height'), null, true);
 	}
 
-	public function the_admin($name) {
+	public function the_admin($name_suffix) {
+		$name = $name_suffix;
 		?>
 		<div class="extra-custom-editor-wrapper">
 
@@ -119,12 +123,21 @@ class CustomEditor extends AbstractBlock {
 		return $stylesheets;
 	}
 
-	public function the_preview($name) {
+	public function the_preview($name_suffix) {
+		$name = $name_suffix;
 		$this->mb->the_field($name);
+
 		echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' ));
+
+//		echo '<iframe class="extra-page-builder-block-custom-editor-content" width="100%"></iframe>';
+//		wp_localize_script('extra-page-builder-block-custom-editor', 'custom_editor_content', apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )));
 	}
 
-	public function the_front($name) {
-		
+	public static function get_front($block_data, $name_suffix) {
+		parent::get_front($block_data, $name_suffix);
+
+		$html = apply_filters('the_content', html_entity_decode( $block_data[$name_suffix], ENT_QUOTES, 'UTF-8' ));;
+
+		return $html;
 	}
 }
