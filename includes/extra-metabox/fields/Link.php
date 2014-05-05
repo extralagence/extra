@@ -42,12 +42,12 @@ class Link extends AbstractField {
 			<div class="extra-link-manual">
 				<?php
 				$this->mb->the_field($this->get_prefixed_field_name("type"));
-				$show_manual = !$this->mb->is_value('content');
+				$this->mb->is_value('content');
 				?>
 				<label class="extra-link-radio-label" for="<?php $this->mb->the_name(); ?>_manual"><?php _e("Adresse web", "extra-admin"); ?></label>
-				<input class="extra-link-radio" id="<?php $this->mb->the_name(); ?>_manual" type="radio" name="<?php $this->mb->the_name(); ?>" value="manual" <?php echo ($show_manual)?' checked="checked"':''; ?>>
+				<input class="extra-link-radio" id="<?php $this->mb->the_name(); ?>_manual" type="radio" name="<?php $this->mb->the_name(); ?>" value="manual" <?php echo ($this->mb->is_selected('manual'))?' checked="checked"':''; ?>>
 				<?php $this->mb->the_field($this->get_prefixed_field_name("url")); ?>
-				<input class="extra-link-url" id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="text" value="<?php $this->mb->the_value(); ?>"<?php echo ($show_manual) ? '' : ' disabled' ?> /><br>
+				<input class="extra-link-url" id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="text" value="<?php $this->mb->the_value(); ?>"<?php echo ($this->mb->is_selected('manual'))?' checked="checked"':''; ?>/><br>
 			</div>
 
 			<div class="extra-link-content">
