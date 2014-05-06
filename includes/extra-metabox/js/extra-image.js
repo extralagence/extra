@@ -6,7 +6,19 @@ jQuery(document).ready(function($) {
 
 	function extra_process_images(elmt){
 
-		$('.wpa_group:not(".tocopy") .extra-custom-image:not(".extra-image-processed")').each(function(){
+		if(elmt === undefined) {
+			elmt = $('.extra-custom-image:not(".extra-custom-image-processed")');
+		}
+
+		if(!elmt.hasClass('extra-custom-image')) {
+			elmt = elmt.find('.extra-custom-image');
+		}
+
+		elmt.each(function(){
+
+			if($(this).closest('.wpa_group.tocopy').length) {
+				return;
+			}
 
 			var $element	 = $(this),
 				$thumbnailId = $element.find('.image-input'),
@@ -17,7 +29,7 @@ jQuery(document).ready(function($) {
 
 			imageId = $thumbnailId.val();
 
-			$element.addClass("extra-image-processed");
+			$element.addClass("extra-custom-image-processed");
 
 			$element.on("click", ".choose-button", function(event) {
 				event.preventDefault();

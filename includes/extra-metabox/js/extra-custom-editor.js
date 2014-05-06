@@ -17,7 +17,7 @@ jQuery(document).ready(function($) {
         
 		elmt.not('.extra-editor-processed').each(function() {
             
-            if($(this).parents('.wpa_group.tocopy').length) {
+            if($(this).closest('.wpa_group.tocopy').length) {
                 return;
             }
 
