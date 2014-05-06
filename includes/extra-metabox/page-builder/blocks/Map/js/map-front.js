@@ -121,6 +121,5 @@
 })( jQuery, window, document );
 
 jQuery(document).ready(function($) {
-	console.log('test');
 	$('.extra-page-builder-map').extraPageBuilderMapFront();
 });

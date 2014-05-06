@@ -182,10 +182,6 @@
 
 
 jQuery(document).ready(function($) {
-//	$.wpalchemy.bind('wpa_copy', function(e, elmt){
-//		extra_process_map($(elmt));
-//	});
-
 	var $pageBuilder = $('.extra-page-builder');
 	$pageBuilder.on('showform.pagebuilder.extra', function (event, $block_type, $block, $form) {
 		if ($block_type == 'map') {
@@ -207,8 +203,6 @@ jQuery(document).ready(function($) {
 	});
 
 	$pageBuilder.on('refreshPreview.pagebuilder.extra', function (event, $block_type, $block, $form) {
-		console.log('refresh preview');
-
 		var $map = $block.find('.extra-page-builder-map');
 		$map.data('lat', $form.find('.lat').val());
 		$map.data('lon', $form.find('.lon').val());
