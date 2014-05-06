@@ -21,6 +21,8 @@ foreach (scandir(dirname(__FILE__).'/page-builder/blocks') as $field_name) {
 class ExtraPageBuilder extends WPAlchemy_MetaBox {
 
 	public $blocks;
+	public $row_layouts;
+	public $row_default_layout;
 	public $block_instances;
 
 	function __construct ($arr) {
@@ -31,6 +33,13 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 
 		//AJAX
 		add_action('wp_ajax_extra_page_builder_block', array($this, 'builder_block_callback'));
+
+		if ($this->row_layouts == null || empty($this->row_layouts)) {
+			$this->row_layouts = array('1', '12', '21', '11', '111');
+		}
+		if ($this->row_default_layout == null) {
+			$this->row_default_layout = $this->row_layouts[0];
+		}
 	}
 
 	public function extra_init() {

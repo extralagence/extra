@@ -26,18 +26,16 @@ $mb;
 				<div class="extra-page-builder-row-admin">
 					<div class="grip">
 					</div>
-					<a href="#" class="layout-selected layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-<?php echo (!empty($page_builder_row_type)) ? $mb->get_the_value() : '1'; ?>"></span></a>
+					<a href="#" class="layout-selected layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-<?php echo (!empty($page_builder_row_type)) ? $mb->get_the_value() : $mb->row_default_layout; ?>"></span></a>
 					<div class="layout-choices">
-						<a href="#layout1" class="layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-1"></span></a>
-						<a href="#layout12" class="layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-12"></span></a>
-						<a href="#layout21" class="layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-21"></span></a>
-						<a href="#layout11" class="layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-11"></span></a>
-						<a href="#layout111" class="layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-111"></span></a>
+						<?php foreach($mb->row_layouts as $row_layout) : ?>
+							<a href="#layout<?php echo $row_layout ?>" class="layout-button"><span class="icon-extra-page-builder icon-extra-page-builder-<?php echo $row_layout ?>"></span></a>
+						<?php endforeach; ?>
 					</div>
 					<a href="#" class="dodelete"><span class="icon-extra-page-builder icon-extra-page-builder-cross"></span></a>
 				</div>
 
-				<div class="extra-page-builder-row-content extra-page-builder-row-content-<?php echo (!empty($page_builder_row_type)) ? $page_builder_row_type : '1'; ?>">
+				<div class="extra-page-builder-row-content extra-page-builder-row-content-<?php echo (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout; ?>">
 					<?php
 					$mb->the_block(1);
 					?>

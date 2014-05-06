@@ -166,10 +166,13 @@
 			var block1_number = $block1.data('block-number'),
 				block2_number = $block2.data('block-number');
 
+			/**
+			 * name examples
+			 * _page_builder[page_builder][0][page_builder_row_type]
+			 * _page_builder[page_builder][0][extra_page_builder_image_3]
+			 *
+ 			 */
 
-			//TODO swap input names !!!
-			// _page_builder[page_builder][0][page_builder_row_type]
-			// _page_builder[page_builder][0][extra_page_builder_image_3]
 			var block1_name = $block1.closest('.wpa_group').attr('class').match(/wpa_group-([a-zA-Z0-9_-]*)/i)[1],
 				reg_block1 = new RegExp('\\['+block1_name+'\\]\\[(\\d+)\\]', 'i'),
 				$block1_row = $block1.closest('.extra-page-builder-row'),
