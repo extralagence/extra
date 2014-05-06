@@ -106,6 +106,8 @@
 			$rowTypeInput.val(layout);
 
 			this.toggleLayoutChooser($row);
+
+			$row.trigger('layoutChange.pagebuilder.extra', [$row, layout]);
 		},
 		openBlockChooser: function ($block) {
 			var $chooseBlock = $block.find('.choose-block'),

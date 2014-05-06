@@ -150,8 +150,8 @@
 		// preventing against multiple instantiations
 		$.fn[ pluginName ] = function ( options ) {
 				this.each(function() {
-						if ( !$.data( this, "plugin_" + pluginName ) ) {
-								$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+						if ( !$.data( this, pluginName ) ) {
+								$.data( this, pluginName, new Plugin( this, options ) );
 						}
 				});
 
@@ -177,11 +177,11 @@ jQuery(document).ready(function ($) {
 				$editor.extraPageBuilderCustomEditor({height: 400});
 			}
 
-			$editor.data('plugin_extraPageBuilderCustomEditor').disable();
+			$editor.data('extraPageBuilderCustomEditor').disable();
 			extraAdminModal
 				.options({footer: ['extra-admin-modal-save'], header: ['extra-admin-modal-title'], size: {height: 687}})
 				.show('Modifier le bloc',  $form);
-			$editor.data('plugin_extraPageBuilderCustomEditor').enable();
+			$editor.data('extraPageBuilderCustomEditor').enable();
 		}
 	});
 
@@ -194,9 +194,9 @@ jQuery(document).ready(function ($) {
 				$content = $block.find('.extra-page-builder-block-content'),
 				$iframe = $content.find('iframe');
 
-			$editor.data('plugin_extraPageBuilderCustomEditor').disable();
+			$editor.data('extraPageBuilderCustomEditor').disable();
 			$block.find('.extra-page-builder-block-form').append($form);
-			$editor.data('plugin_extraPageBuilderCustomEditor').enable();
+			$editor.data('extraPageBuilderCustomEditor').enable();
 
 			if ($iframe.length > 0) {
 				$iframe[0].parentNode.removeChild($iframe[0]);
@@ -204,7 +204,7 @@ jQuery(document).ready(function ($) {
 			$block.find('.custom-editor-content').html($editor.find('textarea').val());
 			createIframe($block);
 
-			$editor.data('plugin_extraPageBuilderCustomEditor').disable();
+			$editor.data('extraPageBuilderCustomEditor').disable();
 		}
 	});
 

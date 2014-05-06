@@ -70,6 +70,10 @@
  * PAGE BUILDER
  *
  ******************/
+.extra-page-builder {
+	max-width: @full_content_width;
+	margin: 0 auto;
+}
 .extra-page-builder .wpa_group {
 	margin-top: 10px;
 	overflow: hidden;
@@ -343,8 +347,16 @@
 }
 
 .extra-page-builder-block-content {
-	padding: 10px;
+	//padding: 10px;
+	padding: 0 10px;
 }
+.extra-page-builder-block:first-child .extra-page-builder-block-content {
+	padding-left: 0;
+}
+.extra-page-builder-block:last-child .extra-page-builder-block-content {
+	padding-right: 0;
+}
+
 .extra-page-builder-block.not-selected .extra-page-builder-block-content,
 .extra-page-builder-block.not-selected:hover .extra-page-builder-block-content-admin,
 {
