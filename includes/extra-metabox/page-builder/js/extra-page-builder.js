@@ -161,7 +161,7 @@
 			$('.extra-page-builder').trigger('showform.pagebuilder.extra', [$block.find('.extra-page-builder-block-choice').val(), $block, $block.find('.extra-field-form')]);
 		},
 		swapBlocks: function ($block1, $block2) {
-			console.log('swap');
+//			console.log('swap');
 
 			var block1_number = $block1.data('block-number'),
 				block2_number = $block2.data('block-number');
@@ -174,15 +174,15 @@
 				reg_block1 = new RegExp('\\['+block1_name+'\\]\\[(\\d+)\\]', 'i'),
 				$block1_row = $block1.closest('.extra-page-builder-row'),
 				block1_row_id = $block1_row.find('.extra-page-builder-row-type').attr('name').match(reg_block1)[1];
-			console.log('block1_row_id : '+block1_row_id);
-			console.log('block1_number : '+block1_number);
+//			console.log('block1_row_id : '+block1_row_id);
+//			console.log('block1_number : '+block1_number);
 
 			var block2_name = $block2.closest('.wpa_group').attr('class').match(/wpa_group-([a-zA-Z0-9_-]*)/i)[1],
 				reg_block2 = new RegExp('\\['+block2_name+'\\]\\[(\\d+)\\]', 'i'),
 				$block2_row = $block2.closest('.extra-page-builder-row'),
 				block2_row_id = $block2_row.find('.extra-page-builder-row-type').attr('name').match(reg_block2)[1];
-			console.log('block2_row_id : '+block2_row_id);
-			console.log('block2_number : '+block2_number);
+//			console.log('block2_row_id : '+block2_row_id);
+//			console.log('block2_number : '+block2_number);
 
 
 			$block1.find('*').each(function(i, elem) {

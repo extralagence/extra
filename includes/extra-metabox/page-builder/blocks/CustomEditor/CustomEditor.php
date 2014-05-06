@@ -26,16 +26,33 @@ class CustomEditor extends AbstractBlock {
 		parent::init();
 
 		wp_enqueue_style('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/css/custom-editor.less');
-		wp_enqueue_script('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js', array('jquery', 'quicktags'), null, true);
+//		wp_enqueue_script('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js', array('jquery', 'quicktags'), null, true);
 
-//		wp_enqueue_script('extra-page-builder-block-custom-editor-browser', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/jquery.browser.js', array('jquery'), null, true);
-//		wp_enqueue_script('extra-page-builder-block-custom-editor-iframe-auto-height', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/jquery.iframe-auto-height.js', array('jquery', 'extra-page-builder-block-custom-editor-browser'), null, true);
-//
-//		wp_enqueue_script('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js', array('jquery', 'quicktags', 'extra-page-builder-block-custom-editor-iframe-auto-height'), null, true);
+		wp_enqueue_script(
+			'extra-page-builder-block-custom-editor-iframe-resizer',
+			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.js',
+			array('jquery'),
+			null,
+			true
+		);
+
+		wp_enqueue_script(
+			'extra-page-builder-block-custom-editor',
+			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js',
+			array('jquery', 'quicktags', 'extra-page-builder-block-custom-editor-iframe-resizer'),
+			null,
+			true
+		);
+
+		wp_localize_script('extra-page-builder-block-custom-editor', 'iframeResizerContentWindow', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.contentWindow.js');
 	}
 
 	public function the_admin($name_suffix) {
 		$name = $name_suffix;
+		$this->custom_css = array(
+			THEME_URI.'/assets/css/content.less',
+			EXTRA_URI.'/includes/extra-metabox/page-builder/blocks/CustomEditor/css/editor-style.less'
+		);
 		?>
 		<div class="extra-custom-editor-wrapper">
 
@@ -120,6 +137,7 @@ class CustomEditor extends AbstractBlock {
 			$stylesheets[] = $custom_css;
 		}
 		$stylesheets = implode(',', $stylesheets);
+
 		return $stylesheets;
 	}
 
@@ -127,10 +145,7 @@ class CustomEditor extends AbstractBlock {
 		$name = $name_suffix;
 		$this->mb->the_field($name);
 
-		echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' ));
-
-//		echo '<iframe class="extra-page-builder-block-custom-editor-content" width="100%"></iframe>';
-//		wp_localize_script('extra-page-builder-block-custom-editor', 'custom_editor_content', apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )));
+		echo '<div class="custom-editor-content">'.apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )).'</div>';
 	}
 
 	public static function get_front($block_data, $name_suffix) {

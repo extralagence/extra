@@ -203,28 +203,28 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$html = '<div class="'.$row_css.'">';
 		switch ($row_type) {
 			case '1':
-				$html .= $this->get_front_block($row, $row_number, '1', 'col col-12 first last');
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-12', 'first', 'last'));
 				break;
 
 			case '11':
-				$html .= $this->get_front_block($row, $row_number, '1', 'col col-6 first');
-				$html .= $this->get_front_block($row, $row_number, '2', 'col col-6 last');
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-6', 'first'));
+				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-6', 'last'));
 				break;
 
 			case '111':
-				$html .= $this->get_front_block($row, $row_number, '1', 'col col-4 first');
-				$html .= $this->get_front_block($row, $row_number, '2', 'col col-4');
-				$html .= $this->get_front_block($row, $row_number, '3', 'col col-4 last');
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-4', 'first'));
+				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-4'));
+				$html .= $this->get_front_block($row, $row_number, '3', array('col', 'col-4', 'last'));
 				break;
 
 			case '12':
-				$html .= $this->get_front_block($row, $row_number, '1', 'col col-4 first');
-				$html .= $this->get_front_block($row, $row_number, '2', 'col col-8 last');
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-4', 'first'));
+				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-8', 'last'));
 				break;
 
 			case '21':
-				$html .= $this->get_front_block($row, $row_number, '1', 'col col-8 first');
-				$html .= $this->get_front_block($row, $row_number, '2', 'col col-4 last');
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-8', 'first'));
+				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-4', 'last'));
 				break;
 
 			default :
@@ -244,7 +244,13 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$block_type = $row_data['page_builder_block_choice_'.$block_number];
 		$block_suffix = $block_type.'_'.$block_number;
 
-		$html = '<div class="'.$block_css.'">';
+		if (is_array($block_css)) {
+			$css = implode(' ', $block_css);
+		} else {
+			$css = $block_css;
+		}
+
+		$html = '<div class="'.$css.'">';
 		$block_data = array();
 		foreach ($row_data as $key => $data) {
 			if($this->endsWith($key, $block_suffix)) {
