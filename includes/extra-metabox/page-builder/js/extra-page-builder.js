@@ -331,20 +331,32 @@
 })( jQuery, window, document );
 
 function setDraggable($blocks) {
+	//.find('.extra-page-builder-block-droppable-wrapper')
 	$blocks.draggable({
 		cursor: 'move',
 		handle: '.extra-page-builder-block-content-admin',
-		appendTo: document.body,
-		//helper: 'clone',
+		appendTo: jQuery('body'),
+//		helper: 'clone',
+		iframeFix: true,
+//		helper: function () {
+//			var $current = jQuery(this),
+//				$helper = jQuery('<div class="extra-page-builder-block-drag-helper"></div> ');
+//
+//			console.log($current.width());
+//			console.log($current.height());
+//
+//			$helper.css('width', $current.width()).css('height', $current.height());
+//			return $helper;
+//		},
 		helper: function () {
-			var $current = jQuery(this),
-				$helper = jQuery('<div class="extra-page-builder-block-drag-helper"></div> ');
+			var $this = jQuery(this),
+				$clone = $this.find('.extra-page-builder-block-content').clone();
+			$clone.css('height', $this.height());
+			$clone.css('width', $this.width());
 
-			console.log($current.width());
-			console.log($current.height());
+			$clone.addClass('.extra-page-builder-block-content-helper');
 
-			$helper.css('width', $current.width()).css('height', $current.height());
-			return $helper;
+			return $clone;
 		},
 		start: function (event, ui) {
 			jQuery('.extra-page-builder-block.ui-draggable-dragging').css('width', jQuery(this).outerWidth());
