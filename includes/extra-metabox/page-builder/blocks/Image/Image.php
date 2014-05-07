@@ -32,6 +32,16 @@ class Image extends AbstractResizableBlock {
 		wp_enqueue_script('extra-page-builder-block-image', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Image/js/image.js', array('jquery'), null, true);
 	}
 
+	public function extract_properties($properties) {
+		parent::extract_properties($properties);
+		if (empty($this->add_icon)) {
+			$this->add_icon = 'icon-extra-page-builder-image';
+		}
+		if (empty($this->add_label)) {
+			$this->add_label = __("Image", "extra-admin");
+		}
+	}
+
 	public function the_admin($name_suffix) {
 		$name = $name_suffix;
 		?>

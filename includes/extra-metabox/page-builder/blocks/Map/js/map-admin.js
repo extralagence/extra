@@ -202,8 +202,8 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	$pageBuilder.on('refreshPreview.pagebuilder.extra', function (event, $block_type, $block, $form) {
-		if ($block_type == 'map') {
+	$pageBuilder.on('refreshPreview.pagebuilder.extra', function (event, block_type, $block, $form) {
+		if (block_type == 'map') {
 			// We stop propagation to change default behavior
 			event.stopPropagation();
 
@@ -219,7 +219,7 @@ jQuery(document).ready(function($) {
 	});
 
 	$pageBuilder.on('hideForm.pagebuilder.extra', function (event, block_type, $block, $form) {
-		if ($block_type == 'map') {
+		if (block_type == 'map') {
 			// We stop propagation to change default behavior
 			event.stopPropagation();
 

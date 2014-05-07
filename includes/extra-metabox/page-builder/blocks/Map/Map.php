@@ -36,6 +36,16 @@ class Map extends AbstractResizableBlock {
 		wp_enqueue_script('extra-page-builder-block-map-front', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Map/js/map-front.js', array('jquery', 'google-maps-api'), null, true);
 	}
 
+	public function extract_properties($properties) {
+		parent::extract_properties($properties);
+		if (empty($this->add_icon)) {
+			$this->add_icon = 'icon-extra-page-builder-map';
+		}
+		if (empty($this->add_label)) {
+			$this->add_label = __("Carte", "extra-admin");
+		}
+	}
+
 	public function the_admin($name_suffix) {
 		?>
 		<div class="extra-map-wrapper">

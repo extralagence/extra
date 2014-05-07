@@ -47,6 +47,16 @@ class CustomEditor extends AbstractBlock {
 		wp_localize_script('extra-page-builder-block-custom-editor', 'iframeResizerContentWindow', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.contentWindow.js');
 	}
 
+	public function extract_properties($properties) {
+		parent::extract_properties($properties);
+		if (empty($this->add_icon)) {
+			$this->add_icon = 'icon-extra-page-builder-editor';
+		}
+		if (empty($this->add_label)) {
+			$this->add_label = __("Texte", "extra-admin");
+		}
+	}
+
 	public function the_admin($name_suffix) {
 		$name = $name_suffix;
 		$this->custom_css = array(

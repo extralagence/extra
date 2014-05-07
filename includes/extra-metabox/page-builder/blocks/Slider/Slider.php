@@ -8,7 +8,7 @@
 
 namespace ExtraPageBuilder\Blocks;
 
-use ExtraPageBuilder\AbstractBlock;
+use ExtraPageBuilder\AbstractResizableBlock;
 
 /**
  * Class Image
@@ -22,7 +22,7 @@ use ExtraPageBuilder\AbstractBlock;
  * - add_label (required)
  * - add_icon (required)
  */
-class Slider extends AbstractBlock {
+class Slider extends AbstractResizableBlock {
 
 	public static function init () {
 		parent::init();
@@ -31,15 +31,28 @@ class Slider extends AbstractBlock {
 //		wp_enqueue_script('extra-page-builder-block-image', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/image/js/image.js', array('jquery'), null, true);
 	}
 
-	public function the_admin($name) {
+	public function extract_properties($properties) {
+		parent::extract_properties($properties);
+		if (empty($this->add_icon)) {
+			$this->add_icon = 'icon-extra-page-builder-slider';
+		}
+		if (empty($this->add_label)) {
+			$this->add_label = __("Carrousel", "extra-admin");
+		}
+	}
+
+	public function the_admin($name_suffix) {
 
 	}
 
-	public function the_preview($name) {
-		$this->mb->the_field($name);
+	public function the_preview($name_suffix) {
+		?>
+	<?php
 	}
 
-	public function the_front($name) {
-		
+	public static function get_front($block_data, $name_suffix) {
+		$html = '';
+
+		return $html;
 	}
 }

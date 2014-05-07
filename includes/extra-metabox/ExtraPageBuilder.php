@@ -43,6 +43,10 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		}
 	}
 
+	private function is_associative ($arr) {
+		return (is_array($arr) && count(array_filter(array_keys($arr),'is_string')) == count($arr));
+	}
+
 	public function extra_init() {
 		// TWEENMAX
 		wp_enqueue_script('tweenmax', 'http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.6/TweenMax.min.js', null, null, true);
@@ -64,11 +68,22 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$this->block_instances = array();
 		// BLOCKS
 		if (isset($this->blocks) && !empty($this->blocks)) {
-			foreach ($this->blocks as $type => $properties) {
-				$block = $this->construct_block_from_properties($type, $properties);
-				$block->init();
-				$this->block_instances[$type] = $block;
+
+			if ($this->is_associative($this->blocks)) {
+				foreach ($this->blocks as $type => $properties) {
+					$block = $this->construct_block_from_properties($type, $properties);
+					$block->init();
+					$this->block_instances[$type] = $block;
+				}
+			} else {
+				foreach ($this->blocks as $type) {
+					$block = $this->construct_block_from_properties($type, array());
+					$block->init();
+					$this->block_instances[$type] = $block;
+				}
 			}
+
+
 		} else {
 			throw new Exception('Extra Page Builder "blocks" required');
 		}
@@ -303,7 +318,6 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		} else {
 			$css = $block_css;
 		}
-
 
 		$block_data = array();
 		foreach ($row_data as $key => $data) {
