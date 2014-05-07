@@ -62,7 +62,7 @@ class Image extends AbstractResizableBlock {
 			//echo '<div class="extra-page-builder-image"><img src="'.$src[0].'" width="'.$src[1].'" height="'.$src[2].'" /></div>';
 			echo '<div class="extra-page-builder-image" style="background-image: url('.$src[0].');"></div>';
 		} else {
-			echo '<div class="extra-page-builder-image empty"><img src="" /></div>';
+			echo '<div class="extra-page-builder-image empty"></div>';
 		}
 	}
 
@@ -75,7 +75,7 @@ class Image extends AbstractResizableBlock {
 
 			$html = '<div class="extra-page-builder-image" style="background-image: url('.$src[0].');"></div>';
 		} else {
-			$html = '<div class="extra-page-builder-image empty"><img src="" /></div>';
+			$html = '<div class="extra-page-builder-image empty"></div>';
 		}
 
 		return $html;
