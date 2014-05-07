@@ -203,26 +203,36 @@ jQuery(document).ready(function($) {
 	});
 
 	$pageBuilder.on('refreshPreview.pagebuilder.extra', function (event, $block_type, $block, $form) {
-		var $map = $block.find('.extra-page-builder-map'),
-			plugin = $map.data('extraPageBuilderMapFront');
-		$map.data('lat', $form.find('.lat').val());
-		$map.data('lon', $form.find('.lon').val());
+		if ($block_type == 'map') {
+			// We stop propagation to change default behavior
+			event.stopPropagation();
 
-		if (plugin != null) {
-			plugin.refresh();
+			var $map = $block.find('.extra-page-builder-map'),
+				plugin = $map.data('extraPageBuilderMapFront');
+			$map.data('lat', $form.find('.lat').val());
+			$map.data('lon', $form.find('.lon').val());
+
+			if (plugin != null) {
+				plugin.refresh();
+			}
 		}
 	});
 
 	$pageBuilder.on('hideForm.pagebuilder.extra', function (event, block_type, $block, $form) {
-		var $map = $block.find('.extra-page-builder-map'),
-			plugin = $map.data('extraPageBuilderMapFront');
-		$map.data('lat', $form.find('.lat').val());
-		$map.data('lon', $form.find('.lon').val());
+		if ($block_type == 'map') {
+			// We stop propagation to change default behavior
+			event.stopPropagation();
 
-		if (plugin == null) {
-			$map.extraPageBuilderMapFront();
-		} else {
-			plugin.refresh();
+			var $map = $block.find('.extra-page-builder-map'),
+				plugin = $map.data('extraPageBuilderMapFront');
+			$map.data('lat', $form.find('.lat').val());
+			$map.data('lon', $form.find('.lon').val());
+
+			if (plugin == null) {
+				$map.extraPageBuilderMapFront();
+			} else {
+				plugin.refresh();
+			}
 		}
 	});
 });

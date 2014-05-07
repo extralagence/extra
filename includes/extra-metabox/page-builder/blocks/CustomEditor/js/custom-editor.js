@@ -208,6 +208,23 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	$pageBuilder.on('refreshPreview.pagebuilder.extra', function (event, block_type, $block, $form) {
+		if (block_type == 'custom_editor') {
+			// We stop propagation to change default behavior
+			event.stopPropagation();
+
+			var $editor = $form.find('.extra-custom-editor-wrapper'),
+				$content = $block.find('.extra-page-builder-block-content'),
+				$iframe = $content.find('iframe');
+
+			if ($iframe.length > 0) {
+				$iframe[0].parentNode.removeChild($iframe[0]);
+			}
+			$block.find('.custom-editor-content').html($editor.find('textarea').val());
+			createIframe($block);
+		}
+	});
+
 	function createIframe($block) {
 		var $content = $block.find('.custom-editor-content'),
 			customCss = $block.find('.extra-page-builder-block-form .extra-custom-editor-wrapper textarea').data('custom-css'),

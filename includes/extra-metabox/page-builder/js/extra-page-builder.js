@@ -108,10 +108,25 @@
 			this.toggleLayoutChooser($row);
 
 			this.resetFirstAndLast($row);
+
+			var $visibleBlocks = $row.find('.extra-page-builder-block:visible'),
+				$pageBuilder = $row.closest('.extra-page-builder'),
+				$currentVisibleBlock = null;
+			$visibleBlocks.each(function () {
+				$currentVisibleBlock = $(this);
+				$pageBuilder.trigger(
+					'refreshPreview.pagebuilder.extra',
+					[
+						$currentVisibleBlock.find('.extra-page-builder-block-choice').val(),
+						$currentVisibleBlock,
+						$currentVisibleBlock.find('.extra-field-form')
+					]
+				);
+			});
+
 			$row.trigger('layoutChange.pagebuilder.extra', [$row, layout]);
 		},
 		resetFirstAndLast: function ($row) {
-			console.log('resetFirstAndLast');
 			var $blocks = $row.find('.extra-page-builder-block'),
 				$visibleBlocks = $blocks.filter(':visible'),
 				i = 1,
@@ -289,26 +304,33 @@
 			$block2.addClass('extra-page-builder-block-'+block1_number);
 
 
-			// Ask refresh for blocks
-//			$('.extra-page-builder').trigger(
-//				'refreshPreview.pagebuilder.extra',
-//				[
-//					$block1.find('.extra-page-builder-block-choice').val(),
-//					$block1,
-//					$block1.find('.extra-field-form')
-//				]
-//			);
-//			$('.extra-page-builder').trigger(
-//				'refreshPreview.pagebuilder.extra',
-//				[
-//					$block2.find('.extra-page-builder-block-choice').val(),
-//					$block2,
-//					$block2.find('.extra-field-form')
-//				]
-//			);
-
 			this.resetFirstAndLast($block1_row);
 			this.resetFirstAndLast($block2_row);
+
+			// Ask refresh for blocks
+			var $pageBuilder = $block1.closest('.extra-page-builder');
+
+			console.log($block1.find('.extra-page-builder-block-choice').val());
+			console.log($block2.find('.extra-page-builder-block-choice').val());
+
+			$pageBuilder.trigger(
+				'refreshPreview.pagebuilder.extra',
+				[
+					$block1.find('.extra-page-builder-block-choice').val(),
+					$block1,
+					$block1.find('.extra-field-form')
+				]
+			);
+			$pageBuilder.trigger(
+				'refreshPreview.pagebuilder.extra',
+				[
+					$block2.find('.extra-page-builder-block-choice').val(),
+					$block2,
+					$block2.find('.extra-field-form')
+				]
+			);
+
+
 
 			return this;
 
@@ -402,7 +424,6 @@ function setResizable($blocks) {
 				$pageBuilder = $block.closest('.extra-page-builder'),
 				currentheight = $block.css('height'),
 				$input = $block.find('.extra-page-builder-block-height');
-			//$this.find('.extra-page-builder-block-content-admin').css('display', '');
 			$input.val(currentheight);
 
 			$pageBuilder.trigger(
@@ -413,15 +434,10 @@ function setResizable($blocks) {
 					$block.find('.extra-field-form')
 				]
 			);
+
 			$this.closest('.extra-page-builder-row').removeClass('resizing');
 		},
 		resize: function (event, ui) {
-//			$lastBlocks.each(function() {
-//				var $current = jQuery(this);
-//				console.log($current.height());
-//				$current.find('.extra-page-builder-block-content-admin-size').html($current.height()+' px');
-//			});
-
 			var $this = jQuery(this),
 				top = jQuery(window).scrollTop(),
 				diff = top + jQuery(window).height() - event.pageY,
