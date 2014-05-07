@@ -372,7 +372,6 @@ function setResizable($blocks) {
 
 	var $resizableBlocks = $blocks.filter('.resizable'),
 		brotherHeights = null;
-	console.log($resizableBlocks.length);
 	$resizableBlocks.resizable({
 		disabled: false,
 		handles: "s",
@@ -390,7 +389,7 @@ function setResizable($blocks) {
 			$row.find('.extra-page-builder-block').each(function() {
 				var $current = jQuery(this),
 					brotherHeight = $current.height();
-				if (!$current.is(':hidden')) {
+				if ($current[0] != $this[0] && !$current.is(':hidden')) {
 					brotherHeights.push(brotherHeight);
 					$current.find('.extra-page-builder-block-content-admin-size').html(brotherHeight+' px');
 				}
@@ -449,8 +448,6 @@ function setResizable($blocks) {
 			}
 
 			$this.closest('.extra-page-builder-block').find('.extra-page-builder-block-content-admin-size').html($this.height()+' px');
-
-
 
 			if(diff < 50) {
 				jQuery(window).scrollTop(top + 50 - diff);

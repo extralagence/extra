@@ -212,4 +212,17 @@ jQuery(document).ready(function($) {
 			plugin.refresh();
 		}
 	});
+
+	$pageBuilder.on('hideForm.pagebuilder.extra', function (event, block_type, $block, $form) {
+		var $map = $block.find('.extra-page-builder-map'),
+			plugin = $map.data('extraPageBuilderMapFront');
+		$map.data('lat', $form.find('.lat').val());
+		$map.data('lon', $form.find('.lon').val());
+
+		if (plugin == null) {
+			$map.extraPageBuilderMapFront();
+		} else {
+			plugin.refresh();
+		}
+	});
 });
