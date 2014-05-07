@@ -331,23 +331,11 @@
 })( jQuery, window, document );
 
 function setDraggable($blocks) {
-	//.find('.extra-page-builder-block-droppable-wrapper')
 	$blocks.draggable({
 		cursor: 'move',
 		handle: '.extra-page-builder-block-content-admin',
 		appendTo: jQuery('body'),
-//		helper: 'clone',
 		iframeFix: true,
-//		helper: function () {
-//			var $current = jQuery(this),
-//				$helper = jQuery('<div class="extra-page-builder-block-drag-helper"></div> ');
-//
-//			console.log($current.width());
-//			console.log($current.height());
-//
-//			$helper.css('width', $current.width()).css('height', $current.height());
-//			return $helper;
-//		},
 		helper: function () {
 			var $this = jQuery(this),
 				$clone = $this.find('.extra-page-builder-block-content').clone();
