@@ -64,7 +64,7 @@
 
 			$(document).on('click', '.choose-block-choices .choose-block-button', function (event) {
 				if (extraPageBuilder.block_choose != null) {
-					extraPageBuilder.setBlockChoice(extraPageBuilder.block_choose, $(this).data('value'));
+					extraPageBuilder.setBlockChoice(extraPageBuilder.block_choose, $(this).data('value'), $(this).data('resizable'));
 				}
 				return false;
 			});
@@ -107,7 +107,28 @@
 
 			this.toggleLayoutChooser($row);
 
+			this.resetFirstAndLast($row);
 			$row.trigger('layoutChange.pagebuilder.extra', [$row, layout]);
+		},
+		resetFirstAndLast: function ($row) {
+			console.log('resetFirstAndLast');
+			var $blocks = $row.find('.extra-page-builder-block'),
+				$visibleBlocks = $blocks.filter(':visible'),
+				i = 1,
+				$currentBlock;
+
+			$blocks.removeClass('first').removeClass('last');
+
+			$visibleBlocks.each(function () {
+				$currentBlock = $(this);
+				if (i == 1) {
+					$currentBlock.addClass('first');
+				}
+				if (i == $visibleBlocks.length) {
+					$currentBlock.addClass('last');
+				}
+				i++;
+			});
 		},
 		openBlockChooser: function ($block) {
 			var $chooseBlock = $block.find('.choose-block'),
@@ -119,7 +140,7 @@
 				.options({footer:[], size: {height: '358', width: '400'}})
 				.show('Choisir un bloc', $choices.clone());
 		},
-		setBlockChoice: function ($block, block_type) {
+		setBlockChoice: function ($block, block_type, resizable) {
 			var $blockWrapper = $block.find('.extra-page-builder-block-wrapper'),
 				$inputBlockChoice = $block.find('.extra-page-builder-block-choice'),
 				blockId = $block.data('block-number'),
@@ -143,6 +164,10 @@
 					$blockWrapper.html(data);
 
 					plugin.last_modal_block = $block;
+					if (resizable == 'yes') {
+						$block.addClass('resizable');
+						setResizable($block);
+					}
 					$('.extra-page-builder').trigger('showform.pagebuilder.extra', [block_type, $block, $block.find('.extra-field-form')]);
 				}
 			);
@@ -150,10 +175,20 @@
 		resetBlockChoice: function ($block) {
 			var $blockContent = $block.find('.extra-page-builder-block-content'),
 				$blockForm = $block.find('.extra-page-builder-block-form'),
-				$inputBlockChoice = $block.find('.extra-page-builder-block-choice');
+				$inputBlockChoice = $block.find('.extra-page-builder-block-choice'),
+				$inputBlockHeight = $block.find('.extra-page-builder-block-height');
 
 			$block.addClass('not-selected');
+
+			//Remove resizable
+			if ($block.hasClass('resizable')) {
+				$block.resizable('destroy');
+				$block.css('height', '');
+				$block.removeClass('resizable');
+			}
+
 			$inputBlockChoice.val('');
+			$inputBlockHeight.val('');
 
 			$blockContent.html('');
 			$blockForm.html('');
@@ -253,6 +288,28 @@
 			$block2.removeClass('extra-page-builder-block-'+block2_number);
 			$block2.addClass('extra-page-builder-block-'+block1_number);
 
+
+			// Ask refresh for blocks
+//			$('.extra-page-builder').trigger(
+//				'refreshPreview.pagebuilder.extra',
+//				[
+//					$block1.find('.extra-page-builder-block-choice').val(),
+//					$block1,
+//					$block1.find('.extra-field-form')
+//				]
+//			);
+//			$('.extra-page-builder').trigger(
+//				'refreshPreview.pagebuilder.extra',
+//				[
+//					$block2.find('.extra-page-builder-block-choice').val(),
+//					$block2,
+//					$block2.find('.extra-field-form')
+//				]
+//			);
+
+			this.resetFirstAndLast($block1_row);
+			this.resetFirstAndLast($block2_row);
+
 			return this;
 
 		}
@@ -273,6 +330,140 @@
 
 })( jQuery, window, document );
 
+function setDraggable($blocks) {
+	$blocks.draggable({
+		cursor: 'move',
+		handle: '.extra-page-builder-block-content-admin',
+		appendTo: document.body,
+		//helper: 'clone',
+		helper: function () {
+			var $current = jQuery(this),
+				$helper = jQuery('<div class="extra-page-builder-block-drag-helper"></div> ');
+
+			console.log($current.width());
+			console.log($current.height());
+
+			$helper.css('width', $current.width()).css('height', $current.height());
+			return $helper;
+		},
+		start: function (event, ui) {
+			jQuery('.extra-page-builder-block.ui-draggable-dragging').css('width', jQuery(this).outerWidth());
+			jQuery(this).addClass('extra-page-builder-block-dragging');
+		},
+		stop: function (event, ui) {
+			jQuery(this).removeClass('extra-page-builder-block-dragging');
+		}
+	});
+}
+
+function setDroppable($blocks) {
+	$blocks.droppable({
+		accept: '.extra-page-builder-block',
+		tolerance: 'pointer',
+		activeClass: 'extra-page-builder-block-active',
+		hoverClass: 'extra-page-builder-block-hover',
+		drop: function (event, ui) {
+			extraPageBuilder.swapBlocks(ui.draggable, jQuery(this));
+		}
+	});
+}
+
+function setResizable($blocks) {
+
+	var $resizableBlocks = $blocks.filter('.resizable'),
+		brotherHeights = null;
+	console.log($resizableBlocks.length);
+	$resizableBlocks.resizable({
+		disabled: false,
+		handles: "s",
+		start: function (event, ui) {
+			var $this = jQuery(this),
+				$row = $this.closest('.extra-page-builder-row');
+			$this.css('position', 'relative');
+			$this.css('top', '');
+			$this.css('left', '');
+
+			//$this.find('.extra-page-builder-block-content-admin').css('display', 'none');
+			$row.addClass('resizing');
+
+			brotherHeights = [];
+			$row.find('.extra-page-builder-block').each(function() {
+				var $current = jQuery(this),
+					brotherHeight = $current.height();
+				if (!$current.is(':hidden')) {
+					brotherHeights.push(brotherHeight);
+					$current.find('.extra-page-builder-block-content-admin-size').html(brotherHeight+' px');
+				}
+			});
+
+		},
+		stop: function (event, ui) {
+			var $this = jQuery(this),
+				$block = $this.closest('.extra-page-builder-block'),
+				$pageBuilder = $block.closest('.extra-page-builder'),
+				currentheight = $block.css('height'),
+				$input = $block.find('.extra-page-builder-block-height');
+			//$this.find('.extra-page-builder-block-content-admin').css('display', '');
+			$input.val(currentheight);
+
+			$pageBuilder.trigger(
+				'refreshPreview.pagebuilder.extra',
+				[
+					$block.find('.extra-page-builder-block-choice').val(),
+					$block,
+					$block.find('.extra-field-form')
+				]
+			);
+			$this.closest('.extra-page-builder-row').removeClass('resizing');
+		},
+		resize: function (event, ui) {
+//			$lastBlocks.each(function() {
+//				var $current = jQuery(this);
+//				console.log($current.height());
+//				$current.find('.extra-page-builder-block-content-admin-size').html($current.height()+' px');
+//			});
+
+			var $this = jQuery(this),
+				top = jQuery(window).scrollTop(),
+				diff = top + jQuery(window).height() - event.pageY,
+				currentHeight = $this.height(),
+				closestBrotherHeight = null,
+				closestBrotherHeightDiff = null,
+				currentBrotherHeight = null,
+				currentBrotherHeightDiff = null,
+				i = 0;
+
+			while (i < brotherHeights.length) {
+				currentBrotherHeight = brotherHeights[i];
+				currentBrotherHeightDiff = Math.abs(currentHeight - currentBrotherHeight);
+
+				if (closestBrotherHeightDiff == null || (currentBrotherHeightDiff < closestBrotherHeightDiff)) {
+					closestBrotherHeightDiff = currentBrotherHeightDiff;
+					closestBrotherHeight = currentBrotherHeight;
+				}
+				i++;
+			}
+
+			if (closestBrotherHeightDiff < 8) {
+				$this.css('height', closestBrotherHeight);
+			}
+
+			$this.closest('.extra-page-builder-block').find('.extra-page-builder-block-content-admin-size').html($this.height()+' px');
+
+
+
+			if(diff < 50) {
+				jQuery(window).scrollTop(top + 50 - diff);
+			}
+
+		}
+	}).find('.resizable')
+		.css({overflow:'auto',
+			width:'100%',
+			height:'100%'});
+
+	jQuery('.extra-page-builder-block .ui-resizable-handle.ui-resizable-s').css('display', '');
+}
 
 var extraAdminModal,
 	extraPageBuilder;
@@ -305,7 +496,7 @@ jQuery(document).ready(function($){
 	$(document).on('hideForm.pagebuilder.extra', function (event, block_type, $block, $form) {
 		extraPageBuilder.last_modal_block.find('.extra-page-builder-block-form').append($form);
 		$('.extra-page-builder').trigger(
-			'refreshPreview.pagebuilder.extra',
+			'review.pagebuilder.extra',
 			[
 				extraPageBuilder.last_modal_block.find('.extra-page-builder-block-choice').val(),
 				extraPageBuilder.last_modal_block,
@@ -331,34 +522,7 @@ jQuery(document).ready(function($){
 
 	setDraggable($blocks);
 	setDroppable($blocks);
-
-	function setDraggable($blocks) {
-		$blocks.draggable({
-			cursor: 'move',
-			handle: '.extra-page-builder-block-content-admin',
-			appendTo: document.body,
-			helper: 'clone',
-			start: function (event, ui) {
-				$('.extra-page-builder-block.ui-draggable-dragging').css('width', $(this).outerWidth());
-				$(this).addClass('extra-page-builder-block-dragging');
-			},
-			stop: function (event, ui) {
-				$(this).removeClass('extra-page-builder-block-dragging');
-			}
-		});
-	}
-
-	function setDroppable($blocks) {
-		$blocks.droppable({
-			accept: '.extra-page-builder-block',
-			tolerance: 'pointer',
-			activeClass: 'extra-page-builder-block-active',
-			hoverClass: 'extra-page-builder-block-hover',
-			drop: function (event, ui) {
-				extraPageBuilder.swapBlocks(ui.draggable, $(this));
-			}
-		});
-	}
+	setResizable($blocks);
 
 	if ($.wpalchemy !== undefined) {
 		$.wpalchemy.bind('wpa_copy', function(e, elmt){
@@ -366,6 +530,7 @@ jQuery(document).ready(function($){
 
 			setDraggable($inner_blocks);
 			setDroppable($inner_blocks);
+			setResizable($inner_blocks);
 		});
 	}
 

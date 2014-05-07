@@ -9,6 +9,7 @@
 namespace ExtraPageBuilder\Blocks;
 
 use ExtraPageBuilder\AbstractBlock;
+use ExtraPageBuilder\AbstractResizableBlock;
 
 /**
  * Class Image
@@ -22,7 +23,7 @@ use ExtraPageBuilder\AbstractBlock;
  * - add_label (required)
  * - add_icon (required)
  */
-class Map extends AbstractBlock {
+class Map extends AbstractResizableBlock {
 
 	public static function init () {
 		parent::init();

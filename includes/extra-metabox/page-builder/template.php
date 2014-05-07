@@ -37,13 +37,13 @@ $mb;
 
 				<div class="extra-page-builder-row-content extra-page-builder-row-content-<?php echo (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout; ?>">
 					<?php
-					$mb->the_block(1);
+					$mb->the_block(1, $page_builder_row_type);
 					?>
 					<?php
-					$mb->the_block(2);
+					$mb->the_block(2, $page_builder_row_type);
 					?>
 					<?php
-					$mb->the_block(3);
+					$mb->the_block(3, $page_builder_row_type);
 					?>
 				</div>
 			</div>

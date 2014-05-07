@@ -203,9 +203,13 @@ jQuery(document).ready(function($) {
 	});
 
 	$pageBuilder.on('refreshPreview.pagebuilder.extra', function (event, $block_type, $block, $form) {
-		var $map = $block.find('.extra-page-builder-map');
+		var $map = $block.find('.extra-page-builder-map'),
+			plugin = $map.data('extraPageBuilderMapFront');
 		$map.data('lat', $form.find('.lat').val());
 		$map.data('lon', $form.find('.lon').val());
-		$map.data('extraPageBuilderMapFront').refresh();
+
+		if (plugin != null) {
+			plugin.refresh();
+		}
 	});
 });

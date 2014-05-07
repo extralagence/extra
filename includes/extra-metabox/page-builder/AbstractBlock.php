@@ -14,10 +14,13 @@ abstract class AbstractBlock {
 	protected $type;
 	protected $add_label;
 	protected $add_icon;
+	protected $resizable;
 
 	function __construct(\ExtraPageBuilder $mb, $type) {
 		$this->mb = $mb;
 		$this->type = $type;
+
+		$this->resizable = false;
 	}
 
 	public static function init() {
@@ -55,5 +58,12 @@ abstract class AbstractBlock {
 	 */
 	public function get_type() {
 		return $this->type;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function is_resizable() {
+		return $this->resizable !== false;
 	}
 }

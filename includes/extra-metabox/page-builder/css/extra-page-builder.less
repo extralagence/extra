@@ -225,7 +225,7 @@
 }
 .extra-page-builder-row-content > .extra-page-builder-block {
 	float: left;
-	min-height: 217px;
+	min-height: 200px;
 	overflow: hidden;
 }
 .extra-page-builder-row-content:after {
@@ -306,7 +306,7 @@
 
 .choose-link {
 	display: block;
-	line-height: 194px;
+	line-height: 178px;
 	text-align: center;
 	text-decoration: none;
 }
@@ -349,18 +349,27 @@
 .extra-page-builder-block-content {
 	//padding: 10px;
 	padding: 0 10px;
+	height: 100%;
 }
-.extra-page-builder-block:first-child .extra-page-builder-block-content {
+.extra-page-builder-block.first .extra-page-builder-block-content {
 	padding-left: 0;
 }
-.extra-page-builder-block:last-child .extra-page-builder-block-content {
+.extra-page-builder-block.last .extra-page-builder-block-content {
 	padding-right: 0;
+}
+
+.extra-page-builder-block-wrapper {
+	height: 100%;
 }
 
 .extra-page-builder-block.not-selected .extra-page-builder-block-content,
 .extra-page-builder-block.not-selected:hover .extra-page-builder-block-content-admin,
 {
 	display: none;
+}
+
+.extra-page-builder-block-droppable-wrapper {
+	height: 100%;
 }
 
 .extra-page-builder-block-active {
@@ -396,6 +405,12 @@
 .extra-page-builder-block.ui-draggable-dragging {
 	box-sizing: border-box;
 	border: 1px solid #bbb;
+}
+
+.extra-page-builder-block-drag-helper {
+	background-color: #777;
+	width: 300px;
+	height: 300px;
 }
 
 .extra-page-builder-block-content-admin {
@@ -476,6 +491,56 @@
 	display: none;
 }
 
+/*******************
+ *
+ * RESIZABLE
+ *
+ ******************/
+.extra-page-builder-block .ui-resizable-handle.ui-resizable-s {
+	display: none;
+	background-color: #000;
+	height: 10px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	cursor: ns-resize;
+}
+
+.extra-page-builder-block.resizable:hover .ui-resizable-handle.ui-resizable-s{
+	display: block;
+}
+
+.extra-page-builder-block-content-admin-size {
+	display: none;
+}
+.extra-page-builder-row.resizing .extra-page-builder-block-content-admin-size {
+	color: #fff;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	height: 30px;
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+}
+
+.resizing .extra-page-builder-block-content-admin {
+	display: block;
+}
+.resizing .extra-page-builder-block-content-admin:after {
+	content: '';
+	background-color: #777;
+	height: 10px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+.resizing .extra-page-builder-block-content-admin .extra-page-builder-block-content-admin-wrapper {
+	display: none;
+}
 
 /*******************
  *
