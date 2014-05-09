@@ -152,7 +152,7 @@
 			this.block_choose = $block;
 			this.last_modal_block = null;
 			extraAdminModal
-				.options({footer:[], size: {height: '358', width: '400'}})
+				.options({footer:[], size: {height: '358', width: '358'}})
 				.show('Choisir un bloc', $choices.clone());
 		},
 		setBlockChoice: function ($block, block_type, resizable) {

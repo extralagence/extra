@@ -1371,6 +1371,8 @@ class WPAlchemy_MetaBox
 
 					if (elem.attr('class') && elem.filter('[class*=dodelete]').length)
 					{
+						console.log('dodelete');
+
 						e.preventDefault();
 
 						var p = elem.parents('.wpa_group:first');
@@ -1412,25 +1414,34 @@ class WPAlchemy_MetaBox
 
 				$(document).on('click', '[class*=docopy-]', function(e) {
 					e.preventDefault();
+					console.log('docopy');
 
 					var p = $(this).parents('.wpa_group:first');
 
 					if(p.length <= 0) {
-						p = $(this).parents('.extra-metabox'); /*wp*/
+						p = $(this).closest('.extra-metabox'); /*wp*/
 					}
 
 					var the_name = $(this).attr('class').match(/docopy-([a-zA-Z0-9_-]*)/i)[1];
 
+					console.log("the_name");
+					console.log(the_name);
+
 					var the_group = $('.wpa_group-'+ the_name +'.tocopy', p).first();
+					console.log("the_group");
+					console.log(the_group);
 
 					var the_clone = the_group.clone().removeClass('tocopy last');
+
+					console.log("the_clone");
+					console.log(the_clone);
 
 					var the_props = ['name', 'id', 'for', 'class'];
 
 					the_group.find('*').each(function(i, elem) {
 						for (var j = 0; j < the_props.length; j++) {
 
-							console.log($(elem));
+//							console.log($(elem));
 
 							var the_prop = $(elem).attr(the_props[j]);
 

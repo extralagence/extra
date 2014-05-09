@@ -173,14 +173,14 @@ jQuery(document).ready(function ($) {
 
 			var $editor = $form.find('.extra-custom-editor-wrapper');
 
-			if ($editor.data('plugin_extraPageBuilderCustomEditor') === undefined) {
+			if ($editor.data('extraPageBuilderCustomEditor') === undefined) {
 				$editor.extraPageBuilderCustomEditor({height: 400});
 			}
 
 			$editor.data('extraPageBuilderCustomEditor').disable();
 			extraAdminModal
 				.options({footer: ['extra-admin-modal-save'], header: ['extra-admin-modal-title'], size: {height: 687}})
-				.show('Modifier le bloc',  $form);
+				.show('Modifier le texte',  $form);
 			$editor.data('extraPageBuilderCustomEditor').enable();
 		}
 	});

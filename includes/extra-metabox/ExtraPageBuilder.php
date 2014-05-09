@@ -245,7 +245,8 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	}
 
 	public function get_front() {
-		$rows = $this->the_meta()['page_builder'];
+		$meta = $this->the_meta();
+		$rows = $meta['page_builder'];
 		$html = '<div class="extra-page-builder-wrapper">';
 		$row_number = 1;
 		foreach ($rows as $row) {

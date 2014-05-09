@@ -45,17 +45,17 @@
 			var plugin = this;
 			this.element.append(
 				'<div class="extra-admin-modal">' +
-					'	<div class="extra-admin-modal-header">' +
-					'		<h1 class="extra-admin-modal-title"></h1>' +
-					'		<a href="#" class="extra-admin-modal-close">' +
-					'			<span class="extra-admin-modal-close-icon"></span>' +
-					'		</a>' +
-					'	</div>' +
-					'	<div class="extra-admin-modal-content"></div>' +
-					'	<div class="extra-admin-modal-footer">' +
-					'		<a href="#" class="extra-admin-modal-save button button-primary right">Valider</a>' +
-					'	</div>' +
-					'</div>'
+				'	<div class="extra-admin-modal-header">' +
+				'		<h1 class="extra-admin-modal-title"></h1>' +
+				'		<a href="#" class="extra-admin-modal-close">' +
+				'			<span class="extra-admin-modal-close-icon"></span>' +
+				'		</a>' +
+				'	</div>' +
+				'	<div class="extra-admin-modal-content extra-metabox"></div>' +
+				'	<div class="extra-admin-modal-footer">' +
+				'		<a href="#" class="extra-admin-modal-save button button-primary right">Valider</a>' +
+				'	</div>' +
+				'</div>'
 			);
 
 			this.element.on('click', '.extra-admin-modal-close', function (event) {

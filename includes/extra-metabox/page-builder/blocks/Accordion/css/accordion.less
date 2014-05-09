@@ -1,0 +1,93 @@
+/**********************
+ *
+ *
+ * ACCORDION
+ *
+ *
+ **********************/
+.extra-metabox .extra-accordion .wpa_group > .bloc {
+	background: #fcfcfc;
+}
+/* DELETE LINK */
+.extra-metabox .extra-accordion .dodelete {
+	display: block;
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	text-align: left;
+	text-transform: uppercase;
+	white-space: nowrap;
+	width: auto;
+	height: 18px;
+}
+
+.extra-metabox .extra-accordion .dodelete * {
+	pointer-events: none;
+}
+.extra-metabox .extra-accordion .dodelete .label {
+	visibility: hidden;
+}
+.extra-metabox .extra-accordion .dodelete .dashicons {
+	font-size: 25px;
+	vertical-align: -8px;
+	width: auto;
+	height: auto;
+}
+.extra-metabox .extra-accordion .dodelete:hover .label {
+	visibility: visible;
+}
+/* NAV */
+.extra-accordion-navigation {
+	margin: 0;
+	position: relative;
+	z-index: 2;
+}
+.extra-accordion-navigation li {
+	float: left;
+	margin: 5px 5px 0 0;
+	list-style: none;
+}
+.extra-accordion-navigation li a,
+.extra-accordion-navigation li a:focus {
+	background: #ffffff;
+	border: 1px solid #DFDFDF;
+	color: #c4c4c4;
+	display: block;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+	outline: none;
+	padding: 10px;
+	position: relative;
+	top: 1px;
+	text-decoration: none;
+}
+.extra-accordion-navigation li.ui-state-active a,
+.extra-accordion-navigation li.ui-state-active a:focus {
+	border-color: #DFDFDF;
+	background: #fcfcfc;
+	border-bottom: 1px solid #fcfcfc;
+	color: #333;
+}
+.extra-accordion .ui-tabs-panel > .bloc {
+	margin-top: 0;
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+.extra-accordion .extra-accordion-placeholder {
+	background: #DFDFDF;
+	display: block;
+}
+/**********************
+ *
+ *
+ * EASY CLEARING
+ *
+ *
+ **********************/
+.extra-accordion-navigation:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
