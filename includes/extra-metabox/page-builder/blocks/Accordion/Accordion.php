@@ -25,30 +25,16 @@ class Accordion extends AbstractBlock {
 	public static function init () {
 		parent::init();
 
-		wp_enqueue_style('extra-page-builder-block-accordion', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Accordion/css/accordion.less');
+		wp_enqueue_style('extra-page-builder-block-accordion-admin', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Accordion/css/accordion-admin.less');
 		wp_enqueue_script('jquery-ui-tabs');
 
-//		wp_enqueue_script(
-//			'extra-page-builder-block-custom-editor-iframe-resizer',
-//			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.js',
-//			array('jquery'),
-//			null,
-//			true
-//		);
-//
 		wp_enqueue_script(
-			'extra-page-builder-block-accordion',
-			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Accordion/js/accordion.js',
-			array(
-				'jquery',
-				'quicktags',
-				//'extra-page-builder-block-custom-editor-iframe-resizer'
-			),
+			'extra-page-builder-block-accordion-admin',
+			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Accordion/js/accordion-admin.js',
+			array('jquery', 'quicktags'),
 			null,
 			true
 		);
-
-		//wp_localize_script('extra-page-builder-block-accordion', 'iframeResizerContentWindow', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Accordion/js/iframeResizer.contentWindow.js');
 	}
 
 	public function extract_properties($properties) {
@@ -63,13 +49,6 @@ class Accordion extends AbstractBlock {
 
 	public function the_admin($name_suffix) {
 		$name = $name_suffix;
-
-		//var_dump($this->mb->have_fields_and_multi($name));
-
-//		$this->custom_css = array(
-//			THEME_URI.'/assets/css/content.less',
-//			EXTRA_URI.'/includes/extra-metabox/page-builder/blocks/CustomEditor/css/editor-style.less'
-//		);
 		?>
 		<div class="extra-accordion">
 			<div class="repeatable">
@@ -86,7 +65,7 @@ class Accordion extends AbstractBlock {
 						<h2><?php _e("Section", "extra-admin"); ?></h2>
 						<a href="#" class="dodelete"><span class="icon-extra-page-builder icon-extra-page-builder-cross"></span></a>
 
-						<?php $this->mb->the_field('section_title_'.$name_suffix); ?>
+						<?php $this->mb->the_field('section_title'); ?>
 						<label for="<?php $this->mb->the_name(); ?>"><?php _e("Titre de la section"); ?></label>
 						<input
 							class="extra-accordion-title"
@@ -96,18 +75,9 @@ class Accordion extends AbstractBlock {
 							value="<?php $this->mb->the_value(); ?>">
 						<br>
 
-<!--						--><?php //$this->mb->the_field('section_content_'.$name_suffix); ?>
-<!--						<textarea-->
-<!--							class="extra-accordion-content"-->
-<!--							name="--><?php //$this->mb->the_name(); ?><!--">-->
-<!--							--><?php //echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?>
-<!--						</textarea>-->
-
 						<?php
-						$editor_name = 'section_content_'.$name_suffix;
-						$this->custom_css = array(
-							THEME_URI.'/assets/css/content.less',
-						);
+						$editor_name = 'section_content';
+						$this->custom_css = array(THEME_URI.'/assets/css/content.less');
 						?>
 						<div class="extra-accordion-custom-editor-wrapper">
 
@@ -169,8 +139,6 @@ class Accordion extends AbstractBlock {
 							</table>
 						</div>
 
-
-
 					</div>
 					<?php $this->mb->the_group_close(); ?>
 				<?php endwhile; ?>
@@ -213,7 +181,7 @@ class Accordion extends AbstractBlock {
 		if ($lines != null && $lines ) {
 			foreach ($lines as $line) {
 				$html .= '<li>';
-				$html .= '<h3 class="extra-accordion-title">'.$line['section_title_'.$name_suffix].'</h3>';
+				$html .= '<h3 class="extra-accordion-title">'.$line['section_title'].'</h3>';
 				$html .= '</li>';
 			}
 			$html .= '</ul>';
@@ -222,9 +190,18 @@ class Accordion extends AbstractBlock {
 	}
 
 	public static function get_front($block_data, $name_suffix) {
-		parent::get_front($block_data, $name_suffix);
-
-		$html = 'Accordion';
+		$lines = $block_data[$name_suffix];
+		$html = '';
+		foreach ($lines as $line) {
+			$html .= '	<div class="accordeon-wrapper">';
+			$html .= '		<div class="accordeon-element">';
+			$html .= '			<h3 class="tab-title">'.$line['section_title'].'</h3>';
+			$html .= '			<div class="tab-content">';
+			$html .= '				<div class="inner">'.apply_filters('the_content', html_entity_decode( $line['section_content'], ENT_QUOTES, 'UTF-8' )).'</div>';
+			$html .= '			</div>';
+			$html .= '		</div>';
+			$html .= '	</div>';
+		}
 
 		return $html;
 	}

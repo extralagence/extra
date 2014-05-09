@@ -190,14 +190,13 @@ jQuery(document).ready(function($) {
 
 			var $map = $form.find('.extra-map-wrapper');
 
-			if ($map.data('extraPageBuilderMapAdmin') === undefined) {
-				$map.extraPageBuilderMapAdmin({height: 400});
-			}
-
 			extraAdminModal
 				.options({footer: ['extra-admin-modal-save'], header: ['extra-admin-modal-title'], size: {width: 800, height: 760}})
 				.show('Modifier le bloc',  $form);
 
+			if ($map.data('extraPageBuilderMapAdmin') == undefined) {
+				$map.extraPageBuilderMapAdmin({height: 400});
+			}
 			$map.data('extraPageBuilderMapAdmin').resize();
 		}
 	});
@@ -220,8 +219,7 @@ jQuery(document).ready(function($) {
 
 	$pageBuilder.on('hideForm.pagebuilder.extra', function (event, block_type, $block, $form) {
 		if (block_type == 'map') {
-			// We stop propagation to change default behavior
-			event.stopPropagation();
+			// We don'tstop propagation to keep form default behavior
 
 			var $map = $block.find('.extra-page-builder-map'),
 				plugin = $map.data('extraPageBuilderMapFront');

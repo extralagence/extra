@@ -1376,6 +1376,13 @@ class WPAlchemy_MetaBox
 						e.preventDefault();
 
 						var p = elem.parents('.wpa_group:first');
+						console.log(p);
+
+						// After Add by Vincent
+						if (p.length <= 0) {
+							p = elem.closest('.repeatable').find('.wpa_loop:first');
+						}
+						// Before Add by Vincent
 
 						if(p.length <= 0)
 							p = elem.parents('.postbox'); /*wp*/
@@ -1389,6 +1396,7 @@ class WPAlchemy_MetaBox
 						{
 							if (the_name)
 							{
+								console.log('.wpa_group-'+ the_name)
 								$('.wpa_group-'+ the_name, p).not('.tocopy').remove();
 							}
 							else

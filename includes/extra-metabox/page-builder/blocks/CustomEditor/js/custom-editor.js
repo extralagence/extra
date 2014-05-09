@@ -252,7 +252,7 @@ jQuery(document).ready(function ($) {
 		html += 	'<script type="text/javascript" src="'+iframeResizerContentWindow+'"></script>';
 		html += '</body>';
 
-		iframe.attr('src', 'data:text/html;charset=utf-8,' + encodeURI(html)).attr('width', '100%').attr('scrolling', 'no');
+		iframe.attr('src', 'data:text/html;charset=utf-8,' + encodeURI(html)).attr('width', '100%').attr('height', '60').attr('scrolling', 'no');
 
 		$content.after(iframe);
 

@@ -1,0 +1,44 @@
+/**********************
+ *
+ *
+ * ACCORDION
+ *
+ *
+ **********************/
+.content .accordeon-wrapper {
+	margin-top: 5px;
+}
+.content .accordeon-element {
+	border-bottom: 1px solid @black;
+	padding: 0 0 2px 0;
+}
+.content .accordeon-wrapper .tab-title {
+	color: @black;
+	cursor: pointer;
+	line-height: 35px;
+	margin: 0px;
+}
+.content .accordeon-wrapper .tab-title:hover {
+	color: @highlight;
+}
+.content .accordeon-wrapper .tab-title:before {
+	//background: transparent url(../img/visu/sprite.png) -140px -180px no-repeat;
+	content: "+";
+	display: inline-block;
+	margin-left: 5px;
+	margin-right: 10px;
+	vertical-align: -2px;
+	width: 15px;
+	height: 15px;
+}
+.content .accordeon-wrapper .open .tab-title:before {
+	//background-position: -140px -195px;
+	content: "-";
+}
+.content .accordeon-wrapper .tab-content {
+	padding-left: 30px;
+	overflow: hidden;
+}
+.content .accordeon-wrapper .tab-content .inner {
+	padding: 0 0 5px 0;
+}
