@@ -161,7 +161,7 @@ class CustomEditor extends AbstractBlock {
 	public static function get_front($block_data, $name_suffix) {
 		parent::get_front($block_data, $name_suffix);
 
-		$html = apply_filters('the_content', html_entity_decode( $block_data[$name_suffix], ENT_QUOTES, 'UTF-8' ));;
+		$html = apply_filters('the_content', html_entity_decode( $block_data[$name_suffix], ENT_QUOTES, 'UTF-8' ));
 
 		return $html;
 	}

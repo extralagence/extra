@@ -27,7 +27,6 @@ class Accordion extends AbstractBlock {
 
 		wp_enqueue_style('extra-page-builder-block-accordion', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Accordion/css/accordion.less');
 		wp_enqueue_script('jquery-ui-tabs');
-//		wp_enqueue_script('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Accordion/js/accordion.js', array('jquery', 'quicktags'), null, true);
 
 //		wp_enqueue_script(
 //			'extra-page-builder-block-custom-editor-iframe-resizer',
@@ -65,6 +64,8 @@ class Accordion extends AbstractBlock {
 	public function the_admin($name_suffix) {
 		$name = $name_suffix;
 
+		//var_dump($this->mb->have_fields_and_multi($name));
+
 //		$this->custom_css = array(
 //			THEME_URI.'/assets/css/content.less',
 //			EXTRA_URI.'/includes/extra-metabox/page-builder/blocks/CustomEditor/css/editor-style.less'
@@ -85,7 +86,7 @@ class Accordion extends AbstractBlock {
 						<h2><?php _e("Section", "extra-admin"); ?></h2>
 						<a href="#" class="dodelete"><span class="icon-extra-page-builder icon-extra-page-builder-cross"></span></a>
 
-						<?php $this->mb->the_field('section_title_'.$name); ?>
+						<?php $this->mb->the_field('section_title_'.$name_suffix); ?>
 						<label for="<?php $this->mb->the_name(); ?>"><?php _e("Titre de la section"); ?></label>
 						<input
 							class="extra-accordion-title"
@@ -95,12 +96,80 @@ class Accordion extends AbstractBlock {
 							value="<?php $this->mb->the_value(); ?>">
 						<br>
 
-						<?php $this->mb->the_field('section_content_'.$name); ?>
-						<textarea
-							class="extra-accordion-content"
-							name="<?php $this->mb->the_name(); ?>">
-							<?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?>
-						</textarea>
+<!--						--><?php //$this->mb->the_field('section_content_'.$name_suffix); ?>
+<!--						<textarea-->
+<!--							class="extra-accordion-content"-->
+<!--							name="--><?php //$this->mb->the_name(); ?><!--">-->
+<!--							--><?php //echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?>
+<!--						</textarea>-->
+
+						<?php
+						$editor_name = 'section_content_'.$name_suffix;
+						$this->custom_css = array(
+							THEME_URI.'/assets/css/content.less',
+						);
+						?>
+						<div class="extra-accordion-custom-editor-wrapper">
+
+							<?php
+							// SETUP
+							$this->mb->the_field($editor_name);
+							$editor_id = $this->mb->get_the_name();
+							$editor_id = str_replace('[', '_', $editor_id);
+							$editor_id = str_replace(']', '-', $editor_id);
+							?>
+
+							<div id="wp-<?php echo $editor_id; ?>-wrap" class="wp-core-ui wp-editor-wrap tmce-active extra-custom-editor">
+
+								<div id="wp-<?php echo $editor_id; ?>-editor-tools" class="wp-editor-tools hide-if-no-js">
+
+									<?php
+									if (!function_exists('media_buttons')) {
+										include(ABSPATH . 'wp-admin/includes/media.php');
+									}
+									?>
+
+									<div id="wp-<?php echo $editor_id; ?>-media-buttons" class="wp-media-buttons">
+										<?php do_action( 'media_buttons', $editor_id ); ?>
+									</div>
+
+									<div class="wp-editor-tabs">
+										<a id="<?php echo $editor_id; ?>-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);"><?php _e("Text"); ?></a>
+										<a id="<?php echo $editor_id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);"><?php _e("Visual"); ?></a>
+									</div>
+								</div>
+								<?php
+								if(isset($this->custom_css) && !empty($this->custom_css)) {
+									$stylesheets = $this->extract_stylesheets($this->custom_css, $editor_name);
+								}
+								?>
+
+								<div id="wp-<?php echo $editor_id; ?>-editor-container" class="wp-editor-container">
+									<textarea
+										class="wp-editor-area extra-custom-editor"
+										<?php if(isset($stylesheets)): ?>
+											data-custom-css="<?php echo $stylesheets; ?>"
+										<?php endif; ?>
+										data-extra-name="<?php
+										echo $name;
+										echo (isset($this->editor_class) && !empty($this->editor_class)) ? ' ' . $this->editor_class : '';
+										?>"
+										id="<?php echo $editor_id; ?>"
+										name="<?php $this->mb->the_name(); ?>">
+										<?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?>
+									</textarea>
+								</div>
+							</div>
+							<table class="post-status-info">
+								<tbody>
+								<tr>
+									<td data-id="<?php echo $editor_id; ?>" id="<?php echo $editor_id; ?>-resize-handle" class="content-resize-handle hide-if-no-js"><br /></td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+
+
 
 					</div>
 					<?php $this->mb->the_group_close(); ?>
@@ -150,13 +219,12 @@ class Accordion extends AbstractBlock {
 			$html .= '</ul>';
 		}
 		echo $html;
-		//echo '<div class="custom-editor-content">'.apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )).'</div>';
 	}
 
 	public static function get_front($block_data, $name_suffix) {
 		parent::get_front($block_data, $name_suffix);
 
-		$html = apply_filters('the_content', html_entity_decode( $block_data[$name_suffix], ENT_QUOTES, 'UTF-8' ));;
+		$html = 'Accordion';
 
 		return $html;
 	}

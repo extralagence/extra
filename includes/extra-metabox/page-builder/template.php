@@ -51,7 +51,6 @@ $mb;
 		<?php endwhile; ?>
 
 		<div class="extra-page-builder-modal" style="display: none;">
-			Ceci est une modal.
 		</div>
 	</div>
 </div>

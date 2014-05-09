@@ -107,6 +107,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 
 		// This is a hack to imitate wpalchemy group behavior
 		$this->id = $row_id;
+		$this->in_template = TRUE;
 		$this->the_block_wrapper($block, $block_id);
 
 		die;
@@ -244,8 +245,8 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		endif;
 	}
 
-	public function get_front() {
-		$meta = $this->the_meta();
+	public function get_front($id = null) {
+		$meta = $this->the_meta($id);
 		$rows = $meta['page_builder'];
 		$html = '<div class="extra-page-builder-wrapper">';
 		$row_number = 1;
