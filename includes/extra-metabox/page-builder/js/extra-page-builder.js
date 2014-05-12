@@ -358,7 +358,7 @@ function setDraggable($blocks) {
 		cursor: 'move',
 		handle: '.extra-page-builder-block-content-admin',
 		appendTo: jQuery('body'),
-		iframeFix: true,
+		//iframeFix: true,
 		helper: function () {
 			var $this = jQuery(this),
 				$clone = $this.find('.extra-page-builder-block-content').clone();
@@ -547,5 +547,15 @@ jQuery(document).ready(function($){
 			setResizable($inner_blocks);
 		});
 	}
+
+	// SCROLL TO NEW ROW
+	$(document).on('click', '.docopy-page_builder', function() {
+		console.log('click');
+		var $new = $('.wpa_loop-page_builder .wpa_group:not(.tocopy)').last(),
+			newTop = $new.offset().top + 232;
+		console.log(newTop);
+		$(window).scrollTop(newTop);
+		//TweenMax.to($(window), 0.5, {scrollTo: {y: newTop}});
+	});
 
 });
