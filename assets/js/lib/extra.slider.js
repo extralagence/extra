@@ -100,7 +100,7 @@ http://slider.extralagence.com
                         Draggable.get($slider).enable();
                     }
                 } else if(opt.type === "fade" && previousItem.length) {
-                    TweenMax.set(previousItem, {autoAlpha: 0});
+                    TweenMax.set(previousItem.hide(), {autoAlpha: 0});
                 }
 
                 // set active
@@ -170,7 +170,7 @@ http://slider.extralagence.com
                         break;
                     case "fade":
                         $items.eq(previousItem).css("zIndex", 1);
-                        TweenMax.to($items.eq(currentItem).css("zIndex", 2), time, {css: {autoAlpha: 1}, onComplete: endHandler, onCompleteParams: [time, $items.eq(previousItem)]});
+                        TweenMax.to($items.eq(currentItem).show().css("zIndex", 2), time, {css: {autoAlpha: 1}, onComplete: endHandler, onCompleteParams: [time, $items.eq(previousItem)]});
                         break;
                     }
                 }
