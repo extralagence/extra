@@ -12,6 +12,7 @@
 }
 
 #extra-admin-modal-container .extra-admin-modal {
+	box-sizing: border-box;
 	position: absolute;
 	top: 30px;
 	left: 30px;
@@ -25,6 +26,13 @@
 	-webkit-font-smoothing: subpixel-antialiased;
 
 	font-family: "Open Sans", sans-serif;
+}
+#extra-admin-modal-container.has-header .extra-admin-modal {
+	padding-top: 51px;
+}
+
+#extra-admin-modal-container.has-footer .extra-admin-modal {
+	padding-bottom: 51px;
 }
 
 #extra-admin-modal-container .extra-admin-modal-close {
@@ -59,6 +67,10 @@
 	background: #f3f3f3;
 	border-bottom: 1px solid #ccc;
 	height: 50px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
 }
 #extra-admin-modal-container .extra-admin-modal-title {
 	padding: 0 0 0 20px;
@@ -67,9 +79,19 @@
 	margin: 0;
 }
 
-#extra-admin-modal-container .extra-admin-modal-content {
-	padding: 20px;
+#extra-admin-modal-container .extra-admin-modal-content-wrapper {
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
 }
+#extra-admin-modal-container .extra-admin-modal-content {
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
 
 #extra-admin-modal-container .extra-admin-modal-footer {
 	background: #f3f3f3;

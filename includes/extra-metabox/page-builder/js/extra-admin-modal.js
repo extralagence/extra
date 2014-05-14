@@ -51,7 +51,7 @@
 				'			<span class="extra-admin-modal-close-icon"></span>' +
 				'		</a>' +
 				'	</div>' +
-				'	<div class="extra-admin-modal-content extra-metabox"></div>' +
+				'	<div class="extra-admin-modal-content-wrapper"><div class="extra-admin-modal-content extra-metabox"></div></div>' +
 				'	<div class="extra-admin-modal-footer">' +
 				'		<a href="#" class="extra-admin-modal-save button button-primary right">Valider</a>' +
 				'	</div>' +
@@ -97,8 +97,10 @@
 				for(var i= 0; i < this.settings.footer.length; i++) {
 					this.modalFooter.find('> .'+this.settings.footer[i]).css('display', 'block');
 				}
+				this.element.addClass('has-footer');
 			} else {
 				this.modalFooter.css('display', 'none');
+				this.element.removeClass('has-footer');
 			}
 
 			this.modalHeaderElements.css('display', 'none');
@@ -106,8 +108,10 @@
 				for(var i= 0; i < this.settings.header.length; i++) {
 					this.modalHeader.find('> .'+this.settings.header[i]).css('display', 'block');
 				}
+				this.element.addClass('has-header');
 			} else {
 				this.modalHeader.css('display', 'none');
+				this.element.removeClass('has-header');
 			}
 
 			return this;
@@ -118,6 +122,12 @@
 
 			this.element.show();
 			this.element.trigger('open.adminmodal.extra', [title, $content]);
+
+			$('html').css('overflow', 'hidden');
+
+			setTimeout(function() {
+				jQuery('.extra-admin-modal-content').scrollTop(0);
+			}, 100);
 
 			return this;
 		},
@@ -131,6 +141,7 @@
 			this.modalContent.html('');
 
 			this.element.hide();
+			$('html').css('overflow', '');
 
 			return this;
 		},

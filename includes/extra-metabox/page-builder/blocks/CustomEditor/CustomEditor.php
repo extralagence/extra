@@ -29,6 +29,14 @@ class CustomEditor extends AbstractBlock {
 //		wp_enqueue_script('extra-page-builder-block-custom-editor', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js', array('jquery', 'quicktags'), null, true);
 
 		wp_enqueue_script(
+			'extra-page-builder-block-custom-editor-plugin',
+			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor-plugin.js',
+			array('jquery', 'quicktags'),
+			null,
+			true
+		);
+
+		wp_enqueue_script(
 			'extra-page-builder-block-custom-editor-iframe-resizer',
 			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.js',
 			array('jquery'),
@@ -36,10 +44,11 @@ class CustomEditor extends AbstractBlock {
 			true
 		);
 
+
 		wp_enqueue_script(
 			'extra-page-builder-block-custom-editor',
 			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js',
-			array('jquery', 'quicktags', 'extra-page-builder-block-custom-editor-iframe-resizer'),
+			array('jquery', 'extra-page-builder-block-custom-editor-plugin', 'extra-page-builder-block-custom-editor-iframe-resizer'),
 			null,
 			true
 		);

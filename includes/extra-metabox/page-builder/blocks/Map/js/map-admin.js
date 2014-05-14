@@ -136,6 +136,16 @@
 					$this.updateAddress($this);
 					return false;
 				});
+
+
+				//Init editors
+				this.element.find('.extra-map-custom-editor-wrapper > .extra-custom-editor-wrapper').each(function () {
+					var $editor = $(this);
+
+					if ($editor.data('extraPageBuilderCustomEditor') === undefined) {
+						$editor.extraPageBuilderCustomEditor({height: 210});
+					}
+				});
 			}
 		},
 		updatePosition: function (plugin) {
@@ -162,6 +172,24 @@
 		resize: function () {
 			google.maps.event.trigger(this.map,'resize');
 			this.map.setCenter(this.marker.getPosition());
+		},
+		enableEditors: function () {
+			this.element.find('.extra-map-custom-editor-wrapper > .extra-custom-editor-wrapper').each(function () {
+				var $editor = $(this);
+				if ($editor.data('extraPageBuilderCustomEditor') !== undefined) {
+					$editor.data('extraPageBuilderCustomEditor').enable();
+				}
+			});
+		},
+		disableEditors: function () {
+			this.element.find('.extra-map-custom-editor-wrapper > .extra-custom-editor-wrapper').each(function () {
+//				console.log('enable editor');
+				var $editor = $(this);
+				if ($editor.data('extraPageBuilderCustomEditor') !== undefined) {
+//					console.log('enable editor really ;)');
+					$editor.data('extraPageBuilderCustomEditor').disable();
+				}
+			});
 		}
 	};
 
@@ -190,13 +218,17 @@ jQuery(document).ready(function($) {
 
 			var $map = $form.find('.extra-map-wrapper');
 
-			extraAdminModal
-				.options({footer: ['extra-admin-modal-save'], header: ['extra-admin-modal-title'], size: {width: 800, height: 760}})
-				.show('Modifier le bloc',  $form);
-
 			if ($map.data('extraPageBuilderMapAdmin') == undefined) {
 				$map.extraPageBuilderMapAdmin({height: 400});
 			}
+
+			$map.data('extraPageBuilderMapAdmin').disableEditors();
+
+			extraAdminModal
+				.options({footer: ['extra-admin-modal-save'], header: ['extra-admin-modal-title'], size: {width: 800, height: 700}})
+				.show('Modifier le bloc',  $form);
+
+			$map.data('extraPageBuilderMapAdmin').enableEditors();
 			$map.data('extraPageBuilderMapAdmin').resize();
 		}
 	});
@@ -207,30 +239,106 @@ jQuery(document).ready(function($) {
 			event.stopPropagation();
 
 			var $map = $block.find('.extra-page-builder-map'),
-				plugin = $map.data('extraPageBuilderMapFront');
+				plugin = $map.data('extraPageBuilderMapFront'),
+				$adminMap = $form.find('.extra-map-wrapper'),
+				$content = $block.find('.extra-page-builder-block-content'),
+				$iframe = $content.find('iframe');
+
 			$map.data('lat', $form.find('.lat').val());
 			$map.data('lon', $form.find('.lon').val());
 
 			if (plugin != null) {
 				plugin.refresh();
 			}
+
+			if ($iframe.length > 0) {
+				$iframe[0].parentNode.removeChild($iframe[0]);
+			}
+			$block.find('.extra-page-builder-map-description-wrapper .extra-page-builder-map-description').html($adminMap.find('.extra-map-custom-editor-wrapper textarea').val());
+			createIframe($block);
+
+			$block.find('.extra-page-builder-map-title').html($form.find('.title').val());
 		}
 	});
 
 	$pageBuilder.on('hideForm.pagebuilder.extra', function (event, block_type, $block, $form) {
 		if (block_type == 'map') {
-			// We don'tstop propagation to keep form default behavior
+			// We stop propagation to change default behavior
+			event.stopPropagation();
 
-			var $map = $block.find('.extra-page-builder-map'),
-				plugin = $map.data('extraPageBuilderMapFront');
-			$map.data('lat', $form.find('.lat').val());
-			$map.data('lon', $form.find('.lon').val());
+			var $previewMap = $block.find('.extra-page-builder-map'),
+				plugin = $previewMap.data('extraPageBuilderMapFront'),
+				$adminMap = $form.find('.extra-map-wrapper'),
+				$content = $block.find('.extra-page-builder-block-content'),
+				$iframe = $content.find('iframe');
+
+			$previewMap.data('lat', $form.find('.lat').val());
+			$previewMap.data('lon', $form.find('.lon').val());
 
 			if (plugin == null) {
-				$map.extraPageBuilderMapFront();
+				$previewMap.extraPageBuilderMapFront();
 			} else {
 				plugin.refresh();
 			}
+
+			$adminMap.data('extraPageBuilderMapAdmin').disableEditors();
+			$block.find('.extra-page-builder-block-form').append($form);
+			$adminMap.data('extraPageBuilderMapAdmin').enableEditors();
+
+			if ($iframe.length > 0) {
+				$iframe[0].parentNode.removeChild($iframe[0]);
+			}
+			$block.find('.extra-page-builder-map-description-wrapper .extra-page-builder-map-description').html($adminMap.find('.extra-map-custom-editor-wrapper textarea').val());
+			createIframe($block);
+
+			$adminMap.data('extraPageBuilderMapAdmin').disableEditors();
+
+			$block.find('.extra-page-builder-map-title').html($form.find('.title').val());
 		}
+	});
+
+	function createIframe($block) {
+		var $content = $block.find('.extra-page-builder-block-content .extra-page-builder-map-wrapper .extra-page-builder-map-description'),
+			customCss = $block.find('.extra-page-builder-block-form .extra-map-wrapper .extra-custom-editor-wrapper textarea').data('custom-css'),
+			cssFiles = tinymce.settings.content_css.split(','),
+			cssLinks = '';
+
+		if (customCss != undefined) {
+			cssFiles = cssFiles.concat(customCss.split(','));
+		}
+		$.each(cssFiles, function(index, element) {
+			cssLinks += '<link type="text/css" rel="stylesheet" href="'+element+'" />'
+		});
+
+		var iframe = $('<iframe></iframe>');
+		var html = '';
+
+		html += '<head>';
+		html += 	cssLinks;
+		html += 	'<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>';
+		html += '</head>';
+		html += '<body>';
+		html += 	'<div class="extra-page-builder-inner content">';
+		html += 		'<div class="extra-page-builder-map-description">';
+		html += 			$content.html();
+		html += 		'</div>';
+		html += 	'</div>';
+		html += 	'<script type="text/javascript" src="'+iframeResizerContentWindow+'"></script>';
+		html += '</body>';
+
+		iframe.attr('src', 'data:text/html;charset=utf-8,' + encodeURI(html)).attr('width', '100%').attr('height', '60').attr('scrolling', 'no');
+
+		$content.after(iframe);
+
+		iframe.iFrameResize({
+			log                     : false,                  // Enable console logging
+			enablePublicMethods     : false                  // Enable methods within iframe hosted page
+		});
+	}
+
+	// SET IFRAME CONTENT AND STYLES
+	var $mapWrappers = $pageBuilder.find('.extra-field-form > .extra-map-wrapper');
+	$mapWrappers.each(function () {
+		createIframe($(this).closest('.extra-page-builder-block'));
 	});
 });
