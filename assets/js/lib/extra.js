@@ -75,7 +75,8 @@ $(document).ready(function () {
 	 *
 	 *************************/
 	var getImageVersion = function () {
-		var toReturn = null;
+		// default value
+		var toReturn = 'desktop';
 		$.each(extraResponsiveSizesTests, function(index, value) {
 			if(value === true) {
 				toReturn = index;
@@ -105,20 +106,20 @@ $(document).ready(function () {
 					container.data("size", size);
 					var imgSrc = datas.data("src-" + size);
 					if (imgSrc) {
-						var imgElement = $("<img>");
+						var imgElement = $("<img />");
 						imgElement.load(function () {
-							// REMOVE EXISTING IMAGE
+							// CORRECT IMAGE SIZE
 							imgElement.attr({
 								'width': this.width,
 								'height': this.height
-							}).appendTo(container);
+							});
+							// REMOVE EXISTING IMAGE
 							container.find("img").not(imgElement).remove();
               				container.trigger('complete.extra.responsiveImage');
-						});
-						imgElement.attr({
-							"alt": altTxt,
-							"src": imgSrc
-						});
+						}).attr({
+							alt: altTxt,
+							src: imgSrc
+						}).appendTo(container);
 					}
 				}
 			};
