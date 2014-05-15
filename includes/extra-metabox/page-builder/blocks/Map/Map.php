@@ -25,7 +25,6 @@ class Map extends AbstractBlock {
 		wp_enqueue_style('extra-page-builder-block-map-admin', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Map/css/map-admin.less');
 		wp_enqueue_style('extra-page-builder-block-map-front', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Map/css/map-front.less');
 
-
 		wp_enqueue_script(
 			'extra-page-builder-block-custom-editor-plugin',
 			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor-plugin.js',
@@ -41,7 +40,6 @@ class Map extends AbstractBlock {
 			null,
 			true
 		);
-
 
 		wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBpFeTSnmCMi1Vb3LuLoAivc4D4CeA2YJs&sensor=false', array('jquery'), null, true);
 		wp_enqueue_script('extra-page-builder-block-map-admin', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Map/js/map-admin.js', array('jquery', 'google-maps-api', 'extra-page-builder-block-custom-editor-plugin', 'extra-page-builder-block-custom-editor-iframe-resizer'), null, true);
@@ -68,6 +66,8 @@ class Map extends AbstractBlock {
 	}
 
 	public function the_admin($name_suffix) {
+		$extra_map_options = apply_filters('extra_map_options', null);
+		wp_localize_script('extra-page-builder-block-map-front', 'extra_map_options', $extra_map_options);
 		?>
 		<div class="extra-map-wrapper">
 			<div class="extra-map">
@@ -119,6 +119,9 @@ class Map extends AbstractBlock {
 	}
 
 	public function the_preview($name_suffix) {
+		$extra_map_options = apply_filters('extra_map_options', null);
+		wp_localize_script('extra-page-builder-block-map-front', 'extra_map_options', $extra_map_options);
+
 		$lat = $this->mb->get_the_value('lat_'.$name_suffix);
 		$lon = $this->mb->get_the_value('lon_'.$name_suffix);
 		$title = $this->mb->get_the_value('title_'.$name_suffix);
@@ -136,6 +139,9 @@ class Map extends AbstractBlock {
 	}
 
 	public static function get_front($block_data, $name_suffix, $block_height) {
+		$extra_map_options = apply_filters('extra_map_options', null);
+		wp_localize_script('extra-page-builder-block-map-front', 'extra_map_options', $extra_map_options);
+
 		$lat = $block_data['lat_'.$name_suffix];
 		$lon = $block_data['lon_'.$name_suffix];
 		$title = $block_data['title_'.$name_suffix];

@@ -75,12 +75,22 @@
 				 *
 				 *
 				 ***********************/
-				this.markerLatLng = new google.maps.LatLng(this.lat.val(), this.lon.val());
-				this.marker = new google.maps.Marker({
-					position: this.markerLatLng,
-					map: this.map,
-					draggable:true
-				});
+				this.markerLatLng = new google.maps.LatLng(this.lat.val(), this.lon.val())
+				if (extra_map_options != null) {
+					this.marker = new google.maps.Marker({
+						position: this.markerLatLng,
+						map: this.map,
+						draggable:true,
+						icon: extra_map_options.icon
+					});
+				} else {
+					this.marker = new google.maps.Marker({
+						position: this.markerLatLng,
+						map: this.map,
+						draggable:true
+					});
+				}
+
 
 				/***********************
 				 *

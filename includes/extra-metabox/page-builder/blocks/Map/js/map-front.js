@@ -74,11 +74,20 @@
 				 *
 				 ***********************/
 				this.markerLatLng = new google.maps.LatLng(this.lat, this.lon);
-				this.marker = new google.maps.Marker({
-					position: this.markerLatLng,
-					map: this.map,
-					draggable:false
-				});
+				if (extra_map_options != null) {
+					this.marker = new google.maps.Marker({
+						position: this.markerLatLng,
+						map: this.map,
+						draggable: false,
+						icon: extra_map_options.icon
+					});
+				} else {
+					this.marker = new google.maps.Marker({
+						position: this.markerLatLng,
+						map: this.map,
+						draggable: false
+					});
+				}
 
 				var $this = this;
 				this.element.closest('.extra-page-builder-row').on('layoutChange.pagebuilder.extra', function(event, $row, layout) {
