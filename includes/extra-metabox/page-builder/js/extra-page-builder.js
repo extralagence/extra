@@ -188,10 +188,10 @@
 					}
 					if (editable == 'yes') {
 						$block.addClass('editable');
+						$('.extra-page-builder').trigger('showform.pagebuilder.extra', [block_type, $block, $block.find('.extra-field-form')]);
 					} else {
 						$block.removeClass('editable');
 					}
-					$('.extra-page-builder').trigger('showform.pagebuilder.extra', [block_type, $block, $block.find('.extra-field-form')]);
 				}
 			);
 		},

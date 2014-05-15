@@ -23,7 +23,6 @@ class Separator extends AbstractBlock {
 		parent::init();
 
 		wp_enqueue_style('extra-page-builder-block-separator', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Separator/css/separator.less');
-		wp_enqueue_script('extra-page-builder-block-separator', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Separator/js/separator.js', array('jquery'), null, true);
 	}
 
 	function __construct($mb, $type) {
