@@ -65,9 +65,7 @@ class Image extends AbstractBlock {
 		}
 	}
 
-	public static function get_front($block_data, $name_suffix) {
-		parent::get_front($block_data, $name_suffix);
-
+	public static function get_front($block_data, $name_suffix, $block_height) {
 		$img_id = $block_data[$name_suffix];
 		if(!empty($img_id)){
 			$src =  wp_get_attachment_image_src( $img_id, 'full' );

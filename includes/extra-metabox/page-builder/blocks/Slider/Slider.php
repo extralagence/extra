@@ -171,35 +171,44 @@ class Slider extends AbstractBlock {
 		<?php
 	}
 
-	public static function get_front($block_data, $name_suffix) {
+	public static function get_front($block_data, $name_suffix, $block_height) {
 		$ids = $block_data[$name_suffix];
 		$properties = $block_data['properties_'.$name_suffix];
 
-		ob_start();
-		?>
-		<div
-			class="extra-slider"
-			data-properties="<?php echo $properties; ?>"
-			>
-			<div class="wrapper">
-				<ul>
-					<?php
-					if(isset($ids) && !empty($ids) && sizeof($ids) > 0) {
-						$ids = explode(",", $ids);
-						foreach($ids as $id) :
-							$src = wp_get_attachment_image_src($id, 'full');
-							?>
-							<li style="background-image: url(<?php echo $src[0] ?>);"></li>
-						<?php
-						endforeach;
-					}
-					?>
-				</ul>
-			</div>
-		</div>
-		<?php
-		$html = ob_get_contents();
-		ob_end_clean();
+		$html = '';
+		$html .= '	<div class="extra-slider" data-properties="'.$properties.'">';
+		$html .= '		<div class="wrapper">';
+		$html .= '			<ul>';
+
+		if(isset($ids) && !empty($ids) && sizeof($ids) > 0) {
+			$ids = explode(",", $ids);
+			foreach($ids as $id)  {
+				$attachment = get_post( $id );
+				$html .= '<li>';
+				$html .= extra_get_responsive_image($id, array(
+					'desktop' => array(
+						'height' => $block_height
+					),
+					'tablet' => array(
+						'height' => $block_height
+					),
+					'mobile' => array(
+						'height' => $block_height
+					)
+				));
+				if (!empty($attachment->post_excerpt)) {
+					$html .= '<div class="legend">'.$attachment->post_excerpt.'</div>';
+				}
+				$html .= '</li>';
+			}
+		}
+
+		$html .= '			</ul>';
+		$html .= '		</div>';
+		$html .= '	</div>';
+
+		return $html;
+
 
 		return $html;
 	}

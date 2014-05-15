@@ -164,9 +164,7 @@ class CustomEditor extends AbstractBlock {
 		echo '<div class="custom-editor-content">'.apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )).'</div>';
 	}
 
-	public static function get_front($block_data, $name_suffix) {
-		parent::get_front($block_data, $name_suffix);
-
+	public static function get_front($block_data, $name_suffix, $block_height) {
 		$html = apply_filters('the_content', html_entity_decode( $block_data[$name_suffix], ENT_QUOTES, 'UTF-8' ));
 
 		return $html;

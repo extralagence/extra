@@ -343,7 +343,6 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 			/* @var $instance \ExtraPageBuilder\AbstractBlock */
 			$instance = new $class($this, $block_type);
 			if (!$instance->is_resizable()) {
-			//if (!array_key_exists('ExtraPageBuilder\AbstractResizableBlock', class_parents($class))) {
 				$block_height = null;
 			}
 

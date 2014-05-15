@@ -135,7 +135,7 @@ class Map extends AbstractBlock {
 		echo $html;
 	}
 
-	public static function get_front($block_data, $name_suffix) {
+	public static function get_front($block_data, $name_suffix, $block_height) {
 		$lat = $block_data['lat_'.$name_suffix];
 		$lon = $block_data['lon_'.$name_suffix];
 		$title = $block_data['title_'.$name_suffix];

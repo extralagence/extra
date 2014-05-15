@@ -122,7 +122,7 @@ class Accordion extends AbstractBlock {
 		echo $html;
 	}
 
-	public static function get_front($block_data, $name_suffix) {
+	public static function get_front($block_data, $name_suffix, $block_height) {
 		$lines = $block_data[$name_suffix];
 		$title = $block_data['title_'.$name_suffix];
 
