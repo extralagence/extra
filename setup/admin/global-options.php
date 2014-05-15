@@ -54,7 +54,8 @@ if (!class_exists("Redux_Framework_sample_config")) {
 				)
 			);
 
-			$sections = apply_filters('extra_add_global_options_section', array());
+            $this->sections = apply_filters('extra_default_global_options_section', $this->sections);
+            $sections = apply_filters('extra_add_global_options_section', array());
 			if (!empty($sections)) {
 				foreach ($sections as $section) {
 					$this -> sections[] = $section;
