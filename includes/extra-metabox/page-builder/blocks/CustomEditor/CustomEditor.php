@@ -16,9 +16,6 @@ use ExtraPageBuilder\AbstractBlock;
  * Define a Custom Editor block
  *
  * type = custom_editor
- *
- * Options :
- * - name (required)
  */
 class CustomEditor extends AbstractBlock {
 

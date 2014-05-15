@@ -9,21 +9,15 @@
 namespace ExtraPageBuilder\Blocks;
 
 use ExtraPageBuilder\AbstractBlock;
-use ExtraPageBuilder\AbstractResizableBlock;
 
 /**
- * Class Image
+ * Class Map
  *
- * Define a image block
+ * Define a map block
  *
- * type = image
- *
- * Options :
- * - name (required)
- * - add_label (required)
- * - add_icon (required)
+ * type = map
  */
-class Map extends AbstractResizableBlock {
+class Map extends AbstractBlock {
 
 	public static function init () {
 		parent::init();
@@ -56,6 +50,11 @@ class Map extends AbstractResizableBlock {
 
 		//iframeResizerContentWindow
 		wp_localize_script('extra-page-builder-block-map-admin', 'iframeResizerContentWindow', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.contentWindow.js');
+	}
+
+	function __construct($mb, $type) {
+		parent::__construct($mb, $type);
+		$this->resizable = true;
 	}
 
 	public function extract_properties($properties) {

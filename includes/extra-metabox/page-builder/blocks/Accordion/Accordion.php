@@ -11,14 +11,11 @@ namespace ExtraPageBuilder\Blocks;
 use ExtraPageBuilder\AbstractBlock;
 
 /**
- * Class CustomEditor
+ * Class Accordion
  *
- * Define a Custom Editor block
+ * Define a accordion block
  *
- * type = custom_editor
- *
- * Options :
- * - name (required)
+ * type = accordion
  */
 class Accordion extends AbstractBlock {
 
@@ -134,14 +131,14 @@ class Accordion extends AbstractBlock {
 			$html .= 	'	<h2 class="accordeon-title">'.$title.'</h2>';
 		}
 		$html .= '	<div class="accordeon-wrapper">';
-			foreach ($lines as $line) {
-				$html .= '		<div class="accordeon-element">';
-				$html .= '			<h3 class="tab-title">'.$line['section_title'].'</h3>';
-				$html .= '			<div class="tab-content">';
-				$html .= '				<div class="inner">'.apply_filters('the_content', html_entity_decode( $line['section_content'], ENT_QUOTES, 'UTF-8' )).'</div>';
-				$html .= '			</div>';
-				$html .= '		</div>';
-			}
+		foreach ($lines as $line) {
+			$html .= '	<div class="accordeon-element">';
+			$html .= '		<h3 class="tab-title">'.$line['section_title'].'</h3>';
+			$html .= '		<div class="tab-content">';
+			$html .= '			<div class="inner">'.apply_filters('the_content', html_entity_decode( $line['section_content'], ENT_QUOTES, 'UTF-8' )).'</div>';
+			$html .= '		</div>';
+			$html .= '	</div>';
+		}
 		$html .= '	</div>';
 
 		return $html;

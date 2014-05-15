@@ -9,7 +9,6 @@
 namespace ExtraPageBuilder\Blocks;
 
 use ExtraPageBuilder\AbstractBlock;
-use ExtraPageBuilder\AbstractResizableBlock;
 
 /**
  * Class Image
@@ -17,19 +16,19 @@ use ExtraPageBuilder\AbstractResizableBlock;
  * Define a image block
  *
  * type = image
- *
- * Options :
- * - name (required)
- * - add_label (required)
- * - add_icon (required)
  */
-class Image extends AbstractResizableBlock {
+class Image extends AbstractBlock {
 
 	public static function init () {
 		parent::init();
 
 		wp_enqueue_style('extra-page-builder-block-image', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Image/css/image.less');
 		wp_enqueue_script('extra-page-builder-block-image', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Image/js/image.js', array('jquery'), null, true);
+	}
+
+	function __construct($mb, $type) {
+		parent::__construct($mb, $type);
+		$this->resizable = true;
 	}
 
 	public function extract_properties($properties) {

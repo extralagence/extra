@@ -64,7 +64,7 @@
 
 			$(document).on('click', '.choose-block-choices .choose-block-button', function (event) {
 				if (extraPageBuilder.block_choose != null) {
-					extraPageBuilder.setBlockChoice(extraPageBuilder.block_choose, $(this).data('value'), $(this).data('resizable'));
+					extraPageBuilder.setBlockChoice(extraPageBuilder.block_choose, $(this).data('value'), $(this).data('resizable'), $(this).data('editable'));
 				}
 				return false;
 			});
@@ -155,7 +155,7 @@
 				.options({footer:[], size: {height: '358', width: '358'}})
 				.show('Choisir un bloc', $choices.clone());
 		},
-		setBlockChoice: function ($block, block_type, resizable) {
+		setBlockChoice: function ($block, block_type, resizable, editable) {
 			var $blockWrapper = $block.find('.extra-page-builder-block-wrapper'),
 				$inputBlockChoice = $block.find('.extra-page-builder-block-choice'),
 				blockId = $block.data('block-number'),
@@ -183,6 +183,13 @@
 					if (resizable == 'yes') {
 						$block.addClass('resizable');
 						setResizable($block);
+					} else {
+						$block.removeClass('resizable');
+					}
+					if (editable == 'yes') {
+						$block.addClass('editable');
+					} else {
+						$block.removeClass('editable');
 					}
 					$('.extra-page-builder').trigger('showform.pagebuilder.extra', [block_type, $block, $block.find('.extra-field-form')]);
 				}
@@ -201,6 +208,9 @@
 				$block.resizable('destroy');
 				$block.css('height', '');
 				$block.removeClass('resizable');
+			}
+			if ($block.hasClass('editable')) {
+				$block.removeClass('editable');
 			}
 
 			$inputBlockChoice.val('');

@@ -8,7 +8,6 @@
 
 require_once 'MetaBox.php';
 require_once 'page-builder/AbstractBlock.php';
-require_once 'page-builder/AbstractResizableBlock.php';
 
 //Require once each fields
 foreach (scandir(dirname(__FILE__).'/page-builder/blocks') as $field_name) {
@@ -149,6 +148,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		 */
 		$block = $this->block_instances[$block_type];
 		$resizable = ($block == null) ? false : $block->is_resizable();
+		$editable = ($block == null) ? false : $block->is_editable();
 
 		$block_height = null;
 		if ($resizable) {
@@ -161,6 +161,9 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		}
 		if ($resizable) {
 			$block_css .= ' resizable';
+		}
+		if ($editable) {
+			$block_css .= ' editable';
 		}
 		if ($block_id == 1) {
 			$block_css .= ' first';
@@ -195,7 +198,14 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 						 */
 						$current = null;
 						foreach ($this->block_instances as $type => $current) : ?>
-							<a href="#" class="choose-block-button choose-bloc-<?php echo $type; ?>" data-value="<?php echo $type; ?>" data-resizable="<?php echo $current->is_resizable() ? 'yes' : 'no'; ?>"><span class="icon-extra-page-builder <?php echo $current->get_add_icon(); ?>"></span><?php echo $current->get_add_label(); ?></a>
+							<a
+								href="#" class="choose-block-button choose-bloc-<?php echo $type; ?>"
+								data-value="<?php echo $type; ?>"
+								data-resizable="<?php echo $current->is_resizable() ? 'yes' : 'no'; ?>"
+								data-editable="<?php echo $current->is_editable() ? 'yes' : 'no'; ?>"
+								>
+								<span class="icon-extra-page-builder <?php echo $current->get_add_icon(); ?>"></span><?php echo $current->get_add_label(); ?>
+							</a>
 						<?php endforeach; ?>
 						<!--						<a href="#" class="choose-block-button choose-bloc-editor" data-value="custom_editor"><span class="icon-extra-page-builder icon-extra-page-builder-editor"></span>--><?php //_e("Editeur", "extra-page-builder"); ?><!--</a>-->
 						<!--						<a href="#" class="choose-block-button choose-bloc-map" data-value="map"><span class="icon-extra-page-builder icon-extra-page-builder-map"></span>--><?php //_e("Carte", "extra-page-builder"); ?><!--</a>-->
@@ -330,7 +340,10 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$block_html = '';
 		if (!empty($block_type)) {
 			$class = $this->construct_class_name($block_type);
-			if (!array_key_exists('ExtraPageBuilder\AbstractResizableBlock', class_parents($class))) {
+			/* @var $instance \ExtraPageBuilder\AbstractBlock */
+			$instance = new $class($this, $block_type);
+			if (!$instance->is_resizable()) {
+			//if (!array_key_exists('ExtraPageBuilder\AbstractResizableBlock', class_parents($class))) {
 				$block_height = null;
 			}
 

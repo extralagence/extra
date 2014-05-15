@@ -8,21 +8,16 @@
 
 namespace ExtraPageBuilder\Blocks;
 
-use ExtraPageBuilder\AbstractResizableBlock;
+use ExtraPageBuilder\AbstractBlock;
 
 /**
- * Class Image
+ * Class Slider
  *
- * Define a image block
+ * Define a slider block
  *
- * type = image
- *
- * Options :
- * - name (required)
- * - add_label (required)
- * - add_icon (required)
+ * type = slider
  */
-class Slider extends AbstractResizableBlock {
+class Slider extends AbstractBlock {
 
 	public static function init () {
 		parent::init();
@@ -121,7 +116,6 @@ class Slider extends AbstractResizableBlock {
 							}
 							return wp.media.template('extra-gallery-type')(view);
 //							return wp.media.template('gallery-settings')(view);
-
 						}
 					});
 				});
@@ -129,6 +123,11 @@ class Slider extends AbstractResizableBlock {
 			</script>
 		<?php
 		});
+	}
+
+	function __construct($mb, $type) {
+		parent::__construct($mb, $type);
+		$this->resizable = true;
 	}
 
 	public function extract_properties($properties) {
