@@ -14,48 +14,52 @@ function addSpacesToInteger(i) {
 jQuery(function ($) {
 	'use strict';
 
-	var max = parseInt($('.extra-slider-container').data('max')),
-		intRegex = /^\d+$/;
-
-	$('.extra-slider-container .extra-slider').slider({
-		min: 0,
-		max: max,
-		slide: function( event, ui ) {
-			var $slider = $(this),
-				$input = $slider.parents('.extra-slider-container').find('.extra-slider-input');
-			$input.val(addSpacesToInteger(ui.value));
-
-			$slider.trigger('extra-slider-change', [ui.value]);
-		}
-	});
-
-	function updateSlider ($input, $slider) {
-		var value = parseInt($input.val().replace(/\s+/g, ''));
-		if (value >= 0 && value <= max) {
-			$slider.slider('value', value);
-		} else {
-			$slider.slider('value', 0);
-		}
-
-		$slider.trigger('extra-slider-change', [value]);
-	}
-
-	$('.extra-slider-container .extra-slider-input').on('keypress', function () {
-		if (!intRegex.test(String.fromCharCode(event.charCode))) {
-			event.preventDefault();
-		}
-	});
-
-	$('.extra-slider-container .extra-slider-input').on('keyup', function () {
-		var $input = $(this),
-			$slider = $input.parents('.extra-slider-container').find('.extra-slider');
-		updateSlider($input, $slider);
-	});
-
 	$('.extra-slider-container').each(function () {
-		var $container = $(this),
-			$input = $container.find('.extra-slider-input'),
-			$slider = $container.find('.extra-slider');
-		updateSlider($input, $slider);
+		var $container = $(this);
+
+		var max = parseInt($container.data('max')),
+			intRegex = /^\d+$/;
+
+		$container.find('.extra-slider').slider({
+			min: 0,
+			max: max,
+			slide: function( event, ui ) {
+				var $slider = $(this),
+					$input = $slider.parents('.extra-slider-container').find('.extra-slider-input');
+				$input.val(addSpacesToInteger(ui.value));
+
+				$slider.trigger('extra-slider-change', [ui.value]);
+			}
+		});
+
+		function updateSlider ($input, $slider) {
+			var value = parseInt($input.val().replace(/\s+/g, ''));
+			if (value >= 0 && value <= max) {
+				$slider.slider('value', value);
+			} else {
+				$slider.slider('value', 0);
+			}
+
+			$slider.trigger('extra-slider-change', [value]);
+		}
+
+		$container.find('.extra-slider-input').on('keypress', function () {
+			if (!intRegex.test(String.fromCharCode(event.charCode))) {
+				event.preventDefault();
+			}
+		});
+
+		$container.find('.extra-slider-input').on('keyup', function () {
+			var $input = $(this),
+				$slider = $input.parents('.extra-slider-container').find('.extra-slider');
+			updateSlider($input, $slider);
+		});
+
+		$container.each(function () {
+			var $container = $(this),
+				$input = $container.find('.extra-slider-input'),
+				$slider = $container.find('.extra-slider');
+			updateSlider($input, $slider);
+		});
 	});
 });
