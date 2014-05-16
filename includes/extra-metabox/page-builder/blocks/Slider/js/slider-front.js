@@ -4,7 +4,6 @@ jQuery(document).ready(function ($) {
 			properties = $this.data('properties');
 
 		properties = $.parseJSON(properties.replace(/'/g, '"'));
-		console.log(properties);
 
 		$this.extraSlider({
 			'auto': properties.extra_page_builder_slider_auto,
