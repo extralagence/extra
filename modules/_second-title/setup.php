@@ -4,7 +4,7 @@
  *
  *
  * SECOND TITLE METABOX
- * 
+ *
  *
  *
  *********************/
@@ -41,19 +41,21 @@ function extra_second_title_metabox_enqueue_assets () {
  *
  *
  * USABLE FUNCTIONS
- * 
+ *
  *
  *
  *********************/
 function get_second_title($id = 0){
-	
+
 	global $post;
 	global $second_title_metabox;
+
+    $temp_post = $post;
 
 	if(isset($id)) {
 		$post = get_post($id);
 	}
-	
+
 	$id = isset($post->ID) ? $post->ID : (int) $id;
 	$meta = get_post_meta($id, $second_title_metabox->get_the_id(), TRUE);
 
@@ -64,7 +66,9 @@ function get_second_title($id = 0){
 	} else {
 		$title = get_the_title($id);
 	}
-	
+
+    $post = $temp_post;
+
 	return apply_filters('second_title', $title, $id);
 }
 function the_second_title(){

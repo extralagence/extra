@@ -43,8 +43,7 @@ class Image extends AbstractBlock {
 
 	public function the_admin($name_suffix) {
 		$name = $name_suffix;
-		?>
-		<?php $this->mb->the_field($name); ?>
+		$this->mb->the_field($name); ?>
 		<input class="extra-page-builder-image-input" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>" />
 		<?php
 	}
@@ -69,8 +68,8 @@ class Image extends AbstractBlock {
 		$img_id = $block_data[$name_suffix];
 		if(!empty($img_id)){
 			$src =  wp_get_attachment_image_src( $img_id, 'full' );
-
-			$html = '<div class="extra-page-builder-image" style="background-image: url('.$src[0].');"></div>';
+			//$html = '<div class="extra-page-builder-image" style="background-image: url('.$src[0].');"></div>';
+            $html = '<div class="extra-page-builder-image"><img src="'.$src[0].'" width="'.$src[1].'" height="'.$src[2].'" /></div>';
 		} else {
 			$html = '<div class="extra-page-builder-image empty"></div>';
 		}
