@@ -67,9 +67,9 @@ class Date extends AbstractField {
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
-		$this->format = $properties['format'];
-		$this->required = $properties['required'] == true;
-		$this->error_label = $properties['error_label'];
+		$this->format = (isset($properties['format'])) ? $properties['format'] : null ;
+		$this->required = (isset($properties['required'])) ? $properties['required'] == true : false;
+		$this->error_label = (isset($properties['error_label'])) ? $properties['error_label'] : null;
 
 		if ($this->format == null) {
 			$this->format = 'yy-mm-dd';

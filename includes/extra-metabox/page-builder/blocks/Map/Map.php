@@ -128,9 +128,7 @@ class Map extends AbstractBlock {
 		$description = $this->mb->get_the_value('description_'.$name_suffix);
 
 		$html = 	'<div class="extra-page-builder-map-wrapper">';
-		if (!empty($title)) {
-			$html .= 	'	<h2 class="extra-page-builder-map-title">'.$title.'</h2>';
-		}
+		$html .= 	'	<h2 class="extra-page-builder-map-title">'.$title.'</h2>';
 		$html .= 	'	<div class="extra-page-builder-map" data-lat="'.$lat.'" data-lon="'.$lon.'"></div>';
 		$html .= 	'	<div class="extra-page-builder-map-description-wrapper"><div class="extra-page-builder-map-description">'.apply_filters('the_content', html_entity_decode( $description, ENT_QUOTES, 'UTF-8' )).'</div></div>';
 		$html .= 	'</div>';
