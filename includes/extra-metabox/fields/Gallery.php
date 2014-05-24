@@ -29,10 +29,10 @@ class Gallery extends AbstractField {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?>">
-			<?php if ($this->label != null) : ?>
+			<?php if ($this->title != null) : ?>
 				<h2><?php
 					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
-					echo $this->label; ?>
+					echo $this->title; ?>
 				</h2>
 			<?php endif; ?>
 			<div class="extra-custom-gallery">
@@ -68,4 +68,4 @@ class Gallery extends AbstractField {
 		//TODO
 		echo '-';
 	}
-} 
+}

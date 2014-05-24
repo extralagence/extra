@@ -1,0 +1,93 @@
+/**********************
+ *
+ *
+ * tabs
+ *
+ *
+ **********************/
+.extra-metabox .extra-tabs .wpa_group > .bloc {
+	background: #fcfcfc;
+}
+/* DELETE LINK */
+.extra-metabox .extra-tabs .dodelete {
+	display: block;
+	position: absolute;
+	top: 15px;
+	right: 20px;
+	text-align: left;
+	text-transform: uppercase;
+	white-space: nowrap;
+	width: auto;
+	height: 18px;
+}
+
+.extra-metabox .extra-tabs .dodelete * {
+	pointer-events: none;
+}
+.extra-metabox .extra-tabs .dodelete .label {
+	visibility: hidden;
+}
+.extra-metabox .extra-tabs .dodelete .dashicons {
+	font-size: 25px;
+	vertical-align: -8px;
+	width: auto;
+	height: auto;
+}
+.extra-metabox .extra-tabs .dodelete:hover .label {
+	visibility: visible;
+}
+/* NAV */
+.extra-tabs-navigation {
+	margin: 0;
+	position: relative;
+	z-index: 2;
+}
+.extra-tabs-navigation li {
+	float: left;
+	margin: 5px 5px 0 0;
+	list-style: none;
+}
+.extra-tabs-navigation li a,
+.extra-tabs-navigation li a:focus {
+	background: #ffffff;
+	border: 1px solid #DFDFDF;
+	color: #c4c4c4;
+	display: block;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+	outline: none;
+	padding: 10px;
+	position: relative;
+	top: 1px;
+	text-decoration: none;
+}
+.extra-tabs-navigation li.ui-state-active a,
+.extra-tabs-navigation li.ui-state-active a:focus {
+	border-color: #DFDFDF;
+	background: #fcfcfc;
+	border-bottom: 1px solid #fcfcfc;
+	color: #333;
+}
+.extra-tabs .ui-tabs-panel > .bloc {
+	margin-top: 0;
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+.extra-tabs .extra-tabs-placeholder {
+	background: #DFDFDF;
+	display: block;
+}
+/**********************
+ *
+ *
+ * EASY CLEARING
+ *
+ *
+ **********************/
+.extra-tabs-navigation:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}

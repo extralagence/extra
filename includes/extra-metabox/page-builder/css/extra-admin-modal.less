@@ -1,0 +1,109 @@
+#extra-admin-modal-container {
+	display: none;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10000;
+
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+#extra-admin-modal-container .extra-admin-modal {
+	box-sizing: border-box;
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	right: 30px;
+	bottom: 30px;
+	overflow: auto;
+	min-height: 300px;
+	-webkit-box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+	box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+	background: #fff;
+	-webkit-font-smoothing: subpixel-antialiased;
+
+	font-family: "Open Sans", sans-serif;
+}
+#extra-admin-modal-container.has-header .extra-admin-modal {
+	padding-top: 51px;
+}
+
+#extra-admin-modal-container.has-footer .extra-admin-modal {
+	padding-bottom: 51px;
+}
+
+#extra-admin-modal-container .extra-admin-modal-close {
+	position: absolute;
+	text-decoration: none;
+	top: 5px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+}
+#extra-admin-modal-container .extra-admin-modal-close .extra-admin-modal-close-icon {
+	display: block;
+	margin: 8px auto 0;
+	width: 15px;
+	height: 15px;
+	background-image: none;
+}
+#extra-admin-modal-container .extra-admin-modal-close .extra-admin-modal-close-icon:before {
+	content: '\f158';
+	font: normal 20px/1 'dashicons';
+	speak: none;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #666;
+}
+#extra-admin-modal-container .extra-admin-modal-close:hover .extra-admin-modal-close-icon:before {
+	color: #2ea2cc;
+}
+
+#extra-admin-modal-container .extra-admin-modal-header {
+	background: #f3f3f3;
+	border-bottom: 1px solid #ccc;
+	height: 50px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+#extra-admin-modal-container .extra-admin-modal-title {
+	padding: 0 0 0 20px;
+	font-size: 22px;
+	line-height: 50px;
+	margin: 0;
+}
+
+#extra-admin-modal-container .extra-admin-modal-content-wrapper {
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
+}
+#extra-admin-modal-container .extra-admin-modal-content {
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+
+#extra-admin-modal-container .extra-admin-modal-footer {
+	background: #f3f3f3;
+	border-top: 1px solid #ccc;
+	height: 50px;
+
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#extra-admin-modal-container .extra-admin-modal-save{
+	margin: 10px
+}

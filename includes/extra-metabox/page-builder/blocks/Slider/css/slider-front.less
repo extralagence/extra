@@ -1,0 +1,66 @@
+/*********************
+ *
+ * DEFAULT STYLES
+ *
+ ********************/
+.extra-slider {
+	overflow: visible;
+	visibility: hidden;
+}
+.extra-slider.extra-slider-processed {
+	visibility: visible;
+}
+.extra-slider,
+.extra-slider .wrapper {
+	margin: 0 auto;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.extra-slider .wrapper {
+	overflow: hidden;
+}
+.extra-slider .wrapper > ul {
+	display: block;
+	list-style: none;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+.extra-slider .wrapper > ul > li {
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	min-height: 200px;
+
+	background-size: cover;
+	background-position: center;
+}
+/* SLIDE TRANSITION */
+.extra-slider-slide .wrapper > ul > li {
+	float: left;
+	position: relative;
+}
+.extra-slider-slide .wrapper > ul:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+/* FADE TRANSITION */
+.extra-slider-fade .wrapper > ul > li {
+	position: absolute;
+	top: 0; left: 0;
+}
+
+.extra-slider .legend {
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+}

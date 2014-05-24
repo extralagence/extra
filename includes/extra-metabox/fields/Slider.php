@@ -49,8 +49,8 @@ class Slider extends AbstractField {
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
-		$this->suffix = $properties['suffix'];
-		$this->max = $properties['max'];
+		$this->suffix = (isset($properties['suffix'])) ? $properties['suffix'] : null;
+		$this->max = (isset($properties['max'])) ? $properties['max'] : null;
 
 		if (empty($this->max)) throw new Exception('Extra Meta box "max" required for Slider');
 	}

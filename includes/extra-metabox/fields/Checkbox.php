@@ -22,6 +22,12 @@ class Checkbox extends AbstractField {
 
 	public function the_admin() {
 		?>
+        <?php if ($this->title != null) : ?>
+            <h2><?php
+                echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
+                echo $this->title; ?>
+            </h2>
+        <?php endif; ?>
 		<div class="<?php echo $this->css_class; ?> extra-checkbox-container">
 			<?php $this->mb->the_field($this->get_single_field_name('checkbox')); ?>
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
@@ -46,4 +52,4 @@ class Checkbox extends AbstractField {
 			echo '-';
 		}
 	}
-} 
+}

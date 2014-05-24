@@ -22,7 +22,7 @@
  * - delete_label (optional): label for the delete button
  * - bloc_label (optional): title for each child
  */
-class Tabs extends Group {
+class Tabs extends AbstractGroup {
 
 	protected $add_label;
 	protected $delete_label;
@@ -79,7 +79,7 @@ class Tabs extends Group {
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
         $this->fixed = isset($properties['fixed']) ? $properties['fixed'] : false;
-        $this->num_tabs = isset($properties['num_tabs']) ? $properties['num_tabs'] : 1;
+        $this->num_tabs = isset($properties['num_tabs']) ? $properties['num_tabs'] : null;
         $this->max_tabs = isset($properties['max_tabs']) ? $properties['max_tabs'] : null;
         $this->add_label = isset($properties['add_label']) ? $properties['add_label'] : null;
 		$this->bloc_label = isset($properties['bloc_label']) ? $properties['bloc_label'] : null;

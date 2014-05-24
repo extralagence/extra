@@ -33,8 +33,9 @@ if ( ! function_exists( 'extra_setup' ) ) {
 		$editor = get_role( 'editor' );
 		$editor->add_cap( 'manage_options' );
 
-		global $content_width;
+		global $content_width, $full_content_width;
 		$content_width = 540;
+		$full_content_width = 940;
 	}
 }
 add_action('after_setup_theme', 'extra_setup');
@@ -454,5 +455,23 @@ if(!function_exists('extra_wp_title')) {
 		return $title;
 	}
 }
+
+
+/**********************
+ *
+ *
+ * LESS PROPERTIES
+ *
+ *
+ *
+ *********************/
+function extra_less_vars($vars, $handle) {
+	global $full_content_width;
+
+	$vars['full_content_width'] = $full_content_width.'px';
+	return $vars;
+}
+
+add_filter('less_vars', 'extra_less_vars', 10, 2);
 
 
