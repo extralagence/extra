@@ -1,5 +1,8 @@
 jQuery(document).ready(function($) {
-	var selectedSize = selected_size;
+	var selectedSize = null;
+	if (window['selected_size'] != undefined) {
+		selectedSize = selected_size;
+	}
 
 	function extra_process_images(elmt){
 

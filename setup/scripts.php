@@ -33,7 +33,7 @@ function extra_template_enqueue_scripts() {
 	wp_enqueue_script('fancybox', get_template_directory_uri() . '/assets/js/lib/jquery.fancybox.pack.js', array('jquery'), null, true);
 	// FLEXIE
 	wp_enqueue_script('flexie', get_template_directory_uri() . '/assets/js/lib/flexie.min.js', array('jquery'), null, true);
-	// FLEXIE
+	// FANCY SELECT
 	wp_enqueue_script('fancyselect', get_template_directory_uri() . '/assets/js/lib/fancyselect.js', array('jquery'), null, true);
 	// EXTRA
 	wp_enqueue_script('extra', get_template_directory_uri() . '/assets/js/lib/extra.js', array('jquery', 'tweenmax'), null, true);
