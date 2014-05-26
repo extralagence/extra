@@ -115,8 +115,8 @@ class Accordion extends AbstractBlock {
 				$html .= '<h3 class="extra-accordion-title">'.$line['section_title'].'</h3>';
 				$html .= '</li>';
 			}
-			$html .= '</ul>';
 		}
+		$html .= '</ul>';
 		echo $html;
 	}
 

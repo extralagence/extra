@@ -220,21 +220,31 @@ jQuery(document).ready(function($){
 			// We stop propagation to change default behavior
 			event.stopPropagation();
 
-			var $tabs = $form.find('.extra-tabs'),
-				$tabsContent = $block.find('.extra-page-builder-block-content ul.extra-tabs');
+			var $editor = $form.find('.extra-custom-editor-wrapper'),
+				$tabs = $form.find('.extra-tabs'),
+				$tabsTitles = $block.find('.extra-page-builder-block-content ul.extra-tabs-titles'),
+				$tabsContent = $block.find('.extra-page-builder-block-content .extra-tabs-content'),
+				$iframe = $block.find('.extra-page-builder-block-content iframe');
 
 			$tabs.data('extraPageBuilderTabs').disableEditors();
 			$block.find('.extra-page-builder-block-form').append($form);
 			$tabs.data('extraPageBuilderTabs').enableEditors();
 
-			$tabsContent.empty();
+			if ($iframe.length > 0) {
+				$iframe[0].parentNode.removeChild($iframe[0]);
+			}
+
+			$tabsTitles.empty();
 			$tabs.find('.wpa_group:not(.tocopy) input.extra-tabs-title').each(function () {
-				$tabsContent.append('<li><h3 class="extra-tabs-title">'+$(this).val()+'</h3></li>');
+				$tabsTitles.append('<li><h3 class="extra-tabs-title">'+$(this).val()+'</h3></li>');
 			});
 
 			$tabs.data('extraPageBuilderTabs').disableEditors();
 
-			$block.find('.accordeon-title').html($form.find('.title').val());
+			$block.find('.tabs-title').html($form.find('.title').val());
+			$tabsContent.html($editor.find('textarea').val());
+
+			createIframe($block);
 		}
 	});
 
@@ -243,16 +253,69 @@ jQuery(document).ready(function($){
 			// We stop propagation to change default behavior
 			event.stopPropagation();
 
-			var $tabs = $form.find('.extra-tabs'),
-				$tabsContent = $block.find('.extra-page-builder-block-content ul.extra-tabs');
+			var $editor = $form.find('.extra-custom-editor-wrapper'),
+				$tabs = $form.find('.extra-tabs'),
+				$tabsTitles = $block.find('.extra-page-builder-block-content ul.extra-tabs-titles'),
+				$tabsContent = $block.find('.extra-page-builder-block-content .extra-tabs-content'),
+				$iframe = $block.find('.extra-page-builder-block-content iframe');
 
-			$tabsContent.empty();
+			if ($iframe.length > 0) {
+				$iframe[0].parentNode.removeChild($iframe[0]);
+			}
+
+			$tabsTitles.empty();
 			$tabs.find('.wpa_group:not(.tocopy) input.extra-tabs-title').each(function () {
-				$tabsContent.append('<li><h3 class="extra-tabs-title">'+$(this).val()+'</h3></li>');
+				$tabsTitles.append('<li><h3 class="extra-tabs-title">'+$(this).val()+'</h3></li>');
 			});
 
-			$block.find('.accordeon-title').html($form.find('.title').val());
+			$block.find('.tabs-title').html($form.find('.title').val());
+			$tabsContent.html($editor.find('textarea').val());
+
+			createIframe($block);
 		}
+	});
+
+	function createIframe($block) {
+		var $content = $block.find('.extra-tabs-content'),
+			customCss = $block.find('.extra-page-builder-block-form .extra-custom-editor-wrapper textarea').data('custom-css'),
+			cssFiles = tinymce.settings.content_css.split(','),
+			cssLinks = '';
+
+		if (customCss != undefined) {
+			cssFiles = cssFiles.concat(customCss.split(','));
+		}
+		$.each(cssFiles, function(index, element) {
+			cssLinks += '<link type="text/css" rel="stylesheet" href="'+element+'" />'
+		});
+
+		var iframe = $('<iframe></iframe>');
+		var html = '';
+
+		html += '<head>';
+		html += 	cssLinks;
+		html += 	'<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>';
+		html += '</head>';
+		html += '<body>';
+		html += 	'<div class="extra-page-builder-inner content">';
+		html += 		$content.html();
+		html += 	'</div>';
+		html += 	'<script type="text/javascript" src="'+iframeResizerContentWindow+'"></script>';
+		html += '</body>';
+
+		iframe.attr('src', 'data:text/html;charset=utf-8,' + encodeURI(html)).attr('width', '100%').attr('height', '60').attr('scrolling', 'no');
+
+		$content.after(iframe);
+
+		iframe.iFrameResize({
+			log                     : false,                  // Enable console logging
+			enablePublicMethods     : false                  // Enable methods within iframe hosted page
+		});
+	}
+
+	// SET IFRAME CONTENT AND STYLES
+	var $extraTabs = $pageBuilder.find('.extra-field-form > .extra-tabs');
+	$extraTabs.each(function () {
+		createIframe($(this).closest('.extra-page-builder-block'));
 	});
 });
 

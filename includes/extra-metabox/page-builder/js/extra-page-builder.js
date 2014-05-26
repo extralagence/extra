@@ -176,7 +176,7 @@
 					row_id: rowId
 				},
 				function (data) {
-					//console.log(data);
+					console.log(data);
 					$blockWrapper.html(data);
 
 					plugin.last_modal_block = $block;

@@ -4,20 +4,17 @@ $(document).ready(function(){
 	 * ACCORDEON
 	 *
 	 *********************/
-	$(".accordeon-element").each(function(){
-		var wrapper = $(this);
-		var title = wrapper.find(" > .tab-title");
-		var content = wrapper.find(" > .tab-content");
-		var height = content.innerHeight();
-		content.height(0);
-		title.bind("click", function(){
-			if(content.height() > 0) {
-				wrapper.removeClass("open");
-				TweenMax.to(content, 0.3, {css:{height:0}});
-			} else {
-				wrapper.addClass("open");
-				TweenMax.to(content, 0.3, {css:{height:height}});
-			}
-		});
+
+	$(document).on('click', 'a.tab-title', function (event) {
+		event.preventDefault();
+
+		var $title = $(this),
+			slug = $title.attr('href').substring(1),
+			$wrapper = $(this).closest('.tabs-wrapper')
+		;
+
+		$wrapper.find('.active').removeClass('active');
+		$title.addClass('active');
+		$wrapper.find('#'+slug+'.tab-content').addClass('active');
 	});
 });
