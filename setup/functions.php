@@ -18,7 +18,7 @@ if ( ! function_exists( 'extra_setup' ) ) {
 
 		// AUTO RSS
 		add_theme_support( 'automatic-feed-links' );
-        
+
         // HTML 5
         add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 
@@ -320,7 +320,6 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 function extra_responsive_image($src = 0, $params= array(), $class = '', $alt = '') {
 	echo extra_get_responsive_image($src, $params, $class, $alt);
 }
-
 /**
  * Shortify a string with "..."
  *
