@@ -101,7 +101,7 @@ class Accordion extends AbstractBlock {
 		<?php
 	}
 
-	public function the_preview($name_suffix) {
+	public function the_preview($name_suffix, $block_width) {
 		$name = $name_suffix;
 		$lines = $this->mb->get_the_value($name);
 		$title = $this->mb->get_the_value('title_'.$name_suffix);
@@ -120,7 +120,7 @@ class Accordion extends AbstractBlock {
 		echo $html;
 	}
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		$lines = $block_data[$name_suffix];
 		$title = $block_data['title_'.$name_suffix];
 

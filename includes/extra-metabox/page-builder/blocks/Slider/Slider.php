@@ -95,6 +95,7 @@ class Slider extends AbstractBlock {
 				jQuery(document).ready(function(){
 					// add your shortcode attribute and its default value to the
 					// gallery settings list; $.extend should work as well...
+
 					_.extend(wp.media.gallery.defaults, {
 						extra_page_builder_slider_type: 'slide',
 						extra_page_builder_slider_navigate: true,
@@ -149,7 +150,7 @@ class Slider extends AbstractBlock {
 		<?php
 	}
 
-	public function the_preview($name_suffix) {
+	public function the_preview($name_suffix, $block_width) {
 		$ids = $this->mb->get_the_value($name_suffix);
 		$properties = $this->mb->get_the_value('properties_'.$name_suffix);
 		?>
@@ -171,7 +172,7 @@ class Slider extends AbstractBlock {
 		<?php
 	}
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		$ids = $block_data[$name_suffix];
 		$properties = $block_data['properties_'.$name_suffix];
 

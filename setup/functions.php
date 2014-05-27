@@ -465,6 +465,7 @@ if(!function_exists('extra_wp_title')) {
  *
  *********************/
 function extra_less_vars($vars, $handle) {
+	global $epb_full_width, $epb_half_width, $epb_one_third_width, $epb_two_third_width, $epb_gap;
 	$epb_full_width = apply_filters('extra_page_builder_full_width', 940);
 	$epb_half_width = apply_filters('extra_page_builder_half_width', 460);
 	$epb_one_third_width = apply_filters('extra_page_builder_one_third_width', 300);

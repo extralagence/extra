@@ -161,7 +161,13 @@
 				blockId = $block.data('block-number'),
 				$inputReference = $block.find('.extra-page-builder-block-choice'),
 				rowId = $inputReference.attr('name').replace('[page_builder_block_choice_'+blockId+']', ''),
+				$row = $block.closest('.extra-page-builder-row'),
+				$rowLayout = $row.find('.extra-page-builder-row-type').val();
 				plugin = this;
+
+			if ($rowLayout == '') {
+				$rowLayout = $row.find('.layout-choices .layout-button').first().attr('href').substr(7);
+			}
 
 			$inputBlockChoice.val(block_type);
 			$block.removeClass('not-selected');
@@ -173,7 +179,8 @@
 					action: 'extra_page_builder_block',
 					block_type: block_type,
 					block_id: blockId,
-					row_id: rowId
+					row_id: rowId,
+					row_layout: rowId
 				},
 				function (data) {
 					console.log(data);
@@ -194,6 +201,19 @@
 					}
 				}
 			);
+		},
+		enableResizable: function ($block) {
+			if (!$block.hasClass('resizable')) {
+				$block.addClass('resizable');
+				setResizable($block);
+			}
+		},
+		disableResizable: function ($block) {
+			if ($block.hasClass('resizable')) {
+				$block.resizable('destroy');
+				$block.css('height', '');
+				$block.removeClass('resizable');
+			}
 		},
 		resetBlockChoice: function ($block) {
 			var $blockContent = $block.find('.extra-page-builder-block-content'),
