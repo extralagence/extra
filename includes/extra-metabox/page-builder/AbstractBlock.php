@@ -34,7 +34,7 @@ abstract class AbstractBlock {
 
 	public abstract function the_preview($name_suffix, $block_width);
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		// To be override
 	}
 
