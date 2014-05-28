@@ -67,9 +67,15 @@ class Image extends AbstractBlock {
 	public static function get_front($block_data, $name_suffix, $block_height) {
 		$img_id = $block_data[$name_suffix];
 		if(!empty($img_id)){
+            if(empty($alt)) {
+                $alt = get_post_meta($img_id, '_wp_attachment_image_alt', true);
+                if(empty($alt)) {
+                    $alt = get_the_title($img_id);
+                }
+            }
 			$src =  wp_get_attachment_image_src( $img_id, 'full' );
 			//$html = '<div class="extra-page-builder-image" style="background-image: url('.$src[0].');"></div>';
-            $html = '<div class="extra-page-builder-image"><img src="'.$src[0].'" width="'.$src[1].'" height="'.$src[2].'" /></div>';
+            $html = '<div class="extra-page-builder-image"><img src="'.$src[0].'" width="'.$src[1].'" height="'.$src[2].'" alt="'.$alt.'" /></div>';
 		} else {
 			$html = '<div class="extra-page-builder-image empty"></div>';
 		}
