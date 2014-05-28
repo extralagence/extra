@@ -90,7 +90,7 @@ class Image extends AbstractBlock {
 	}
 
 	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
-		$img_size = $block_data['size_'.$name_suffix];
+		$img_size = isset($block_data['size_'.$name_suffix]) ? $block_data['size_'.$name_suffix] : null;
 		if ($img_size == null) {
 			$img_size = 'auto';
 		}
@@ -138,7 +138,7 @@ class Image extends AbstractBlock {
 		if ($block_data == null) {
 			$img_size = $this->mb->get_the_value('size_'.$name_suffix);
 		} else {
-			$img_size = $block_data['size_'.$name_suffix];
+			$img_size = isset($block_data['size_'.$name_suffix]) ? $block_data['size_'.$name_suffix] : null;
 		}
 
 		if ($img_size == null) {

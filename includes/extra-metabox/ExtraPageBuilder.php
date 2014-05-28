@@ -165,7 +165,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		/**
 		 * @var $block \ExtraPageBuilder\AbstractBlock
 		 */
-		$block = $this->block_instances[$block_type];
+		$block = (isset($this->block_instances[$block_type])) ? $this->block_instances[$block_type] : null;
 
 		$resizable = ($block == null) ? false : $block->is_resizable($block->get_type().'_'.$block_id);
 		$editable = ($block == null) ? false : $block->is_editable();
@@ -345,41 +345,50 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	}
 
 	protected function get_front_block($row_data, $row_number, $block_number, $block_css, $block_width) {
-		$block_type = $row_data['page_builder_block_choice_'.$block_number];
-		// _page_builder[page_builder][0][page_builder_block_height_1]
-		$block_height = $row_data['page_builder_block_height_'.$block_number];
+//        var_dump($block_number);
+//        var_dump($row_data);
+		$block_type = null;
 
-		$block_suffix = $block_type.'_'.$block_number;
+		$block_type = (isset($row_data['page_builder_block_choice_'.$block_number])) ? $row_data['page_builder_block_choice_'.$block_number] : null;
+		$block_height = (isset($row_data['page_builder_block_height_'.$block_number])) ? $row_data['page_builder_block_height_'.$block_number] : null;
 
-		if (is_array($block_css)) {
-			$css = implode(' ', $block_css);
+		$html = '';
+		if ($block_type != null) {
+			$block_suffix = $block_type.'_'.$block_number;
+
+			if (is_array($block_css)) {
+				$css = implode(' ', $block_css);
+			} else {
+				$css = $block_css;
+			}
+
+			$block_data = array();
+			foreach ($row_data as $key => $data) {
+				if($this->endsWith($key, $block_suffix)) {
+					$block_data[$key] = $row_data[$key];
+				}
+			}
+			$block_html = '';
+			if (!empty($block_type)) {
+				$class = $this->construct_class_name($block_type);
+				/* @var $instance \ExtraPageBuilder\AbstractBlock */
+				$instance = new $class($this, $block_type);
+				if (!$instance->is_resizable($block_suffix, $block_data)) {
+					$block_height = null;
+				}
+				$block_html = $class::get_front($block_data, $block_suffix, $block_height, $block_width);
+				$block_html = apply_filters('extra_page_builder_'.$block_type, $block_html, $block_data, $block_suffix, $block_css, $block_number, $row_number, $block_height);
+			}
+
+			$block_height_html = ($block_height != null) ? ' style="height: '.$block_height.';"' : '';
+
+			$html .= '<div class="'.$css.'"'.$block_height_html.'>';
+			$html .= $block_html;
+			$html .= '</div>';
 		} else {
-			$css = $block_css;
+			$html .= '<div class="empty"></div>';
 		}
 
-		$block_data = array();
-		foreach ($row_data as $key => $data) {
-			if($this->endsWith($key, $block_suffix)) {
-				$block_data[$key] = $row_data[$key];
-			}
-		}
-		$block_html = '';
-		if (!empty($block_type)) {
-			$class = $this->construct_class_name($block_type);
-			/* @var $instance \ExtraPageBuilder\AbstractBlock */
-			$instance = new $class($this, $block_type);
-			if (!$instance->is_resizable($block_suffix, $block_data)) {
-				$block_height = null;
-			}
-			$block_html = $class::get_front($block_data, $block_suffix, $block_height, $block_width);
-			$block_html = apply_filters('extra_page_builder_'.$block_type, $block_html, $block_data, $block_suffix, $block_css, $block_number, $row_number, $block_height);
-		}
-
-		$block_height_html = ($block_height != null) ? ' style="height: '.$block_height.';"' : '';
-
-		$html = '<div class="'.$css.'"'.$block_height_html.'>';
-		$html .= $block_html;
-		$html .= '</div>';
 
 		return $html;
 	}

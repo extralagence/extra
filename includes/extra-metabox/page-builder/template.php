@@ -9,7 +9,6 @@ $mb;
 	<div class="repeatable">
 
 		<div class="repeat-actions">
-			<a href="#" class="docopy-page_builder copy-btn"><div class="dashicons dashicons-plus"></div><?php echo ($this->add_label == null) ? __("Ajouter une ligne", "extra") : $this->add_label; ?></a>
 			<a href="#" class="dodelete-page_builder delete-btn"><div class="icon-extra-page-builder icon-extra-page-builder-cross"></div><?php _e("Tout supprimer", "extra"); ?></a>
 		</div>
 
