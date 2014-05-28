@@ -60,7 +60,7 @@ class Image extends AbstractField {
 				}
 
 				if(!empty($imgid)){
-					$src =  wp_get_attachment_image_src( $imgid, 'thumbnail' );
+					$src =  wp_get_attachment_image_src( $imgid, 'full' );
 					$width = ($width == null) ? $src[1] : $width;
 					$height = ($height == null) ? $src[2] : $height;
 

@@ -35,16 +35,18 @@ $mb;
 					<a href="#" class="dodelete"><span class="icon-extra-page-builder icon-extra-page-builder-cross"></span></a>
 				</div>
 
-				<div class="extra-page-builder-row-content extra-page-builder-row-content-<?php echo (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout; ?>">
-					<?php
-					$mb->the_block(1, (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout);
-					?>
-					<?php
-					$mb->the_block(2, (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout);
-					?>
-					<?php
-					$mb->the_block(3, (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout);
-					?>
+				<div class="extra-page-builder-row-content-wrapper">
+					<div class="extra-page-builder-row-content extra-page-builder-row-content-<?php echo (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout; ?>">
+						<?php
+						$mb->the_block(1, (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout);
+						?>
+						<?php
+						$mb->the_block(2, (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout);
+						?>
+						<?php
+						$mb->the_block(3, (!empty($page_builder_row_type)) ? $page_builder_row_type : $mb->row_default_layout);
+						?>
+					</div>
 				</div>
 			</div>
 			<?php $mb->the_group_close(); ?>

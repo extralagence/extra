@@ -101,15 +101,13 @@ class Accordion extends AbstractBlock {
 		<?php
 	}
 
-	public function the_preview($name_suffix) {
+	public function the_preview($name_suffix, $block_width) {
 		$name = $name_suffix;
 		$lines = $this->mb->get_the_value($name);
 		$title = $this->mb->get_the_value('title_'.$name_suffix);
 
 		$html = '';
-		if (!empty($title)) {
-			$html .= '<h2 class="accordeon-title">'.$title.'</h2>';
-		}
+		$html .= '<h2 class="accordeon-title">'.$title.'</h2>';
 		$html .= '<ul class="extra-accordion">';
 		if ($lines != null && $lines ) {
 			foreach ($lines as $line) {
@@ -117,12 +115,12 @@ class Accordion extends AbstractBlock {
 				$html .= '<h3 class="extra-accordion-title">'.$line['section_title'].'</h3>';
 				$html .= '</li>';
 			}
-			$html .= '</ul>';
 		}
+		$html .= '</ul>';
 		echo $html;
 	}
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		$lines = $block_data[$name_suffix];
 		$title = $block_data['title_'.$name_suffix];
 

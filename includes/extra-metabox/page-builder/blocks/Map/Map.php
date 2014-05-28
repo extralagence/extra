@@ -118,7 +118,7 @@ class Map extends AbstractBlock {
 		<?php
 	}
 
-	public function the_preview($name_suffix) {
+	public function the_preview($name_suffix, $block_width) {
 		$extra_map_options = apply_filters('extra_map_options', null);
 		wp_localize_script('extra-page-builder-block-map-front', 'extra_map_options', $extra_map_options);
 
@@ -128,9 +128,7 @@ class Map extends AbstractBlock {
 		$description = $this->mb->get_the_value('description_'.$name_suffix);
 
 		$html = 	'<div class="extra-page-builder-map-wrapper">';
-		if (!empty($title)) {
-			$html .= 	'	<h2 class="extra-page-builder-map-title">'.$title.'</h2>';
-		}
+		$html .= 	'	<h2 class="extra-page-builder-map-title">'.$title.'</h2>';
 		$html .= 	'	<div class="extra-page-builder-map" data-lat="'.$lat.'" data-lon="'.$lon.'"></div>';
 		$html .= 	'	<div class="extra-page-builder-map-description-wrapper"><div class="extra-page-builder-map-description">'.apply_filters('the_content', html_entity_decode( $description, ENT_QUOTES, 'UTF-8' )).'</div></div>';
 		$html .= 	'</div>';
@@ -138,7 +136,7 @@ class Map extends AbstractBlock {
 		echo $html;
 	}
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		$extra_map_options = apply_filters('extra_map_options', null);
 		wp_localize_script('extra-page-builder-block-map-front', 'extra_map_options', $extra_map_options);
 

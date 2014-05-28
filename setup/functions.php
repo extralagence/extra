@@ -18,7 +18,7 @@ if ( ! function_exists( 'extra_setup' ) ) {
 
 		// AUTO RSS
 		add_theme_support( 'automatic-feed-links' );
-        
+
         // HTML 5
         add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 
@@ -33,9 +33,8 @@ if ( ! function_exists( 'extra_setup' ) ) {
 		$editor = get_role( 'editor' );
 		$editor->add_cap( 'manage_options' );
 
-		global $content_width, $full_content_width;
+		global $content_width;
 		$content_width = 540;
-		$full_content_width = 940;
 	}
 }
 add_action('after_setup_theme', 'extra_setup');
@@ -321,7 +320,6 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 function extra_responsive_image($src = 0, $params= array(), $class = '', $alt = '') {
 	echo extra_get_responsive_image($src, $params, $class, $alt);
 }
-
 /**
  * Shortify a string with "..."
  *
@@ -466,9 +464,18 @@ if(!function_exists('extra_wp_title')) {
  *
  *********************/
 function extra_less_vars($vars, $handle) {
-	global $full_content_width;
+	global $epb_full_width, $epb_half_width, $epb_one_third_width, $epb_two_third_width, $epb_gap;
+	$epb_full_width = apply_filters('extra_page_builder_full_width', 940);
+	$epb_half_width = apply_filters('extra_page_builder_half_width', 460);
+	$epb_one_third_width = apply_filters('extra_page_builder_one_third_width', 300);
+	$epb_two_third_width = apply_filters('extra_page_builder_two_third_width', 620);
+	$epb_gap = apply_filters('extra_page_builder_gap', 20);
 
-	$vars['full_content_width'] = $full_content_width.'px';
+	$vars['epb_full_width'] = $epb_full_width.'px';
+	$vars['epb_half_width'] = $epb_half_width.'px';
+	$vars['epb_one_third_width'] = $epb_one_third_width.'px';
+	$vars['epb_two_third_width'] = $epb_two_third_width.'px';
+	$vars['epb_gap'] = $epb_gap.'px';
 	return $vars;
 }
 
