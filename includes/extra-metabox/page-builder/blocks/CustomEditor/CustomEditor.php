@@ -157,14 +157,14 @@ class CustomEditor extends AbstractBlock {
 		return $stylesheets;
 	}
 
-	public function the_preview($name_suffix) {
+	public function the_preview($name_suffix, $block_width) {
 		$name = $name_suffix;
 		$this->mb->the_field($name);
 
 		echo '<div class="custom-editor-content">'.apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )).'</div>';
 	}
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		$html = apply_filters('the_content', html_entity_decode( $block_data[$name_suffix], ENT_QUOTES, 'UTF-8' ));
 
 		return $html;

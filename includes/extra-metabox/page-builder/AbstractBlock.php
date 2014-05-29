@@ -32,9 +32,9 @@ abstract class AbstractBlock {
 
 	public abstract function the_admin($name_suffix);
 
-	public abstract function the_preview($name_suffix);
+	public abstract function the_preview($name_suffix, $block_width);
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		// To be override
 	}
 
@@ -62,7 +62,7 @@ abstract class AbstractBlock {
 	/**
 	 * @return boolean
 	 */
-	public function is_resizable() {
+	public function is_resizable($name_suffix = null, $block_data = null) {
 		return $this->resizable !== false;
 	}
 

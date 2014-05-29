@@ -9,12 +9,12 @@
 define('EXTRA_PATH', get_template_directory());
 define('EXTRA_MODULES_PATH', EXTRA_PATH.'/modules');
 define('EXTRA_INCLUDES_PATH', EXTRA_PATH.'/includes');
-define('EXTRA_COMMON_MODULE_PATH', get_template_directory() . '/setup');
+define('EXTRA_COMMON_MODULE_PATH', EXTRA_PATH . '/setup');
 
 define('EXTRA_URI', get_template_directory_uri());
 define('EXTRA_MODULES_URI', EXTRA_URI . '/modules');
 define('EXTRA_INCLUDES_URI', EXTRA_URI . '/includes');
-define('EXTRA_COMMON_MODULE_URI', get_template_directory_uri() . '/setup');
+define('EXTRA_COMMON_MODULE_URI', EXTRA_URI . '/setup');
 
 define('THEME_PATH', get_stylesheet_directory());
 define('THEME_MODULES_PATH', THEME_PATH.'/modules');
@@ -115,10 +115,10 @@ if ('extra' != wp_get_theme()->stylesheet) {
 	}
 }
 
-require_once 'functions.php';
-require_once 'admin/setup.php';
-require_once 'scripts.php';
-require_once 'styles.php';
+require_once EXTRA_COMMON_MODULE_PATH . '/functions.php';
+require_once EXTRA_COMMON_MODULE_PATH . '/admin/setup.php';
+require_once EXTRA_COMMON_MODULE_PATH . '/scripts.php';
+require_once EXTRA_COMMON_MODULE_PATH . '/styles.php';
 if ('extra' != wp_get_theme()->stylesheet) {
 	if(file_exists(THEME_PATH.'/setup/scripts.php')) {
 		require_once THEME_PATH.'/setup/scripts.php';

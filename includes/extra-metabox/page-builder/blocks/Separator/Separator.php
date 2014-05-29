@@ -44,11 +44,11 @@ class Separator extends AbstractBlock {
 		// Nothing ahah
 	}
 
-	public function the_preview($name_suffix) {
+	public function the_preview($name_suffix, $block_width) {
 		echo '<div class="extra-page-builder-separator"></div>';
 	}
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		$html = '<div class="extra-page-builder-separator"></div>';
 
 		return $html;

@@ -80,7 +80,7 @@
  *
  ******************/
 .extra-page-builder {
-	max-width: @full_content_width;
+	max-width: @epb_full_width + 2;
 	margin: 0 auto;
 }
 .extra-page-builder .wpa_group {
@@ -222,20 +222,34 @@
  * LAYOUTS
  *
  ******************/
-.extra-page-builder-row-content {
-	border: 1px solid #eeeeee;
+.extra-page-builder-row-content-wrapper {
+	overflow: auto;
+	width: 100%;
+	border: 1px solid #eee;
 	border-top: none;
 
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+}
 
-	width: 100%;
+.extra-page-builder-row-content {
+//	border: 1px solid #eeeeee;
+//	border-top: none;
+
+//	-webkit-box-sizing: border-box;
+//	-moz-box-sizing: border-box;
+//	box-sizing: border-box;
+
+	//width: 100%;
+	// TODO passer largeur en less
+	width: @epb_full_width;
 }
 .extra-page-builder-row-content > .extra-page-builder-block {
 	float: left;
 	min-height: 60px;
 	overflow: hidden;
+	margin: 0;
 }
 .extra-page-builder-row-content:after {
 	content: ".";
@@ -243,45 +257,69 @@
 	height: 0;
 	clear: both;
 	visibility: hidden;
+	overflow: hidden;
 }
 
 .extra-page-builder-row-content-1 > .extra-page-builder-block:nth-child(1) {
-	width: 100%;
+	//width: 100%;
+	width: @epb_full_width;
+	margin-right: 0;
 }
 .extra-page-builder-row-content-1 > .extra-page-builder-block:nth-child(2),
 .extra-page-builder-row-content-1 > .extra-page-builder-block:nth-child(3) {
 	display: none;
 }
 
-.extra-page-builder-row-content-11 > .extra-page-builder-block:nth-child(1),
+.extra-page-builder-row-content-11 > .extra-page-builder-block:nth-child(1) {
+	width: @epb_half_width;
+	margin-right: @epb_gap;
+}
 .extra-page-builder-row-content-11 > .extra-page-builder-block:nth-child(2) {
-	width: 50%;
+	//width: 50%;
+	width: @epb_half_width;
+	margin-right: 0;
 }
 .extra-page-builder-row-content-11 > .extra-page-builder-block:nth-child(3) {
 	display: none;
 }
 
-.extra-page-builder-row-content-111 > .extra-page-builder-block:nth-child(1),
-.extra-page-builder-row-content-111 > .extra-page-builder-block:nth-child(2),
+.extra-page-builder-row-content-111 > .extra-page-builder-block:nth-child(1) {
+	width: @epb_one_third_width;
+	margin-right: @epb_gap;
+}
+.extra-page-builder-row-content-111 > .extra-page-builder-block:nth-child(2) {
+	width: @epb_one_third_width;
+	margin-right: @epb_gap;
+}
 .extra-page-builder-row-content-111 > .extra-page-builder-block:nth-child(3) {
-	width: 33.33%;
+	//width: 33.33%;
+	width: @epb_one_third_width;
+	margin-right: 0;
 }
 
 .extra-page-builder-row-content-12 > .extra-page-builder-block:nth-child(1) {
-	width: 34%;
+	//width: 34%;
+	width: @epb_one_third_width;
+	margin-right: @epb_gap;
 }
 .extra-page-builder-row-content-12 > .extra-page-builder-block:nth-child(2) {
-	width: 66%;
+	//width: 66%;
+	width: @epb_two_third_width;
+	margin-right: 0;
 }
 .extra-page-builder-row-content-12 > .extra-page-builder-block:nth-child(3) {
 	display: none;
 }
 
 .extra-page-builder-row-content-21 > .extra-page-builder-block:nth-child(1) {
-	width: 66%;
+	//width: 66%;
+	width: @epb_two_third_width;
+	margin-right: @epb_gap;
 }
 .extra-page-builder-row-content-21 > .extra-page-builder-block:nth-child(2) {
-	width: 34%;
+	//width: 34%;
+	width: @epb_one_third_width;
+	margin-right: 0;
 }
 .extra-page-builder-row-content-21 > .extra-page-builder-block:nth-child(3) {
 	display: none;
@@ -295,15 +333,16 @@
 
 .extra-page-builder-block .choose-block {
 	border: 1px dashed #bbb;
-	margin: 10px;
-	margin-left: 0;
+	//margin: 10px;
+	//margin-left: 0;
+	margin: 0;
 	display: none;
 }
 .extra-page-builder-block.not-selected .choose-block {
 	display: block;
 }
 .extra-page-builder-block:first-child .choose-block {
-	margin-left: 10px;
+	//margin-left: 10px;
 }
 
 .choose-block-choices {
@@ -357,7 +396,7 @@
 
 .extra-page-builder-block-content {
 	//padding: 10px;
-	padding: 0 10px;
+	//padding: 0 10px;
 	height: 100%;
 
 	position: relative;
@@ -391,10 +430,10 @@
 }
 
 .extra-page-builder-block.first .extra-page-builder-block-content {
-	padding-left: 0;
+	//padding-left: 0;
 }
 .extra-page-builder-block.last .extra-page-builder-block-content {
-	padding-right: 0;
+	//padding-right: 0;
 }
 
 .extra-page-builder-block-wrapper {

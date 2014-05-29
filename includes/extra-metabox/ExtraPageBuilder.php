@@ -97,6 +97,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$block_type = $_GET['block_type'];
 		$block_id = $_GET['block_id'];
 		$row_id =  $_GET['row_id'];
+		$row_layout =  $_GET['row_layout'];
 
 		$class = $this->construct_class_name($block_type);
 		/**
@@ -107,7 +108,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		// This is a hack to imitate wpalchemy group behavior
 		$this->id = $row_id;
 		$this->in_template = TRUE;
-		$this->the_block_wrapper($block, $block_id);
+		$this->the_block_wrapper($block, $block_id, $this->get_block_width($row_layout, $block_id));
 
 		die;
 	}
@@ -134,6 +135,24 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		return $block;
 	}
 
+	private function get_block_width($row_layout, $block_id) {
+		global $epb_full_width, $epb_half_width, $epb_one_third_width, $epb_two_third_width;
+		$block_width = 0;
+		if (!empty($row_layout) && !empty($block_id)) {
+			if ($row_layout == '1' && $block_id == 1) {
+				$block_width = $epb_full_width;
+			} else if ( ($row_layout == '12' && $block_id == 1) || ($row_layout == '21' && $block_id == 2) || $row_layout == '111') {
+				$block_width = $epb_one_third_width;
+			} else if ( $row_layout == '11' && ($block_id == 1 || $block_id == 2)) {
+				$block_width = $epb_half_width;
+			} else if (($row_layout == '12' && $block_id == 2) || ($row_layout == '21' && $block_id == 1)) {
+				$block_width = $epb_two_third_width;
+			}
+		}
+
+		return $block_width;
+	}
+
 	/**
 	 * @param $block_id
 	 */
@@ -146,14 +165,16 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		/**
 		 * @var $block \ExtraPageBuilder\AbstractBlock
 		 */
-		$block = $this->block_instances[$block_type];
-		$resizable = ($block == null) ? false : $block->is_resizable();
+		$block = (isset($this->block_instances[$block_type])) ? $this->block_instances[$block_type] : null;
+
+		$resizable = ($block == null) ? false : $block->is_resizable($block->get_type().'_'.$block_id);
 		$editable = ($block == null) ? false : $block->is_editable();
 
 		$block_height = null;
 		if ($resizable) {
 			$block_height = $this->get_the_value('page_builder_block_height_'.$block_id);
 		}
+		$block_width = $this->get_block_width($row_layout, $block_id);
 
 		$block_css = '';
 		if (empty($block_type)) {
@@ -214,7 +235,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 					</div>
 				</div>
 				<div class="extra-page-builder-block-wrapper">
-					<?php $this->the_block_wrapper($block, $block_id); ?>
+					<?php $this->the_block_wrapper($block, $block_id, $block_width); ?>
 				</div>
 			</div>
 		</div>
@@ -225,12 +246,12 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	 * @param $block \ExtraPageBuilder\AbstractBlock
 	 * @param $block_id int
 	 */
-	protected function the_block_wrapper($block, $block_id) {
+	protected function the_block_wrapper($block, $block_id, $block_width) {
 		if ($block != null) : $name_suffix = $block->get_type().'_'.$block_id;
 			?>
 			<div class="extra-page-builder-block-content">
 				<?php
-				$block->the_preview($name_suffix);
+				$block->the_preview($name_suffix, $block_width);
 				?>
 			</div>
 			<div class="extra-page-builder-block-content-admin">
@@ -282,30 +303,32 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	protected function get_front_row($row, $row_number, $row_css) {
 		$row_type = isset($row['page_builder_row_type']) ? $row['page_builder_row_type'] : '1';
 		$html = '<div class="'.$row_css.'">';
+
+		global $epb_full_width, $epb_half_width, $epb_one_third_width, $epb_two_third_width;
 		switch ($row_type) {
 			case '1':
-				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-12', 'first', 'last'));
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-12', 'first', 'last'), $epb_full_width);
 				break;
 
 			case '11':
-				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-6', 'first'));
-				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-6', 'last'));
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-6', 'first'), $epb_half_width);
+				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-6', 'last'), $epb_half_width);
 				break;
 
 			case '111':
-				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-4', 'first'));
-				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-4'));
-				$html .= $this->get_front_block($row, $row_number, '3', array('col', 'col-4', 'last'));
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-4', 'first'), $epb_one_third_width);
+				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-4'), $epb_one_third_width);
+				$html .= $this->get_front_block($row, $row_number, '3', array('col', 'col-4', 'last'), $epb_one_third_width);
 				break;
 
 			case '12':
-				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-4', 'first'));
-				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-8', 'last'));
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-4', 'first'), $epb_one_third_width);
+				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-8', 'last'), $epb_two_third_width);
 				break;
 
 			case '21':
-				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-8', 'first'));
-				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-4', 'last'));
+				$html .= $this->get_front_block($row, $row_number, '1', array('col', 'col-8', 'first'), $epb_two_third_width);
+				$html .= $this->get_front_block($row, $row_number, '2', array('col', 'col-4', 'last'), $epb_one_third_width);
 				break;
 
 			default :
@@ -321,43 +344,51 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 	}
 
-	protected function get_front_block($row_data, $row_number, $block_number, $block_css) {
-		$block_type = $row_data['page_builder_block_choice_'.$block_number];
-		// _page_builder[page_builder][0][page_builder_block_height_1]
-		$block_height = $row_data['page_builder_block_height_'.$block_number];
+	protected function get_front_block($row_data, $row_number, $block_number, $block_css, $block_width) {
+//        var_dump($block_number);
+//        var_dump($row_data);
+		$block_type = null;
 
-		$block_suffix = $block_type.'_'.$block_number;
+		$block_type = (isset($row_data['page_builder_block_choice_'.$block_number])) ? $row_data['page_builder_block_choice_'.$block_number] : null;
+		$block_height = (isset($row_data['page_builder_block_height_'.$block_number])) ? $row_data['page_builder_block_height_'.$block_number] : null;
 
-		if (is_array($block_css)) {
-			$css = implode(' ', $block_css);
+		$html = '';
+		if ($block_type != null) {
+			$block_suffix = $block_type.'_'.$block_number;
+
+			if (is_array($block_css)) {
+				$css = implode(' ', $block_css);
+			} else {
+				$css = $block_css;
+			}
+
+			$block_data = array();
+			foreach ($row_data as $key => $data) {
+				if($this->endsWith($key, $block_suffix)) {
+					$block_data[$key] = $row_data[$key];
+				}
+			}
+			$block_html = '';
+			if (!empty($block_type)) {
+				$class = $this->construct_class_name($block_type);
+				/* @var $instance \ExtraPageBuilder\AbstractBlock */
+				$instance = new $class($this, $block_type);
+				if (!$instance->is_resizable($block_suffix, $block_data)) {
+					$block_height = null;
+				}
+				$block_html = $class::get_front($block_data, $block_suffix, $block_height, $block_width);
+				$block_html = apply_filters('extra_page_builder_'.$block_type, $block_html, $block_data, $block_suffix, $block_css, $block_number, $row_number, $block_height);
+			}
+
+			$block_height_html = ($block_height != null) ? ' style="height: '.$block_height.';"' : '';
+
+			$html .= '<div class="'.$css.'"'.$block_height_html.'>';
+			$html .= $block_html;
+			$html .= '</div>';
 		} else {
-			$css = $block_css;
+			$html .= '<div class="empty"></div>';
 		}
 
-		$block_data = array();
-		foreach ($row_data as $key => $data) {
-			if($this->endsWith($key, $block_suffix)) {
-				$block_data[$key] = $row_data[$key];
-			}
-		}
-		$block_html = '';
-		if (!empty($block_type)) {
-			$class = $this->construct_class_name($block_type);
-			/* @var $instance \ExtraPageBuilder\AbstractBlock */
-			$instance = new $class($this, $block_type);
-			if (!$instance->is_resizable()) {
-				$block_height = null;
-			}
-
-			$block_html = $class::get_front($block_data, $block_suffix, $block_height);
-			$block_html = apply_filters('extra_page_builder_'.$block_type, $block_html, $block_data, $block_suffix, $block_css, $block_number, $row_number, $block_height);
-		}
-
-		$block_height_html = ($block_height != null) ? ' style="height: '.$block_height.';"' : '';
-
-		$html = '<div class="'.$css.'"'.$block_height_html.'>';
-		$html .= $block_html;
-		$html .= '</div>';
 
 		return $html;
 	}

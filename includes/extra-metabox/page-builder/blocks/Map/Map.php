@@ -118,7 +118,7 @@ class Map extends AbstractBlock {
 		<?php
 	}
 
-	public function the_preview($name_suffix) {
+	public function the_preview($name_suffix, $block_width) {
 		$extra_map_options = apply_filters('extra_map_options', null);
 		wp_localize_script('extra-page-builder-block-map-front', 'extra_map_options', $extra_map_options);
 
@@ -136,7 +136,7 @@ class Map extends AbstractBlock {
 		echo $html;
 	}
 
-	public static function get_front($block_data, $name_suffix, $block_height) {
+	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		$extra_map_options = apply_filters('extra_map_options', null);
 		wp_localize_script('extra-page-builder-block-map-front', 'extra_map_options', $extra_map_options);
 

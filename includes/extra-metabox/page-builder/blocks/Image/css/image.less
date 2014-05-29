@@ -1,6 +1,28 @@
-.extra-page-builder-image{
+.extra-page-builder-image {
+	min-height: 60px;
+}
+
+.extra-page-builder-image.size-auto {
+	background-size: contain;
+	background-position: top center;
+	background-repeat: no-repeat;
+}
+
+.extra-page-builder-image.size-custom {
 	background-size: cover;
 	background-position: center;
+	background-repeat: no-repeat;
 	height: 100%;
-	min-height: 60px;
+}
+
+.compat-attachment-fields .compat-field-extra_image_size {
+	display: none;
+}
+
+.compat-attachment-fields .compat-field-extra_image_size input[type="radio"] {
+	width: auto;
+}
+
+body.extra-page-builder-image-edition .compat-attachment-fields .compat-field-extra_image_size {
+	display: block;
 }

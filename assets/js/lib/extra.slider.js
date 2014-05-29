@@ -119,6 +119,10 @@
 			/*********************************** GO TO PAGE ***********************************/
 			function gotoPage(newPage, time) {
 
+				if(newPage == currentItem) {
+					return;
+				}
+
 				time = (time !== undefined) ? time : opt.speed;
 
 				var dir = newPage < currentItem ? -1 : 1,
