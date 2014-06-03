@@ -140,9 +140,9 @@ class Map extends AbstractBlock {
 		$extra_map_options = apply_filters('extra_map_options', null);
 		wp_localize_script('extra-page-builder-block-map-front', 'extra_map_options', $extra_map_options);
 
-		$lat = $block_data['lat_'.$name_suffix];
-		$lon = $block_data['lon_'.$name_suffix];
-		$title = $block_data['title_'.$name_suffix];
+		$lat = (isset($block_data['lat_'.$name_suffix])) ? $block_data['lat_'.$name_suffix] : null;
+		$lon = (isset($block_data['lon_'.$name_suffix])) ? $block_data['lon_'.$name_suffix] : null;
+		$title = (isset($block_data['title_'.$name_suffix])) ? $block_data['title_'.$name_suffix] : null;
 		$description = $block_data['description_'.$name_suffix];
 
 		$html = 	'<div class="extra-page-builder-map-wrapper">';
