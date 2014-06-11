@@ -84,7 +84,7 @@
 				var max = 0,
 					item,
 					current;
-				$items.each(function () {
+				$items.not('.cloned').each(function () {
 					item = $(this);
 					current = (type === 'height') ? item.outerHeight(true) : item.outerWidth(true);
 					if (current > max) {
