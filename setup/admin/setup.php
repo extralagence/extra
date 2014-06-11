@@ -23,7 +23,7 @@ add_filter('login_headerurl', 'extra_url_login');
  *
  *********************/
 function extra_css_admin() {
-	wp_enqueue_style( 'admin-css', EXTRA_COMMON_MODULE_URI . '/admin/css/style.css' );
+	wp_enqueue_style( 'admin-css', EXTRA_COMMON_MODULE_URI . '/admin/css/style.less' );
 }
 add_action('admin_print_styles', 'extra_css_admin');
 add_action('login_head', 'extra_css_admin');

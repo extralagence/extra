@@ -9,6 +9,23 @@
 require_once 'MetaBox.php';
 require_once 'page-builder/AbstractBlock.php';
 
+/**********************
+ *
+ *
+ *
+ * ADMIN STYLESHEET
+ *
+ *
+ *
+ *********************/
+function extra_page_builder_global_admin_css() {
+	wp_enqueue_style( 'extra_page_builder_global_admin_css', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/css/global-admin.less' );
+}
+add_action('admin_print_styles', 'extra_page_builder_global_admin_css');
+add_action('login_head', 'extra_page_builder_global_admin_css');
+
+
+
 //Require once each fields
 foreach (scandir(dirname(__FILE__).'/page-builder/blocks') as $field_name) {
 	$path = dirname(__FILE__).'/page-builder/blocks/'.$field_name.'/'.$field_name.'.php';
