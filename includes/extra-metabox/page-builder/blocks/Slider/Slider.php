@@ -188,13 +188,16 @@ class Slider extends AbstractBlock {
 				$html .= '<li>';
 				$html .= extra_get_responsive_image($id, array(
 					'desktop' => array(
-						'height' => $block_height
+						'height' => $block_height,
+						'width' => $block_width
 					),
 					'tablet' => array(
-						'height' => $block_height
+						'height' => $block_height,
+						'width' => $block_width
 					),
 					'mobile' => array(
-						'height' => $block_height
+						'height' => $block_height,
+						'width' => $block_width
 					)
 				));
 				if (!empty($attachment->post_excerpt)) {
