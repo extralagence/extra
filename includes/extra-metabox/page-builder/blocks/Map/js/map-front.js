@@ -109,8 +109,12 @@
 			this.resize(this);
 		},
 		resize: function (plugin) {
+			var $mapWrapper = plugin.element.closest('.extra-page-builder-map-wrapper');
+			extraPageBuilderMapResize($mapWrapper);
+
 			google.maps.event.trigger(plugin.map,'resize');
 			plugin.map.setCenter(plugin.marker.getPosition());
+
 		}
 	};
 
@@ -131,4 +135,24 @@
 
 jQuery(document).ready(function($) {
 	$('.extra-page-builder-map').extraPageBuilderMapFront();
+
+
+	$('.extra-page-builder-map-wrapper').each(function () {
+		extraPageBuilderMapResize($(this));
+	});
 });
+
+function extraPageBuilderMapResize($mapWrapper) {
+	var $parent = $mapWrapper.parent();
+	var $mapTitle = $mapWrapper.find('.extra-page-builder-map-title');
+	var $mapDescription = $mapWrapper.find('.extra-page-builder-map-description');
+	var $map = $mapWrapper.find('.extra-page-builder-map');
+
+	$mapWrapper.css('height', $parent.outerHeight());
+
+	var mapHeight = $mapWrapper.outerHeight();
+	mapHeight -= $mapTitle.outerHeight();
+	mapHeight -= $mapDescription.outerHeight();
+
+	$map.css('height', mapHeight);
+}
