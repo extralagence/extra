@@ -152,16 +152,17 @@ define('ICL_DONT_LOAD_LANGUAGES_JS', true);
  *********************/
 function extra_language_switcher(){
 	if(function_exists('icl_get_languages')) {
-		$languages = icl_get_languages('skip_missing=0');
+		$languages = icl_get_languages('skip_missing=0&orderby=KEY');
 		if(1 < count($languages)){
-			echo '<li class="language-switcher"><div class="inner">';
+			echo '<ul id="language-switcher">';
 			foreach($languages as $l){
-				if($l['active']) echo '<span class="'.$l['language_code'].' active">'.$l['language_code'].'</span>';
+				if($l['active']) {
+				    echo '<li><span class="'.$l['language_code'].' active">'.$l['language_code'].'</span></li>';
+			    } else {
+                    echo '<li><a class="'.$l['language_code'].'" href="'.$l['url'].'">'.$l['language_code'].'</a></li>';
+                }
 			}
-			foreach($languages as $l){
-				if(!$l['active']) echo '<a class="'.$l['language_code'].'" href="'.$l['url'].'">'.$l['language_code'].'</a>';
-			}
-			echo '</div></li>';
+			echo '</ul>';
 		}
 	}
 }
