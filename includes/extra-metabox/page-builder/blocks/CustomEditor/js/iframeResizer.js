@@ -23,7 +23,7 @@
 			bodyMargin                : null,
 			bodyMarginV1              : 8,
 			bodyPadding               : null,
-			checkOrigin               : true,
+			checkOrigin               : false,
 			enablePublicMethods       : false,
 			heightCalculationMethod   : 'offset',
 			interval                  : 32,
