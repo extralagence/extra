@@ -106,11 +106,7 @@
 				log(' Checking conection is from: '+remoteHost);
 
 				if ((''+origin !== 'null') && (origin !== remoteHost)) {
-					throw new Error(
-						'Unexpected message received from: ' + origin +
-						' for ' + messageData.iframe.id +
-						'. Message was: ' + event.data
-					);
+					throw new Error('Unexpected message received from: ' + origin + ' for ' + messageData.iframe.id + '. Message was: ' + event.data);
 				}
 			}
 
@@ -278,7 +274,7 @@
 		}
 
 		function init(msg){
-			//We have to call trigger twice, as we can not be sure if all 
+			//We have to call trigger twice, as we can not be sure if all
 			//iframes have completed loading when this code runs. The
 			//event listener also catches the page changing in the iFrame.
 			addEventListener(iframe,'load',function(){
