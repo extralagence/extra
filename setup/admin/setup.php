@@ -51,7 +51,7 @@ add_filter('admin_footer_text', 'extra_footer_admin');
  *********************/
 function extra_tinymce($init) {
 
-    $toolbar1 = apply_filters('extra_tinymce_toolbar1', 'formatselect,styleselect,alignleft,aligncenter,alignright,bold,italic,link,unlink,separator,outdent,indent,blockquote,quote,hr,extra_cleaner,separator,charmap,separator,bullist,numlist');
+    $toolbar1 = apply_filters('extra_tinymce_toolbar1', 'formatselect,styleselect,alignleft,aligncenter,alignright,bold,italic,link,unlink,separator,outdent,indent,blockquote,quote,hr,extra_cleaner,separator,charmap,separator,bullist,numlist,removeformat');
     $toolbar2 = apply_filters('extra_tinymce_toolbar2', '');
     $toolbar3 = apply_filters('extra_tinymce_toolbar3', '');
     $toolbar4 = apply_filters('extra_tinymce_toolbar4', '');
@@ -172,7 +172,7 @@ function extra_post_labels() {
 	global $wp_post_types;
 	$labels = $wp_post_types['post']->labels;
 	$labels->name = __('Actualités', 'extra');
-	$labels->singular_name = __('Actualités', 'extra');
+	$labels->singular_name = __('Actualité', 'extra');
 	$labels->add_new = __('Nouvelle actualité', 'extra');
 	$labels->add_new_item = __('Nouvelle actualité', 'extra');
 	$labels->edit_item = __('Éditer une actualité', 'extra');
@@ -214,7 +214,6 @@ add_action( 'init', function() {
  *
  *********************/
 require_once 'dashboard.php';
-
 /**********************
  *
  *

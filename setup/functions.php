@@ -141,6 +141,7 @@ add_filter('img_caption_shortcode', 'extra_img_caption_shortcode', 10, 3);
 define('ICL_DONT_LOAD_NAVIGATION_CSS', true);
 define('ICL_DONT_LOAD_LANGUAGE_SELECTOR_CSS', true);
 define('ICL_DONT_LOAD_LANGUAGES_JS', true);
+define('ICL_DONT_PROMOTE', true);
 /**********************
  *
  *
