@@ -31,7 +31,8 @@ if ( ! function_exists( 'extra_setup' ) ) {
 
 		// CAP
 		$editor = get_role( 'editor' );
-		$editor->add_cap( 'manage_options' );
+        $editor->add_cap( 'manage_options' );
+        $editor->add_cap( 'edit_theme_options' );
 
 		global $content_width;
 		$content_width = 540;
