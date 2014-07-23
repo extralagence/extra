@@ -7,7 +7,7 @@
  * Contributor: Jure Mav - jure.mav@gmail.com
  */
 
-(function() {
+;(function() {
 	'use strict';
 
 	var
@@ -19,7 +19,7 @@
 		bodyPadding           = '',
 		calculateWidth        = false,
 		doubleEventList       = {'resize':1,'click':1},
-		eventCancelTimer      = 42,
+		eventCancelTimer      = 128,
 		height                = 1,
 		firstRun              = true,
 		heightCalcModeDefault = 'offset',
@@ -35,16 +35,17 @@
 		resetRequiredMethods  = {max:1,scroll:1,bodyScroll:1,documentElementScroll:1},
 		targetOriginDefault   = '*',
 		target                = window.parent,
+		tolerance             = 0,
 		triggerLocked         = false,
 		triggerLockedTimer    = null,
 		width                 = 1;
 
 
-	function addEventListener(el,evt,func){
+	function _addEventListener(el,evt,func){
 		if ('addEventListener' in window){
 			el.addEventListener(evt,func, false);
 		} else if ('attachEvent' in window){ //IE
-			el.attachEvent('on'+e,func);
+			el.attachEvent('on'+evt,func);
 		}
 	}
 
@@ -76,6 +77,7 @@
 		stopInfiniteResizingOfIFrame();
 		setupPublicMethods();
 		startEventListeners();
+		sendSize('init','Init message from host page');
 	}
 
 	function readData(){
@@ -87,16 +89,17 @@
 		}
 
 		myID             = data[0];
-		bodyMargin       = (undefined !== data[1]) ? parseInt(data[1],base) : bodyMargin; //For V1 compatibility
-		calculateWidth   = (undefined !== data[2]) ? strBool(data[2])       : calculateWidth;
-		logging          = (undefined !== data[3]) ? strBool(data[3])       : logging;
-		interval         = (undefined !== data[4]) ? parseInt(data[4],base) : interval;
-		publicMethods    = (undefined !== data[5]) ? strBool(data[5])       : publicMethods;
-		autoResize       = (undefined !== data[6]) ? strBool(data[6])       : autoResize;
+		bodyMargin       = (undefined !== data[1]) ? Number(data[1])   : bodyMargin; //For V1 compatibility
+		calculateWidth   = (undefined !== data[2]) ? strBool(data[2])  : calculateWidth;
+		logging          = (undefined !== data[3]) ? strBool(data[3])  : logging;
+		interval         = (undefined !== data[4]) ? Number(data[4])   : interval;
+		publicMethods    = (undefined !== data[5]) ? strBool(data[5])  : publicMethods;
+		autoResize       = (undefined !== data[6]) ? strBool(data[6])  : autoResize;
 		bodyMarginStr    = data[7];
-		heightCalcMode   = (undefined !== data[8]) ? data[8]                : heightCalcMode;
+		heightCalcMode   = (undefined !== data[8]) ? data[8]           : heightCalcMode;
 		bodyBackground   = data[9];
 		bodyPadding      = data[10];
+		tolerance        = (undefined !== data[11]) ? Number(data[11]) : tolerance;
 	}
 
 	function chkCSS(attr,value){
@@ -115,7 +118,7 @@
 	}
 
 	function setMargin(){
-		//If called via V1 script, convert bodyMargin from int to str 
+		//If called via V1 script, convert bodyMargin from int to str
 		if (undefined === bodyMarginStr){
 			bodyMarginStr = bodyMargin+'px';
 		}
@@ -183,6 +186,9 @@
 				reset: function resetF(){
 					resetIFrame('parentIFrame.size');
 				},
+				scrollTo: function scrollToF(x,y){
+					sendMsg(x,y,'scrollTo');
+				},
 				sendMessage: function sendMessageF(msg,targetOrigin){
 					sendMsg(0,0,'message',msg,targetOrigin);
 				},
@@ -212,6 +218,28 @@
 		}
 	}
 
+	function setupInjectElementLoadListners(mutations){
+		function addLoadListener(element){
+			if (element.height === undefined || element.width === undefined || 0 === element.height || 0 === element.width){
+				log('Attach listerner to '+element.src);
+				addEventListener(element,'load', function imageLoaded(){
+					sendSize('imageLoad','Image loaded');
+				});
+			}
+		}
+
+		mutations.forEach(function (mutation) {
+			if (mutation.type === 'attributes' && mutation.attributeName === 'src'){
+				addLoadListener(mutation.target);
+			} else if (mutation.type === 'childList'){
+				var images = mutation.target.querySelectorAll('img');
+				Array.prototype.forEach.call(images,function (image) {
+					addLoadListener(image);
+				});
+			}
+		});
+	}
+
 	function setupMutationObserver(){
 
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
@@ -229,26 +257,9 @@
 					subtree               : true
 				},
 
-				observeLoad = function(element){
-					if (element.height === undefined || element.width === undefined){
-						addEventListener(element,'load', function imageLoaded(){
-							sendSize('imageload','Image loaded');
-						});
-					}
-				},
-
 				observer = new MutationObserver(function(mutations) {
 					sendSize('mutationObserver','mutationObserver: ' + mutations[0].target + ' ' + mutations[0].type);
-					for (var mutation in mutations) {
-						if (mutation.type === 'attributes' && mutation.attributeName === 'src'){
-							observeLoad(mutation.target);
-						} else if (mutation.type === 'childList'){
-							var images = mutation.target.querySelectorAll('img');
-							for (var image in images) {
-								observeLoad(image);
-							}
-						}
-					}
+					setupInjectElementLoadListners(mutations); //Deal with WebKit asyncing image loading when tags are injected into the page
 				});
 
 			log('Enable MutationObserver');
@@ -298,7 +309,8 @@
 				retVal = 0;
 
 			if (('defaultView' in document) && ('getComputedStyle' in document.defaultView)) {
-				retVal =  document.defaultView.getComputedStyle(el, null)[prop];
+				retVal = document.defaultView.getComputedStyle(el, null);
+				retVal = (null !== retVal) ? retVal[prop] : 0;
 			} else {//IE8
 				retVal =  convertUnitsToPxForIE8(el.currentStyle[prop]);
 			}
@@ -323,6 +335,28 @@
 		return document.documentElement.scrollHeight;
 	}
 
+	//From https://github.com/guardian/iframe-messenger
+	function getLowestElementHeight() {
+		var
+			allElements       = document.querySelectorAll('body *'),
+			allElementsLength = allElements.length,
+			maxBottomVal      = 0,
+			timer             = new Date().getTime();
+
+		for (var i = 0; i < allElementsLength; i++) {
+			if (allElements[i].getBoundingClientRect().bottom > maxBottomVal) {
+				maxBottomVal = allElements[i].getBoundingClientRect().bottom;
+			}
+		}
+
+		timer = new Date().getTime() - timer;
+
+		log('Parsed '+allElementsLength+' HTML elements');
+		log('LowestElement bottom position calculated in ' + timer + 'ms');
+
+		return maxBottomVal;
+	}
+
 	function getAllHeights(){
 		return [
 			getBodyOffsetHeight(),
@@ -340,6 +374,10 @@
 		return Math.min.apply(null,getAllHeights());
 	}
 
+	function getBestHeight(){
+		return Math.max(getBodyOffsetHeight(),getLowestElementHeight());
+	}
+
 	var getHeight = {
 		offset                : getBodyOffsetHeight, //Backward compatability
 		bodyOffset            : getBodyOffsetHeight,
@@ -349,7 +387,8 @@
 		documentElementScroll : getDEScrollHeight,
 		max                   : getMaxHeight,
 		min                   : getMinHeight,
-		grow                  : getMaxHeight
+		grow                  : getMaxHeight,
+		lowestElement         : getBestHeight
 	};
 
 	function getWidth(){
@@ -361,9 +400,7 @@
 
 	function sendSize(triggerEvent, triggerEventDesc, customHeight, customWidth){
 
-		var
-			currentHeight = (undefined !== customHeight)  ? customHeight : getHeight[heightCalcMode](),
-			currentWidth  = (undefined !== customWidth )  ? customWidth  : getWidth();
+		var	currentHeight,currentWidth;
 
 		function recordTrigger(){
 			if (!(triggerEvent in {'reset':1,'resetPage':1,'init':1})){
@@ -383,8 +420,19 @@
 		}
 
 		function isSizeChangeDetected(){
-			return	(height !== currentHeight) ||
-					(calculateWidth && width !== currentWidth);
+			function checkTolarance(a,b){
+				var retVal = Math.abs(a-b) <= tolerance;
+				return !retVal;
+			}
+
+			currentHeight = (undefined !== customHeight)  ? customHeight : getHeight[heightCalcMode]();
+			currentWidth  = (undefined !== customWidth )  ? customWidth  : getWidth();
+
+			return	checkTolarance(height,currentHeight) ||
+					(calculateWidth && checkTolarance(width,currentWidth));
+
+			//return	(height !== currentHeight) ||
+			//		(calculateWidth && width !== currentWidth);
 		}
 
 		function isForceResizableEvent(){
@@ -474,35 +522,54 @@
 		sendToParent();
 	}
 
-	function isMiddleTier(){
-		return ('iFrameResize' in window);
-	}
-
 	function receiver(event) {
 		function isMessageForUs(){
 			return msgID === (''+event.data).substr(0,msgIdLen); //''+ Protects against non-string messages
 		}
 
+		function initFromParent(){
+			initMsg = event.data;
+			target  = event.source;
+
+			init();
+			firstRun = false;
+			setTimeout(function(){ initLock = false;},eventCancelTimer);
+		}
+
+		function resetFromParent(){
+			if (!initLock){
+				log('Page size reset by host page');
+				triggerReset('resetPage');
+			} else {
+				log('Page reset ignored by init');
+			}
+		}
+
+		function getMessageType(){
+			return event.data.split(']')[1];
+		}
+
+		function isMiddleTier(){
+			return ('iFrameResize' in window);
+		}
+
+		function isInitMsg(){
+			//test if this message is from a child below us. This is an ugly test, however, updating
+			//the message format would break backwards compatibity.
+			return event.data.split(':')[2] in {'true':1,'false':1};
+		}
+
 		if (isMessageForUs()){
-			if (firstRun){ //Check msg ID
-				initMsg = event.data;
-				init();
-				sendSize('init','Init message from host page');
-				firstRun = false;
-				setTimeout(function(){ initLock = false;},eventCancelTimer);
-			} else if ('reset' === event.data.split(']')[1]){
-				if (!initLock){
-					log('Page size reset by host page');
-					triggerReset('resetPage');
-				} else {
-					log('Page reset ignored by init');
-				}
+			if (firstRun && isInitMsg()){ //Check msg ID
+				initFromParent();
+			} else if ('reset' === getMessageType()){
+				resetFromParent();
 			} else if (event.data !== initMsg && !isMiddleTier()){
 				warn('Unexpected message ('+event.data+')');
 			}
 		}
 	}
 
-	addEventListener(window, 'message', receiver);
+	_addEventListener(window, 'message', receiver);
 
 })();

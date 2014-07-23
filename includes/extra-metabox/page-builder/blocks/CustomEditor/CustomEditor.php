@@ -35,7 +35,7 @@ class CustomEditor extends AbstractBlock {
 
 		wp_enqueue_script(
 			'extra-page-builder-block-custom-editor-iframe-resizer',
-			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.js',
+			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.min.js',
 			array('jquery'),
 			null,
 			true
@@ -50,7 +50,10 @@ class CustomEditor extends AbstractBlock {
 			true
 		);
 
-		wp_localize_script('extra-page-builder-block-custom-editor', 'iframeResizerContentWindow', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.contentWindow.js');
+		wp_localize_script('extra-page-builder-block-custom-editor', 'customEditorParams', array(
+          'iframeFileBase' => EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/IframeContent.php',
+          'iframeResizerContentWindow' => EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/iframeResizer.contentWindow.js'
+        ));
 	}
 
 	public function extract_properties($properties) {

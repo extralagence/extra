@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
 	//var $editors = $('.extra-custom-editor-wrapper').extraPageBuilderCustomEditor();
-	var $pageBuilder = $('.extra-page-builder');
+	var $pageBuilder = $('.extra-page-builder'),
+	uniqueID = 0;
 
 	$pageBuilder.on('showform.pagebuilder.extra', function (event, $block_type, $block, $form) {
 		if ($block_type == 'custom_editor') {
@@ -71,28 +72,22 @@ jQuery(document).ready(function ($) {
 			cssFiles = cssFiles.concat(customCss.split(','));
 		}
 		$.each(cssFiles, function(index, element) {
-			cssLinks += '<link type="text/css" rel="stylesheet" href="'+element+'" />'
+			cssLinks += '<link type="text/css" rel="stylesheet" href="' + element + '" />\n';
 		});
 
-		var iframe = $('<iframe></iframe>');
-		var html = '';
-
-		html += '<head>';
-		html += 	cssLinks;
-		html += 	'<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>';
-		html += '</head>';
-		html += '<body>';
-		html += 	'<div class="extra-page-builder-inner content">';
-		html += 		$content.html();
-		html += 	'</div>';
-		html += 	'<script type="text/javascript" src="'+iframeResizerContentWindow+'"></script>';
-		html += '</body>';
-
-		iframe.attr('src', 'data:text/html;charset=utf-8,' + encodeURI(html)).attr('width', '100%').attr('height', '60').attr('scrolling', 'no');
-
-		$content.after(iframe);
-
-		iframe.iFrameResize({
+		$('<iframe></iframe>')
+		.attr({
+			'src' : customEditorParams.iframeFileBase,
+			'width': '100%',
+			'height': '60',
+			'scrolling': 'no'
+		})
+		.insertAfter($content)
+		.on("load", function() {
+			$(this).contents().find('body').find('.extra-page-builder-inner').html($content.html() + '\n' + cssLinks);
+		})
+		.iFrameResize({
+			checkOrigin				: true,
 			log                     : false,                  // Enable console logging
 			enablePublicMethods     : false                  // Enable methods within iframe hosted page
 		});
