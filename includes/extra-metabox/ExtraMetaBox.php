@@ -153,6 +153,9 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	}
 
 	private function construct_class_name($properties) {
+	    if(!isset($properties['type'])) {
+            var_dump($properties);
+	    }
 		if (!isset($properties['type'])) throw new Exception ('Extra Meta box "type" required');
 		$array_type = explode('_', $properties['type']);
 		$class = '';

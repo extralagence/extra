@@ -45,7 +45,7 @@ class Text extends AbstractField {
 				value="<?php $this->mb->the_value(); ?>"
 				<?php echo ($this->regex != null) ? 'data-regex="'.$this->regex.'"' : ''; ?>
 				<?php echo ($this->placeholder != null) ? 'placeholder="'.$this->placeholder.'"' : ''; ?>>
-			<?php echo ($this->suffix == null) ? '' : $this->suffix; ?>
+            <?php echo ($this->suffix == null) ? '' : $this->suffix; ?>
 		</p>
 		<?php
 	}
@@ -62,4 +62,4 @@ class Text extends AbstractField {
 		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
 		echo $meta;
 	}
-} 
+}
