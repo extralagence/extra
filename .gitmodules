@@ -5,3 +5,6 @@
 	path = includes/redux-framework
 	url = https://github.com/ReduxFramework/redux-framework.git
         branch = tags/3.2.2
+[submodule "includes/--force"]
+	path = includes/--force
+	url = https://github.com/bfintal/bfi_thumb.git
