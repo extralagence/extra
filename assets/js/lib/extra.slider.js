@@ -76,7 +76,7 @@
 					currentItem = total;
 				}
 				var left = -(totalWidth * (currentItem) + (numClones * singleWidth));
-				TweenMax.set($slider, {css: {left: left}});
+				TweenMax.set($slider, {x: left, force3D: true});
 			}
 
 			// get the blocs dimensions
@@ -173,7 +173,7 @@
 									left -= singleWidth * offset;
 								}
 							}
-							TweenMax.to($slider, time, {css: {left: left}, onComplete: endHandler, onCompleteParams: [time]});
+							TweenMax.to($slider, time, {x: left, force3D: true, onComplete: endHandler, onCompleteParams: [time]});
 							break;
 						case "fade":
 							$items.eq(previousItem).css("zIndex", 1);
@@ -417,14 +417,15 @@
 
 				if (Draggable !== undefined) {
 					drag = Draggable.create($slider, {
-						dragClickables: true,
-						type          : 'left',
-						cursor        : 'move',
-						onDragStart   : function () {
+						force3D			: true,
+						dragClickables	: true,
+						type          	: 'x',
+						cursor        	: 'move',
+						onDragStart   	: function () {
 							$this.addClass('extra-slider-mouse-down');
-							reference = parseFloat($slider.css('left'));
+							reference = $slider.prop('_gsTransform').x;
 						},
-						onDragEnd     : function () {
+						onDragEnd     	: function () {
 							Draggable.get($slider).disable();
 							direction = ((reference - this.x) > 0) ? -1 : 1;
 							$this.removeClass('extra-slider-mouse-down');
@@ -452,6 +453,7 @@
 				opt.onInit($items.eq(currentItem + numClones), total + 1, $this);
 			}
 			$this.addClass('extra-slider-processed').trigger('init.extra.slider', [$items.eq(currentItem + numClones), total + 1, $this]);
+			gotoPage(0);
 		});
 
 		return this;

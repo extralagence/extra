@@ -74,7 +74,7 @@ $(document).ready(function () {
 	 *
 	 *
 	 *************************/
-	var getImageVersion = function () {
+	extra.getImageVersion = function () {
 		// default value
 		var toReturn = 'desktop';
 		$.each(extraResponsiveSizesTests, function(index, value) {
@@ -84,78 +84,16 @@ $(document).ready(function () {
 		});
 		return toReturn;
 	};
-	/**************************
-	 *
-	 *
-	 * RESPONSIVE IMAGE
-	 *
-	 *
-	 *************************/
-	$(".responsiveImagePlaceholder").each(function () {
-		initResponsiveImage($(this).data("size", ""));
-	});
-	function initResponsiveImage(container) {
-
-		var datas = container.find("noscript"),
-			altTxt = datas.data("alt"),
-			size = getImageVersion(),
-			addImage = function (size) {
-
-				// SET NEW IMAGE
-				if (datas && container.data("size") != size) {
-					container.data("size", size);
-					var imgSrc = datas.data("src-" + size);
-					if (imgSrc) {
-						var imgElement = $("<img />");
-						imgElement.load(function () {
-							// CORRECT IMAGE SIZE
-							imgElement.attr({
-								'width': this.width,
-								'height': this.height
-							});
-							// REMOVE EXISTING IMAGE
-							container.find("img").not(imgElement).remove();
-              				container.trigger('complete.extra.responsiveImage');
-						}).attr({
-							alt: altTxt,
-							src: imgSrc
-						}).appendTo(container);
-					}
-				}
-			};
-
-		$window.on("extra.responsive-resize", function () {
-			size = getImageVersion();
-			addImage(size);
-		});
-		addImage(size);
-
-		container.data('responsiveImageProcessed', true);
-
-	}
-
-	$window.on('extra.responsiveImage', function(event, obj) {
-		obj.each(function() {
-			var $elem = $(this);
-			if($elem.hasClass('responsiveImagePlaceholder')) {
-				initResponsiveImage($elem.data("size", ""));
-			} else {
-				initResponsiveImage($elem.find('.responsiveImagePlaceholder').data("size", ""));
-			}
+	/*********************
+	*
+	* EXTRA SLIDERS
+	*
+	*********************/
+	$window.on('updateClones.extra.slider', function(event, currentItem, total, slider) {
+		slider.find('.cloned .responsiveImagePlaceholder').each(function() {
+			$window.trigger('extra.responsiveImage', [$(this).data("size", "")]);
 		});
 	});
-
-  /*********************
-   *
-   * EXTRA SLIDERS
-   *
-   *********************/
-  $window.on('updateClones.extra.slider', function(event, currentItem, total, slider) {
-    slider.find('.cloned .responsiveImagePlaceholder').each(function() {
-      $window.trigger('extra.responsiveImage', [$(this).data("size", "")]);
-    });
-  });
-
 	/*********************
 	 *
 	 * LOGO HOVER
@@ -228,6 +166,73 @@ $(document).ready(function () {
 	$(".totop").click(function () {
 		TweenMax.to($window, 0.5, {scrollTo: {y: 0}});
 		return false;
+	});
+	/*********************
+	 *
+	 * WINDOW LOAD
+	 *
+	 *********************/
+	$(window).load(function () {
+		/**************************
+		 *
+		 *
+		 * RESPONSIVE IMAGE
+		 *
+		 *
+		 *************************/
+		$(".responsiveImagePlaceholder").each(function () {
+			initResponsiveImage($(this).data("size", ""));
+		});
+		function initResponsiveImage(container) {
+
+			var datas = container.find("noscript"),
+				altTxt = datas.data("alt"),
+				size = extra.getImageVersion(),
+				addImage = function (size) {
+
+					// SET NEW IMAGE
+					if (datas && container.data("size") != size) {
+						container.data("size", size);
+						var imgSrc = datas.data("src-" + size);
+						if (imgSrc) {
+							var imgElement = $("<img />");
+							imgElement.load(function () {
+								// CORRECT IMAGE SIZE
+								imgElement.attr({
+									'width': this.width,
+									'height': this.height
+								});
+								// REMOVE EXISTING IMAGE
+								container.find("img").not(imgElement).remove();
+	              				container.trigger('complete.extra.responsiveImage');
+							}).attr({
+								alt: altTxt,
+								src: imgSrc
+							}).appendTo(container);
+						}
+					}
+				};
+
+			$window.on("extra.responsive-resize", function () {
+				size = extra.getImageVersion();
+				addImage(size);
+			});
+			addImage(size);
+
+			container.data('responsiveImageProcessed', true);
+
+		}
+
+		$window.on('extra.responsiveImage', function(event, obj) {
+			obj.each(function() {
+				var $elem = $(this);
+				if($elem.hasClass('responsiveImagePlaceholder')) {
+					initResponsiveImage($elem.data("size", ""));
+				} else {
+					initResponsiveImage($elem.find('.responsiveImagePlaceholder').data("size", ""));
+				}
+			});
+		});
 	});
 });
 $(function () {
