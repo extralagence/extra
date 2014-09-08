@@ -52,20 +52,21 @@ function extra_add_gallery_type() {
  *
  *********************/
 function extra_gallery_shortcode() {
-	remove_shortcode("gallery");
-	add_shortcode('gallery', 'extra_gallery_handler');
+	if (!is_admin()) {
+		remove_shortcode('gallery', 'gallery_shortcode');
+		add_shortcode('gallery', 'extra_gallery_handler');
+	}
 }
-add_action("init", "extra_gallery_shortcode");
+add_action('init', 'extra_gallery_shortcode');
 // GALLERY HANDLER
 function extra_gallery_handler($atts, $content = null) {
-
 	global $content_width;
 
 	$ids = explode(',', $atts['ids']);
 	$type = (!empty($atts['extra_gallery_type']) && $atts['extra_gallery_type'] == 'slider') ? 'slider' : 'mosaic';
 
 	if(empty($ids)) {
-		return;
+		return '';
 	}
 
 	switch($type) {
@@ -122,7 +123,7 @@ function extra_gallery_handler($atts, $content = null) {
 			$return .= '</div>';
 			break;
 	}
-
+	$return = apply_filters('extra_after_gallery', $return, $type);
 
 	return $return;
 }
