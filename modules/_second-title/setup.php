@@ -8,33 +8,37 @@
  *
  *
  *********************/
+add_action('init', 'extra_second_title_metabox_init');
+function extra_second_title_metabox_init () {
+	$extra_second_title_post_types = apply_filters('extra_second_title_post_types', array('page'));
+	$extra_second_title_exclude_post_id = apply_filters('extra_second_title_exclude_post_id', array());
+	$extra_second_title_exclude_template = apply_filters('extra_second_title_exclude_template', array('template-redirect.php'));
 
-$extra_second_title_post_types = apply_filters('extra_second_title_post_types', array('page'));
-$extra_second_title_exclude_post_id = apply_filters('extra_second_title_exclude_post_id', array());
-$extra_second_title_exclude_template = apply_filters('extra_second_title_exclude_template', array('template-redirect.php'));
-
-global $second_title_metabox;
-$second_title_metabox = new ExtraMetaBox(array(
-	'exclude_post_id' => $extra_second_title_exclude_post_id,
-	'exclude_template' => $extra_second_title_exclude_template,
-	'id' => '_second_title',
-	'init_action' => 'extra_second_title_metabox_enqueue_assets',
-	'lock' => WPALCHEMY_LOCK_AFTER_POST_TITLE,
-	'title' => __("Titre alternatif", "extra"),
-	'types' => $extra_second_title_post_types,
-	'fields' => array(
-		array(
-			'type' => 'textarea',
-			'css_class' => 'second_title',
-            'name' => 'second_title',
-			'label' => __("Titre alternatif", "extra")
+	global $second_title_metabox;
+	$second_title_metabox = new ExtraMetaBox(array(
+		'exclude_post_id' => $extra_second_title_exclude_post_id,
+		'exclude_template' => $extra_second_title_exclude_template,
+		'id' => '_second_title',
+		'init_action' => 'extra_second_title_metabox_enqueue_assets',
+		'lock' => WPALCHEMY_LOCK_AFTER_POST_TITLE,
+		'title' => __("Titre alternatif", "extra"),
+		'types' => $extra_second_title_post_types,
+		'fields' => array(
+			array(
+				'type' => 'textarea',
+				'css_class' => 'second_title',
+				'name' => 'second_title',
+				'label' => __("Titre alternatif", "extra")
+			)
 		)
-	)
-));
+	));
+}
 // INCLUDE CSS
 function extra_second_title_metabox_enqueue_assets () {
 	wp_enqueue_style('second_title_metabox', EXTRA_MODULES_URI.'/_second-title/admin/css/style.css');
 }
+
+
 
 /**********************
  *
