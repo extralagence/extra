@@ -8,3 +8,6 @@
 [submodule "includes/--force"]
 	path = includes/--force
 	url = https://github.com/bfintal/bfi_thumb.git
+[submodule "includes/lessphp"]
+	path = includes/lessphp
+	url = https://github.com/leafo/lessphp.git
