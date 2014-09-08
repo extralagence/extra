@@ -121,7 +121,9 @@ add_action('init', 'extra_add_insert_plugin');
  *
  *********************/
 function addUploadMimes($mimes) {
-	//$mimes['svg'] = 'image/svg+xml';
+    $mimes = array_merge($mimes, array(
+        'swf|kml|kmz|gpx' => 'application/octet-stream'
+    ));
     return $mimes;
 }
 add_filter('upload_mimes', 'addUploadMimes');
@@ -217,9 +219,11 @@ require_once 'dashboard.php';
 /**********************
  *
  *
- * OPTIONS
+ *
+ * REDUX PANEL
  *
  *
- **********************/
-require_once 'global-options.php';
+ *
+ *********************/
+require_once 'redux-options.php';
 ?>
