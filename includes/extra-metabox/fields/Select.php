@@ -39,7 +39,7 @@ class Select extends AbstractField {
 				<?php
                     foreach($this->values as $value => $label) {
                         echo '<option';
-                        if ($this->mb->get_the_value()) echo ' selected="selected"';
+                        if ($this->mb->get_the_value() == $value) echo ' selected="selected"';
                         echo ' value="'.$value.'">'.$label.'</value>';
                     }
 				?>

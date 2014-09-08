@@ -9,9 +9,9 @@
 /**
  * Class Text
  *
- * Define a simple text input metabox
+ * Define a simple number input metabox
  *
- * type = text
+ * type = number
  *
  * Options :
  * - name (required)
@@ -20,7 +20,7 @@
  * - placeholder (optional): label when the field is empty
  * - regex (optional): regex checked for each changes
  */
-class Text extends AbstractField {
+class Number extends AbstractField {
 
 	protected $suffix;
 	protected $regex;
@@ -41,7 +41,7 @@ class Text extends AbstractField {
 				class="extra-text-input"
 				id="<?php $this->mb->the_name(); ?>"
 				name="<?php $this->mb->the_name(); ?>"
-				type="text"
+				type="number"
 				value="<?php $this->mb->the_value(); ?>"
 				<?php echo ($this->regex != null) ? 'data-regex="'.$this->regex.'"' : ''; ?>
 				<?php echo ($this->placeholder != null) ? 'placeholder="'.$this->placeholder.'"' : ''; ?>>

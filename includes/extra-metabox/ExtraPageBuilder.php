@@ -9,6 +9,9 @@
 require_once 'MetaBox.php';
 require_once 'page-builder/AbstractBlock.php';
 
+require_once 'AbstractField.php';
+require_once 'AbstractGroup.php';
+
 /**********************
  *
  *
@@ -24,11 +27,17 @@ function extra_page_builder_global_admin_css() {
 add_action('admin_print_styles', 'extra_page_builder_global_admin_css');
 add_action('login_head', 'extra_page_builder_global_admin_css');
 
-
-
-//Require once each fields
+//Require once each block
 foreach (scandir(dirname(__FILE__).'/page-builder/blocks') as $field_name) {
 	$path = dirname(__FILE__).'/page-builder/blocks/'.$field_name.'/'.$field_name.'.php';
+	if (is_file($path)) {
+		require_once $path;
+	}
+}
+
+//Require once each field
+foreach (scandir(dirname(__FILE__).'/fields') as $filename) {
+	$path = dirname(__FILE__).'/fields/'.$filename;
 	if (is_file($path)) {
 		require_once $path;
 	}
@@ -41,6 +50,8 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	public $row_layouts;
 	public $row_default_layout;
 	public $block_instances;
+
+	public $meta_blocks;
 
 	function __construct ($arr) {
 		$arr['template'] = EXTRA_INCLUDES_PATH.'/extra-metabox/page-builder/template.php';
@@ -84,27 +95,59 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$this->block_instances = array();
 		// BLOCKS
 		if (isset($this->blocks) && !empty($this->blocks)) {
-
 			if ($this->is_associative($this->blocks)) {
-				foreach ($this->blocks as $type => $properties) {
-					$block = $this->construct_block_from_properties($type, $properties);
+				foreach ($this->blocks as $type => $block_properties) {
+					$block = $this->construct_block_from_properties($type, $block_properties);
 					$block->init();
 					$this->block_instances[$type] = $block;
 				}
 			} else {
-				foreach ($this->blocks as $type) {
-					$block = $this->construct_block_from_properties($type, array());
+				foreach ($this->blocks as $block_properties) {
+					if ($this->is_associative($block_properties)) {
+						$type = $block_properties['type'];
+					} else {
+						$type = $block_properties;
+						$block_properties = array();
+					}
+					$block = $this->construct_block_from_properties($type, $block_properties);
 					$block->init();
 					$this->block_instances[$type] = $block;
 				}
 			}
-
-
 		} else {
 			throw new Exception('Extra Page Builder "blocks" required');
 		}
 
+		if (isset($this->meta_blocks) && !empty($this->meta_blocks)) {
+			foreach ($this->meta_blocks as $meta_block_properties) {
+				$type = 'meta_block_'.$meta_block_properties['name'];
+				$block = new \ExtraPageBuilder\Blocks\MetaBox($this, $type);
+				$block->extract_properties($meta_block_properties);
+				$block->init();
+				$this->block_instances[$type] = $block;
+			}
+		}
+
 		wp_localize_script('extra-page-builder-metabox', 'ajax_url', admin_url('admin-ajax.php'));
+	}
+
+	/***********************
+	 *
+	 * BLOCKS
+	 *
+	 **********************/
+
+	protected function get_meta_box_properties ($block_type) {
+		$properties = array();
+		$meta_block_type = substr($block_type, strlen('meta_block_'));
+		foreach ($this->meta_blocks as $meta_block_properties) {
+			if ($meta_block_properties['name'] == $meta_block_type) {
+				$properties = $meta_block_properties;
+				break;
+			}
+		}
+
+		return $properties;
 	}
 
 	/**
@@ -116,11 +159,17 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$row_id =  $_GET['row_id'];
 		$row_layout =  $_GET['row_layout'];
 
-		$class = $this->construct_class_name($block_type);
+		$class = $this->construct_block_class_name($block_type);
+
 		/**
 		 * @var $block \ExtraPageBuilder\AbstractBlock
 		 */
 		$block = new $class($this, $block_type);
+
+		if (strpos($block_type, 'meta_block_') === 0) {
+			$meta_blocks_properties = $this->get_meta_box_properties($block_type);
+			$block->extract_properties($meta_blocks_properties);
+		}
 
 		// This is a hack to imitate wpalchemy group behavior
 		$this->id = $row_id;
@@ -130,19 +179,26 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		die;
 	}
 
-	protected function construct_class_name($type) {
+	protected function construct_block_class_name($type) {
 		if (empty($type)) throw new Exception ('Extra Page Builder Block "type" required');
-		$array = explode('_', $type);
-		$class = '';
-		foreach ($array as $item) {
-			$class .= ucfirst($item);
+
+		$class = null;
+		if (strpos($type, 'meta_block_') === 0) {
+			$class = 'ExtraPageBuilder\\Blocks\\MetaBox';
+		} else {
+			$array = explode('_', $type);
+			$class = '';
+			foreach ($array as $item) {
+				$class .= ucfirst($item);
+			}
+			$class = 'ExtraPageBuilder\\Blocks\\'.$class;
 		}
 
-		return 'ExtraPageBuilder\\Blocks\\'.$class;
+		return $class;
 	}
 
 	protected function construct_block_from_properties($type, $properties) {
-		$class = $this->construct_class_name($type);
+		$class = $this->construct_block_class_name($type);
 		/**
 		 * @var $block \ExtraPageBuilder\AbstractBlock
 		 */
@@ -216,11 +272,17 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		) {
 			$block_css .= ' last';
 		}
+
+		$block_properties = '';
+		if ($block instanceof \ExtraPageBuilder\Blocks\Fields) {
+			$block_properties = $block->properties;
+		}
 		?>
 
 		<div
 			class="extra-page-builder-block extra-page-builder-block-<?php echo $block_id ?><?php echo (!empty($block_css)) ? ' '.$block_css : '';  ?>"
 			data-block-number="<?php echo $block_id; ?>"
+			data-block-properties="<?php echo $block_properties; ?>"
 			<?php echo ($resizable && !empty($block_height)) ? ' style="height: '.$block_height.';"' : ''; ?>>
 			<div class="extra-page-builder-block-droppable-wrapper">
 				<input class="extra-page-builder-block-choice" type="hidden" name="<?php $this->the_name(); ?>" value="<?php echo (!empty($block_type)) ? $this->get_the_value() : ''; ?>">
@@ -285,7 +347,8 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 			</div>
 			<div class="extra-page-builder-block-form">
 				<div class="extra-field-form">
-					<?php $block->the_admin($name_suffix) ?>
+					<?php
+					$block->the_admin($name_suffix) ?>
 				</div>
 			</div>
 
@@ -299,6 +362,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
             return;
         }
 		$rows = $meta['page_builder'];
+
 		$html = '<div class="extra-page-builder-wrapper">';
 		$row_number = 1;
 		foreach ($rows as $row) {
@@ -362,8 +426,6 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	}
 
 	protected function get_front_block($row_data, $row_number, $block_number, $block_css, $block_width) {
-//        var_dump($block_number);
-//        var_dump($row_data);
 		$block_type = null;
 
 		$block_type = (isset($row_data['page_builder_block_choice_'.$block_number])) ? $row_data['page_builder_block_choice_'.$block_number] : null;
@@ -387,7 +449,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 			}
 			$block_html = '';
 			if (!empty($block_type)) {
-				$class = $this->construct_class_name($block_type);
+				$class = $this->construct_block_class_name($block_type);
 				/* @var $instance \ExtraPageBuilder\AbstractBlock */
 				$instance = new $class($this, $block_type);
 				if (!$instance->is_resizable($block_suffix, $block_data)) {
@@ -408,5 +470,57 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 
 
 		return $html;
+	}
+
+	/***********************
+	 *
+	 * FIELDS
+	 *
+	 **********************/
+
+	/**
+	 * @param $properties
+	 *
+	 * @return string
+	 * @throws Exception
+	 */
+	private function construct_field_class_name($properties) {
+		if (!isset($properties['type'])) {
+			throw new Exception ('Extra Meta box "type" required');
+		}
+		$array_type = explode('_', $properties['type']);
+		$class = '';
+		foreach ($array_type as $type) {
+			$class .= ucfirst($type);
+		}
+
+		return $class;
+	}
+
+	/**
+	 * @param $field_properties
+	 *
+	 * @return AbstractField
+	 * @throws Exception
+	 */
+	protected function construct_field_from_properties ($field_properties, $name_suffix) {
+		$class = $this->construct_field_class_name($field_properties);
+		/**
+		 * @var $field AbstractField
+		 */
+		$field = new $class($this);
+		// TODO use name_suffix in fields !
+		$field->set_name_suffix($name_suffix);
+		$field->extract_properties($field_properties);
+		if ($field->getName() == null) throw new Exception ('Extra Meta box "name" required for '.$class);
+
+		return $field;
+	}
+
+	public function the_admin_from_field ($fields, $name_suffix) {
+		foreach($fields as $field_properties) {
+			$field = $this->construct_field_from_properties($field_properties, $name_suffix);
+			$field->the_admin();
+		}
 	}
 }

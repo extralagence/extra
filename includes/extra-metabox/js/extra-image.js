@@ -109,7 +109,7 @@ jQuery(document).ready(function($) {
 		var $this = $(this),
 			$extraCustomImage = $this.parents('.extra-custom-image'),
 			$image = $extraCustomImage.find('.image'),
-			$input = $extraCustomImage.find('.image-input')
+			$input = $extraCustomImage.find('.image-input');
 			sizes = (selectedSize != null ) ? 'width="'+selectedSize.width+'" height="'+selectedSize.height+'"' : '';
 
 		$input.val('');

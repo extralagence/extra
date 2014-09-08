@@ -47,10 +47,10 @@ class Conditional extends AbstractField {
 				>
 
 			<div class="extra-conditional-field-false"<?php echo ($checked) ? ' style="display:none;"' : ''; ?>>
-				<?php $this->mb->the_admin($this->subfields_false); ?>
+				<?php $this->mb->the_admin_from_field($this->subfields_false, $this->name_suffix); ?>
 			</div>
 			<div class="extra-conditional-field-true"<?php echo ($checked) ? '' : ' style="display:none;"'; ?>>
-				<?php $this->mb->the_admin($this->subfields_true); ?>
+				<?php $this->mb->the_admin_from_field($this->subfields_true, $this->name_suffix); ?>
 			</div>
 		</div>
 		<?php

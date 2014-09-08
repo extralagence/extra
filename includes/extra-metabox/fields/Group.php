@@ -33,7 +33,7 @@ class Group extends AbstractGroup {
 			<?php endif; ?>
 
 			<?php
-			$this->mb->the_admin($this->subfields);
+			$this->mb->the_admin_from_field($this->subfields, $this->name_suffix);
 			?>
 		</div>
 		<?php

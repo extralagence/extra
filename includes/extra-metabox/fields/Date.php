@@ -24,6 +24,7 @@
 class Date extends AbstractField {
 
 	protected $format;
+	protected $time_format;
 	protected $required;
 	protected $error_label;
 
@@ -36,7 +37,10 @@ class Date extends AbstractField {
 		wp_enqueue_script('jquery-ui-datepicker');
 		wp_enqueue_script('jquery-ui-slider');
 
-		wp_enqueue_script('extra-date-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-date.js', array('jquery-ui-datepicker'), null, true);
+		wp_enqueue_script('jquery-ui-timepicker-addon', EXTRA_INCLUDES_URI . '/extra-metabox/js/jquery-ui-timepicker-addon.js', array('jquery-ui-datepicker'), null, true);
+		wp_enqueue_script('jquery-ui-timepicker-fr', EXTRA_INCLUDES_URI . '/extra-metabox/js/jquery-ui-timepicker-fr.js', array('jquery-ui-datepicker', 'jquery-ui-timepicker-addon'), null, true);
+
+		wp_enqueue_script('extra-date-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-date.js', array('jquery-ui-datepicker', 'jquery-ui-timepicker-addon', 'jquery-ui-timepicker-fr'), null, true);
 	}
 
 	public function the_admin() {
@@ -54,6 +58,7 @@ class Date extends AbstractField {
 				type="text"
 				value="<?php $this->mb->the_value(); ?>"
 				data-format="<?php echo $this->format; ?>"
+				data-time-format="<?php echo $this->time_format; ?>"
 				/>
 
 			<span class="extra-error-message" style="display: none;">
@@ -67,12 +72,17 @@ class Date extends AbstractField {
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
+
 		$this->format = (isset($properties['format'])) ? $properties['format'] : null ;
+		$this->time_format = (isset($properties['time_format'])) ? $properties['time_format'] : null;
 		$this->required = (isset($properties['required'])) ? $properties['required'] == true : false;
 		$this->error_label = (isset($properties['error_label'])) ? $properties['error_label'] : null;
 
 		if ($this->format == null) {
 			$this->format = 'yy-mm-dd';
+		}
+		if ($this->time_format == null) {
+			$this->time_format = '';
 		}
 	}
 	public function the_admin_column_value() {

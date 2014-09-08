@@ -56,9 +56,14 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 		if (isset($properties['subfields_false']) && !empty($properties['subfields_false'])) {
 			$subfields = array_merge($subfields, $properties['subfields_false']);
 		}
-		if (isset($properties['subfields_true']) && !empty($properties['subfields_true'])) {
-			$subfields = array_merge($subfields, $properties['subfields_true']);
-		}
+        if (isset($properties['subfields_true']) && !empty($properties['subfields_true'])) {
+            $subfields = array_merge($subfields, $properties['subfields_true']);
+        }
+        if (isset($properties['multiple_subfields']) && !empty($properties['multiple_subfields'])) {
+            foreach($properties['multiple_subfields'] as $subfield) {
+                $subfields = array_merge($subfields, $subfield);
+            }
+        }
 
 		return $subfields;
 	}
@@ -153,10 +158,10 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 	}
 
 	private function construct_class_name($properties) {
-	    if(!isset($properties['type'])) {
-            var_dump($properties);
-	    }
-		if (!isset($properties['type'])) throw new Exception ('Extra Meta box "type" required');
+		if (!isset($properties['type'])) {
+			var_dump($properties);
+			throw new Exception ('Extra Meta box "type" required');
+		}
 		$array_type = explode('_', $properties['type']);
 		$class = '';
 		foreach ($array_type as $type) {
@@ -191,5 +196,9 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 			$field = $this->construct_field_from_properties($properties);
 			$field->the_admin();
 		}
+	}
+
+	public function the_admin_from_field($current_level, $name_suffix) {
+		$this->the_admin($current_level);
 	}
 }

@@ -1,40 +1,47 @@
 /***************************
  *
  *
- * FILE MANAGER 
- *  
- *  
-<div class="wpa_group">
-<?php $mb->the_field('file'); ?>
-	<div class="extra_custom_file">
-		<input name="<?php $mb->the_name(); ?>" id="<?php $mb->the_name(); ?>" type="text" value="<?php $mb->the_value(); ?>" />
-		<input class="choose-button button" type="button" value="<?php _e("Ouvrir le gestionnaire de fichiers", "extra-admin"); ?>" />
-	</div>
-</div>
-**************************/
-jQuery(document).ready(function($) {
-	
-	
-	
-	function extra_process_file(elmt){
-		
-		$('.wpa_group:not(".tocopy") .extra_custom_file:not(".extra_file_processed")').each(function(){
-	
-			var $element	= $(this),
-				$input		= $element.find("input[type='text']"),
-				file_frame;
-				
-			$element.addClass("extra_file_processed");
-			
-			$element.on("click", ".choose-button", function(event) {
+ * FILE MANAGER
+ *
+ *
+*****************************/
 
-    			event.preventDefault();
-    			
+jQuery(document).ready(function($) {
+
+	function extra_process_files(elmt){
+
+		if(elmt === undefined) {
+			elmt = $('.extra-custom-file:not(".extra-custom-file-processed")');
+		}
+
+		if(!elmt.hasClass('extra-custom-file')) {
+			elmt = elmt.find('.extra-custom-file');
+		}
+
+		elmt.each(function(){
+
+			if($(this).closest('.wpa_group.tocopy').length) {
+				return;
+			}
+
+			var $element	 = $(this),
+				$input 		 = $element.find('.file-input'),
+				title        = $element.find("label:first").text(),
+				$fileName	 = $element.find('.file-name'),
+				file_frame;
+
+			$element.addClass("extra-custom-file-processed");
+
+			$element.on("click", ".choose-button", function(event) {
+				event.preventDefault();
+
 				if ( file_frame ) {
 					file_frame.open();
 					return;
 				}
-				
+
+				console.log(wp.media);
+
 				file_frame = wp.media.frames.file_frame = wp.media({
 					title: 'Sélectionner un fichier',
 					button: {
@@ -46,14 +53,38 @@ jQuery(document).ready(function($) {
 			    file_frame.on( 'select', function() {
 			      attachment = file_frame.state().get('selection').first().toJSON();
 			      $input.val(attachment.url);
+			      $fileName.html(basename(attachment.url));
 			    });
 			    file_frame.open();
-				
+
 			});
-			
+
+
 		});
 	}
-	
-	extra_process_file();
-	
+
+	if ($.wpalchemy !== undefined) {
+		$.wpalchemy.bind('wpa_copy', function(e, elmt){
+			extra_process_files($(elmt));
+		});
+	}
+
+	function basename(path, suffix) {
+		  var b = path;
+		  var lastChar = b.charAt(b.length - 1);
+
+		  if (lastChar === '/' || lastChar === '\\') {
+		    b = b.slice(0, -1);
+		  }
+
+		  b = b.replace(/^.*[\/\\]/g, '');
+
+		  if (typeof suffix === 'string' && b.substr(b.length - suffix.length) == suffix) {
+		    b = b.substr(0, b.length - suffix.length);
+		  }
+
+		  return b;
+	}
+
+	extra_process_files();
 });
