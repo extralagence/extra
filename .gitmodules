@@ -4,10 +4,7 @@
 [submodule "includes/redux-framework"]
 	path = includes/redux-framework
 	url = https://github.com/ReduxFramework/redux-framework.git
-        branch = tags/3.2.2
-[submodule "includes/--force"]
-	path = includes/--force
-	url = https://github.com/bfintal/bfi_thumb.git
+        branch = tags/3.5.5.10
 [submodule "includes/lessphp"]
 	path = includes/lessphp
 	url = https://github.com/leafo/lessphp.git
