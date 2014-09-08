@@ -28,6 +28,9 @@ jQuery(document).ready(function ($) {
 			event.stopPropagation();
 
 			var $editor = $form.find('.extra-custom-editor-wrapper'),
+				$textarea = $editor.find('textarea.extra-custom-editor'),
+				tinymceContent = tinyMCE.activeEditor.getContent(),
+				tinymceContentRaw = tinyMCE.activeEditor.getContent({format: 'raw'}),
 				$content = $block.find('.extra-page-builder-block-content'),
 				$iframe = $content.find('iframe');
 
@@ -35,13 +38,17 @@ jQuery(document).ready(function ($) {
 			$block.find('.extra-page-builder-block-form').append($form);
 			$editor.data('extraPageBuilderCustomEditor').enable();
 
+
+
 			if ($iframe.length > 0) {
 				$iframe[0].parentNode.removeChild($iframe[0]);
 			}
-			$block.find('.custom-editor-content').html($editor.find('textarea').val());
-			createIframe($block);
 
+			$block.find('.custom-editor-content').html(tinymceContentRaw);
+			createIframe($block);
 			$editor.data('extraPageBuilderCustomEditor').disable();
+
+			$block.find('textarea.extra-custom-editor').val(tinymceContent);
 		}
 	});
 
