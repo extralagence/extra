@@ -78,16 +78,16 @@ function extra_gallery_handler($atts, $content = null) {
 				$return .= '    <li><a href="'.$src[0].'">';
 				$return .= extra_get_responsive_image($id, array(
 					'desktop' => array(
-						'width' => apply_filters('extra_gallery_slider_desktop_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_slider_desktop_height', $content_width/3)
+						'width' => apply_filters('extra_gallery_mosaic_desktop_width', $content_width/3),
+						'height' => apply_filters('extra_gallery_mosaic_desktop_height', $content_width/3)
 					),
 					'tablet' => array(
-						'width' => apply_filters('extra_gallery_slider_tablet_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_slider_tablet_height', $content_width/3)
+						'width' => apply_filters('extra_gallery_mosaic_tablet_width', $content_width/3),
+						'height' => apply_filters('extra_gallery_mosaic_tablet_height', $content_width/3)
 					),
 					'mobile' => array(
-						'width' => apply_filters('extra_gallery_slider_mobile_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_slider_mobile_height', $content_width/3)
+						'width' => apply_filters('extra_gallery_mosaic_mobile_width', $content_width/3),
+						'height' => apply_filters('extra_gallery_mosaic_mobile_height', $content_width/3)
 					)
 				));
 				$return .= '    </a></li>';
@@ -103,16 +103,16 @@ function extra_gallery_handler($atts, $content = null) {
 				$return .= '        <li><a href="'.$src[0].'">';
 				$return .= extra_get_responsive_image($id, array(
 					'desktop' => array(
-						'width' => apply_filters('extra_gallery_mosaic_desktop_width', $content_width),
-						'height' => apply_filters('extra_gallery_mosaic_desktop_height', 300)
+						'width' => apply_filters('extra_gallery_slider_desktop_width', $content_width),
+						'height' => apply_filters('extra_gallery_slider_desktop_height', 300)
 					),
 					'tablet' => array(
-						'width' => apply_filters('extra_gallery_mosaic_tablet_width', 960),
+						'width' => apply_filters('extra_gallery_slider_tablet_width', 960),
 						'height' => apply_filters('extra_gallery_mosaic_tablet_height', 300)
 					),
 					'mobile' => array(
-						'width' => apply_filters('extra_gallery_mosaic_mobile_width', 690),
-						'height' => apply_filters('extra_gallery_mosaic_mobile_height', 300)
+						'width' => apply_filters('extra_gallery_slider_mobile_width', 690),
+						'height' => apply_filters('extra_gallery_slider_mobile_height', 300)
 					)
 				));
 				$return .= '        </a></li>';

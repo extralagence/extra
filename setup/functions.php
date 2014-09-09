@@ -37,7 +37,7 @@ if ( ! function_exists( 'extra_setup' ) ) {
         $editor->add_cap( 'edit_theme_options' );
 
 		global $content_width;
-		$content_width = 540;
+		$content_width = apply_filters('extra_content_width', 540);
 	}
 }
 add_action('after_setup_theme', 'extra_setup');
