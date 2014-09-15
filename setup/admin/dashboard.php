@@ -41,6 +41,7 @@ function extra_welcome_dashboard_widget_output() { ?>
 				<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __('Ajouter une nouvelle page', 'extra-admin').'</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
 			<?php endif; ?>
 				<li><?php printf( '<a href="%s" class="welcome-icon welcome-view-site">' . __('Afficher le site', 'extra-admin').'</a>', home_url( '/' ) ); ?></li>
+				<?php do_action('extra_dashboard_welcome_panel_links'); ?>
 			</ul>
 		</div>
 	</div>

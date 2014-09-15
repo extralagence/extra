@@ -222,4 +222,28 @@ require_once 'dashboard.php';
  *
  **********************/
 require_once 'global-options.php';
-?>
+
+
+//
+//function emh_clone_role() {
+//	global $wp_roles;
+//	if ( ! isset( $wp_roles ) )
+//		$wp_roles = new WP_Roles();
+//
+//	$editor = $wp_roles->get_role('editor');
+//	//Adding a 'new_role' with all admin caps
+//	$wp_roles->remove_role('new_role');
+//	$wp_roles->remove_role('editor_purchase');
+//	$wp_roles->remove_role('editor_rent');
+//	$wp_roles->remove_role('editor_procurement');
+//	$wp_roles->remove_role('editor_patriomony');
+//	$wp_roles->remove_role('editor_patrimony');
+//	$wp_roles->remove_role('editor_job');
+//
+//	$wp_roles->add_role('editor_purchase', __("Pôle Vente"), $editor->capabilities);
+//	$wp_roles->add_role('editor_rent', __("Pôle Gestion Immobilière"), $editor->capabilities);
+//	$wp_roles->add_role('editor_procurement', __("Pôle Marchés Publics"), $editor->capabilities);
+//	$wp_roles->add_role('editor_patrimony', __("Pôle Gestion Locative"), $editor->capabilities);
+//	$wp_roles->add_role('editor_job', __("Direction des ressources humaines"), $editor->capabilities);
+//}
+//add_action('init', 'emh_clone_role');
