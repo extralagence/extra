@@ -31,6 +31,7 @@ class Checkbox extends AbstractField {
 		<div class="<?php echo $this->css_class; ?> extra-checkbox-container">
 			<?php $this->mb->the_field($this->get_single_field_name('checkbox')); ?>
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
+            <label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 			<input
 				class="extra-checkbox-input"
 				id="<?php $this->mb->the_name(); ?>"
@@ -39,7 +40,6 @@ class Checkbox extends AbstractField {
 				value="1"
 				<?php if ($this->mb->get_the_value()) echo ' checked="checked"'; ?>
 				>
-			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 		</div>
 		<?php
 	}

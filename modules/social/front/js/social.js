@@ -1,4 +1,4 @@
-(function(doc, script, jQuery) {
+(function(doc, script) {
 	var js,
 		fjs = doc.getElementsByTagName(script)[0],
 		frag = doc.createDocumentFragment(),
@@ -11,12 +11,11 @@
 		};
 
 	if (typeof shareApis !== 'undefined' && shareApis != undefined && shareApis != 'undefined' && shareApis != null) {
-		var jsondata = jQuery.parseJSON(shareApis);
-		jQuery.each(jsondata, function (index, share) {
+		jQuery.parseJSON(shareApis).forEach(function (share) {
 			add(share['url'], share['id']);
 		});
 	}
 
 
 	fjs.parentNode.insertBefore(frag, fjs);
-}(document, 'script', jQuery));
+}(document, 'script'));

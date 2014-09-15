@@ -16,7 +16,7 @@
  * Options :
  * - name (optional) useless for bloc
  * - subfields (required)
- * - label (optional)
+ * - title (optional)
  * - icon (optional)
  */
 class Bloc extends AbstractGroup {
@@ -24,15 +24,15 @@ class Bloc extends AbstractGroup {
 	public function the_admin() {
 		?>
 		<div class="bloc <?php echo $this->css_class; ?>">
-			<?php if ($this->label != null) : ?>
+			<?php if ($this->title != null) : ?>
 				<h2><?php
 					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
-					echo $this->label; ?>
+					echo $this->title; ?>
 				</h2>
 			<?php endif; ?>
 
 			<?php
-			$this->mb->the_admin($this->subfields);
+			$this->mb->the_admin_from_field($this->subfields, $this->name_suffix);
 			?>
 		</div>
 		<?php
@@ -40,12 +40,10 @@ class Bloc extends AbstractGroup {
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
-		if ($this->name == null || empty($this->name)) {
-			$this->name = 'bloc';
-		}
+        $this->name = isset($properties['name']) ? $properties['name'] : 'bloc';
 	}
 
 	public function the_admin_column_value() {
 		echo '-';
 	}
-} 
+}

@@ -4,10 +4,10 @@
  *
  *
  * INIT WIDGET
- * 
  *
  *
- *********************/	 
+ *
+ *********************/
 function extra_dashboard_setup() {
 	wp_add_dashboard_widget('extra_welcome_dashboard_widget', __('Bienvenue', 'extra-admin'), 'extra_welcome_dashboard_widget_output');
 	add_meta_box('extra_welcome_dashboard_widget', __('Bienvenue', 'extra-admin'), 'extra_welcome_dashboard_widget_output', 'dashboard', 'normal', 'core');
@@ -19,10 +19,10 @@ add_action('welcome_panel', 'extra_welcome_dashboard_widget_output' );
  *
  *
  * WIDGET HTML
- * 
  *
  *
- *********************/	 
+ *
+ *********************/
 function extra_welcome_dashboard_widget_output() { ?>
 	<h3><?php _e("Bienvenue", "extra-admin"); ?></h3>
 	<p class="about-description"><?php _e("Voici quelques raccourcis pour utiliser le site", "extra-admin"); ?></p>
@@ -51,7 +51,7 @@ function extra_welcome_dashboard_widget_output() { ?>
  *
  *
  * HIDE DASHBOARD WIDGETS
- * 
+ *
  *
  *
  *********************/
@@ -75,7 +75,7 @@ remove_action( 'welcome_panel', 'wp_welcome_panel' );
  *
  *
  * ALWAYS SHOW WELCOME PANEL :)
- * 
+ *
  *
  *
  *********************/

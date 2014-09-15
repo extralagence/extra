@@ -17,8 +17,8 @@
  * - name (required)
  * - label (optional)
  * - icon (optional)
- * - field_false (required)
- * - field_true (required)
+ * - subfields_false (required)
+ * - subfields_true (required)
  */
 class Conditional extends AbstractField {
 
@@ -36,6 +36,7 @@ class Conditional extends AbstractField {
 			<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
 			<?php $checked =$this->mb->get_the_value(); ?>
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
+            <label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 			<input
 				class="extra-conditional-input"
 				id="<?php $this->mb->the_name(); ?>"
@@ -44,13 +45,12 @@ class Conditional extends AbstractField {
 				value="1"
 				<?php if ($checked) echo ' checked="checked"'; ?>
 				>
-			<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
 
 			<div class="extra-conditional-field-false"<?php echo ($checked) ? ' style="display:none;"' : ''; ?>>
-				<?php $this->mb->the_admin($this->subfields_false); ?>
+				<?php $this->mb->the_admin_from_field($this->subfields_false, $this->name_suffix); ?>
 			</div>
 			<div class="extra-conditional-field-true"<?php echo ($checked) ? '' : ' style="display:none;"'; ?>>
-				<?php $this->mb->the_admin($this->subfields_true); ?>
+				<?php $this->mb->the_admin_from_field($this->subfields_true, $this->name_suffix); ?>
 			</div>
 		</div>
 		<?php
@@ -61,12 +61,12 @@ class Conditional extends AbstractField {
 		$this->subfields_false = $properties['subfields_false'];
 		$this->subfields_true = $properties['subfields_true'];
 
-		if (empty($this->subfields_false)) throw new Exception('Extra Meta box subfields_false properties required for'.get_class($this));
-		if (empty($this->subfields_true)) throw new Exception('Extra Meta box subfields_true properties required for'.get_class($this));
+		if (!isset($this->subfields_false)) throw new Exception('Extra Meta box subfields_false properties required for'.get_class($this));
+		if (!isset($this->subfields_true)) throw new Exception('Extra Meta box subfields_true properties required for'.get_class($this));
 	}
 
 	public function the_admin_column_value() {
 		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
 		echo $meta;
 	}
-} 
+}

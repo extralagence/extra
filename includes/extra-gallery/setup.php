@@ -52,20 +52,21 @@ function extra_add_gallery_type() {
  *
  *********************/
 function extra_gallery_shortcode() {
-	remove_shortcode("gallery");
-	add_shortcode('gallery', 'extra_gallery_handler');
+	if (!is_admin()) {
+		remove_shortcode('gallery', 'gallery_shortcode');
+		add_shortcode('gallery', 'extra_gallery_handler');
+	}
 }
-add_action("init", "extra_gallery_shortcode");
+add_action('init', 'extra_gallery_shortcode');
 // GALLERY HANDLER
 function extra_gallery_handler($atts, $content = null) {
-
 	global $content_width;
 
 	$ids = explode(',', $atts['ids']);
 	$type = (!empty($atts['extra_gallery_type']) && $atts['extra_gallery_type'] == 'slider') ? 'slider' : 'mosaic';
 
 	if(empty($ids)) {
-		return;
+		return '';
 	}
 
 	switch($type) {
@@ -77,16 +78,16 @@ function extra_gallery_handler($atts, $content = null) {
 				$return .= '    <li><a href="'.$src[0].'">';
 				$return .= extra_get_responsive_image($id, array(
 					'desktop' => array(
-						'width' => apply_filters('extra_gallery_slider_desktop_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_slider_desktop_height', $content_width/3)
+						'width' => apply_filters('extra_gallery_mosaic_desktop_width', $content_width/3),
+						'height' => apply_filters('extra_gallery_mosaic_desktop_height', $content_width/3)
 					),
 					'tablet' => array(
-						'width' => apply_filters('extra_gallery_slider_tablet_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_slider_tablet_height', $content_width/3)
+						'width' => apply_filters('extra_gallery_mosaic_tablet_width', $content_width/3),
+						'height' => apply_filters('extra_gallery_mosaic_tablet_height', $content_width/3)
 					),
 					'mobile' => array(
-						'width' => apply_filters('extra_gallery_slider_mobile_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_slider_mobile_height', $content_width/3)
+						'width' => apply_filters('extra_gallery_mosaic_mobile_width', $content_width/3),
+						'height' => apply_filters('extra_gallery_mosaic_mobile_height', $content_width/3)
 					)
 				));
 				$return .= '    </a></li>';
@@ -102,16 +103,16 @@ function extra_gallery_handler($atts, $content = null) {
 				$return .= '        <li><a href="'.$src[0].'">';
 				$return .= extra_get_responsive_image($id, array(
 					'desktop' => array(
-						'width' => apply_filters('extra_gallery_mosaic_desktop_width', $content_width),
-						'height' => apply_filters('extra_gallery_mosaic_desktop_height', 300)
+						'width' => apply_filters('extra_gallery_slider_desktop_width', $content_width),
+						'height' => apply_filters('extra_gallery_slider_desktop_height', 300)
 					),
 					'tablet' => array(
-						'width' => apply_filters('extra_gallery_mosaic_tablet_width', 960),
+						'width' => apply_filters('extra_gallery_slider_tablet_width', 960),
 						'height' => apply_filters('extra_gallery_mosaic_tablet_height', 300)
 					),
 					'mobile' => array(
-						'width' => apply_filters('extra_gallery_mosaic_mobile_width', 690),
-						'height' => apply_filters('extra_gallery_mosaic_mobile_height', 300)
+						'width' => apply_filters('extra_gallery_slider_mobile_width', 690),
+						'height' => apply_filters('extra_gallery_slider_mobile_height', 300)
 					)
 				));
 				$return .= '        </a></li>';
@@ -122,7 +123,7 @@ function extra_gallery_handler($atts, $content = null) {
 			$return .= '</div>';
 			break;
 	}
-
+	$return = apply_filters('extra_after_gallery', $return, $type);
 
 	return $return;
 }

@@ -5,7 +5,7 @@ Template name: Redirection
 */
 global $post, $redirection_metabox;
 the_post();
-$redirection_metabox->the_meta();
+$meta = $redirection_metabox->the_meta();
 $data = $redirection_metabox->meta;
 
 $redirection_type = 'auto';
@@ -38,7 +38,35 @@ switch ($redirection_type) {
 	case 'content' :
 
 		if(!empty($redirection_value)) {
-			wp_redirect($permalink = get_permalink($redirection_value));
+			wp_redirect(get_permalink($redirection_value));
+		} else {
+			_e("Cette page n'a pas d'url de destination", "extra");
+		}
+		break;
+
+	case 'post-type' :
+
+		$redirection_value = $data['redirection_post-type'];
+		if(!empty($redirection_value)) {
+
+			$targets = get_posts(array(
+				'post_type' => $redirection_value,
+				'numberposts' => 1,
+				'orderby' => 'menu_order',
+				'order' => 'ASC',
+				'suppress_filters' => 0
+			));
+
+			if (count($targets) > 0) {
+				if(function_exists('icl_object_id')) {
+					$target_id = icl_object_id($targets[0]->ID, $redirection_value, true);
+				} else {
+					$target_id = $targets[0]->ID;
+				}
+				wp_redirect(get_permalink($target_id));
+			} else {
+				_e("Cette page n'a pas d'url de destination", "extra");
+			}
 		} else {
 			_e("Cette page n'a pas d'url de destination", "extra");
 		}

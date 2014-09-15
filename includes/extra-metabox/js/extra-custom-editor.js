@@ -42,6 +42,9 @@ jQuery(document).ready(function($) {
 
 			// SET NEW VALUES
 			tinymce.settings.body_class = tinymce.settings.body_class + " " + $textarea.data("extra-name");
+			tinymce.settings.resize = true;
+			tinymce.settings.wp_autoresize_on = false;
+
 			tinymce.settings.id = id;
 			tinymce.settings.height = 300;
 			if($textarea.data('custom-css')) {
@@ -51,6 +54,8 @@ jQuery(document).ready(function($) {
 			
 			// SET NEW EDITOR
 			tinymce.execCommand('mceAddEditor', false, id);
+
+			console.log(tinymce);
 
 			// MAKE IT RESIZABLE
             $handle.on('mousedown.extra-editor-resize', function(event) {
@@ -116,7 +121,11 @@ jQuery(document).ready(function($) {
             tinymce.settings.id = default_id;
             tinymce.settings.height = default_height;
             tinymce.settings.content_css = default_content_css;
+			tinymce.settings.resize = false;
+			tinymce.settings.wp_autoresize_on = true;
             tinymce.settings = $.extend({}, tempSettings);
+
+			console.log(tempSettings);
 
 		});
 

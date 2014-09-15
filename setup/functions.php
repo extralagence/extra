@@ -22,12 +22,14 @@ if ( ! function_exists( 'extra_setup' ) ) {
         // HTML 5
         add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 
+        $default_nav_menus = array(
+            'main' => 'Principale',
+            'mobile' => 'Mobile',
+            'footer' => 'Pied de page'
+        );
+
 		// NAVIGATION MENUS
-		register_nav_menus( array(
-			'main' => 'Principale',
-			'mobile' => 'Mobile',
-			'footer' => 'Pied de page'
-		));
+		register_nav_menus(apply_filters('extra_default_nav_menus', $default_nav_menus));
 
 		// CAP
 		$editor = get_role( 'editor' );
@@ -35,7 +37,7 @@ if ( ! function_exists( 'extra_setup' ) ) {
         $editor->add_cap( 'edit_theme_options' );
 
 		global $content_width;
-		$content_width = 540;
+		$content_width = apply_filters('extra_content_width', 540);
 	}
 }
 add_action('after_setup_theme', 'extra_setup');
@@ -303,10 +305,13 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 	<span class="responsiveImagePlaceholder<?php echo (!empty($class)) ? ' ' . $class : ''; ?>">
 		<noscript
 			data-alt="<?php echo $alt; ?>"
-			<?php foreach($sizes as $size => $details): ?>
-			data-src-<?php echo $size; ?>="<?php echo bfi_thumb($src, $params[$size]); ?>"
+			<?php foreach($sizes as $size => $details):
+                $bfiThumbParams = extra_setup_bfi_thumb_params($params, $size);
+            ?>
+			 data-src-<?php echo $size; ?>="<?php echo bfi_thumb($src, $bfiThumbParams); ?>"
 			<?php endforeach; ?>>
-			<img alt="<?php echo $alt; ?>" src="<?php echo $src; ?>">
+
+			<img alt="" src="<?php echo bfi_thumb($src, extra_setup_bfi_thumb_params($params, array_keys($sizes)[0])); ?>">
 		</noscript>
 		<img class="placeholder-image"
 		     src="<?php echo get_template_directory_uri(); ?>/assets/img/blank.gif"
@@ -322,6 +327,25 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 }
 function extra_responsive_image($src = 0, $params= array(), $class = '', $alt = '') {
 	echo extra_get_responsive_image($src, $params, $class, $alt);
+}
+function extra_setup_bfi_thumb_params($params, $size) {
+    $bfiThumbParams = $params[$size];
+    if(isset($params['color'])) {
+        $bfiThumbParams['color'] = $params['color'];
+    }
+    if(isset($params['crop'])) {
+        $bfiThumbParams['crop'] = $params['crop'];
+    }
+    if(isset($params['opacity'])) {
+        $bfiThumbParams['opacity'] = $params['opacity'];
+    }
+    if(isset($params['grayscale'])) {
+        $bfiThumbParams['grayscale'] = $params['grayscale'];
+    }
+    if(isset($params['negate'])) {
+        $bfiThumbParams['negate'] = $params['negate'];
+    }
+    return $bfiThumbParams;
 }
 /**
  * Shortify a string with "..."
@@ -483,5 +507,72 @@ function extra_less_vars($vars, $handle) {
 }
 
 add_filter('less_vars', 'extra_less_vars', 10, 2);
-
+/**********************
+ *
+ *
+ * DATE FORMAT PHP TO JS
+ *
+ *
+ *
+ *********************/
+function dateformat_to_js($php_format)
+{
+    $SYMBOLS_MATCHING = array(
+        // Day
+        'd' => 'dd',
+        'D' => 'D',
+        'j' => 'd',
+        'l' => 'DD',
+        'N' => '',
+        'S' => '',
+        'w' => '',
+        'z' => 'o',
+        // Week
+        'W' => '',
+        // Month
+        'F' => 'MM',
+        'm' => 'mm',
+        'M' => 'M',
+        'n' => 'm',
+        't' => '',
+        // Year
+        'L' => '',
+        'o' => '',
+        'Y' => 'yy',
+        'y' => 'y',
+        // Time
+        'a' => '',
+        'A' => '',
+        'B' => '',
+        'g' => '',
+        'G' => '',
+        'h' => '',
+        'H' => '',
+        'i' => '',
+        's' => '',
+        'u' => ''
+    );
+    $jqueryui_format = "";
+    $escaping = false;
+    for($i = 0; $i < strlen($php_format); $i++)
+    {
+        $char = $php_format[$i];
+        if($char === '\\') // PHP date format escaping character
+        {
+            $i++;
+            if($escaping) $jqueryui_format .= $php_format[$i];
+            else $jqueryui_format .= '\'' . $php_format[$i];
+            $escaping = true;
+        }
+        else
+        {
+            if($escaping) { $jqueryui_format .= "'"; $escaping = false; }
+            if(isset($SYMBOLS_MATCHING[$char]))
+                $jqueryui_format .= $SYMBOLS_MATCHING[$char];
+            else
+                $jqueryui_format .= $char;
+        }
+    }
+    return $jqueryui_format;
+}
 

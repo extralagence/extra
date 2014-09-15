@@ -25,6 +25,7 @@ class Image extends AbstractField {
 
 	public static function init () {
 		parent::init();
+        wp_enqueue_media();
 		wp_enqueue_style('extra-image-gallery-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-image-gallery.less');
 		wp_enqueue_script('extra-image-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-image.js', array('jquery'), null, true);
 	}
@@ -136,4 +137,4 @@ class Image extends AbstractField {
 		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
 		echo $meta;
 	}
-} 
+}

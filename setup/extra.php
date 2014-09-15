@@ -81,15 +81,38 @@ function require_extra_libraries () {
 	// BFI THUMB
 	require_once EXTRA_INCLUDES_PATH . '/bfi_thumb/BFI_Thumb.php';
 
-	// WP LESS
-	require_once EXTRA_INCLUDES_PATH . '/wp-less.php';
+    // LESS PHP
+    require_once EXTRA_INCLUDES_PATH . '/lessphp/lessc.inc.php';
 
-	// REDUX FRAMEWORK
-	if (!class_exists('ReduxFramework') && file_exists(EXTRA_INCLUDES_PATH . '/redux-framework/ReduxCore/framework.php')) {
-		require_once EXTRA_INCLUDES_PATH . '/redux-framework/ReduxCore/framework.php';
-	}
+    // WP LESS
+    require_once EXTRA_INCLUDES_PATH . '/wp-less/wp-less.php';
+
+    // REDUX FRAMEWORK
+    if (!class_exists('ReduxFramework')) {
+        require_once EXTRA_INCLUDES_PATH . '/redux-framework/ReduxCore/framework.php';
+    }
+    // Modify {$redux_opt_name} to match your opt_name
+    add_action("redux/extensions/extra_options/before", 'redux_register_custom_extension_loader', 0);
 }
-
+function redux_register_custom_extension_loader($ReduxFramework) {
+    $path = EXTRA_INCLUDES_PATH . '/redux-extensions/';
+    $folders = scandir( $path, 1 );
+    foreach($folders as $folder) {
+        if ($folder === '.' or $folder === '..' or !is_dir($path . $folder) ) {
+            continue;
+        }
+        $extension_class = 'ReduxFramework_Extension_' . $folder;
+        if( !class_exists( $extension_class ) ) {
+            // In case you wanted override your override, hah.
+            $class_file = $path . $folder . '/extension_' . $folder . '.php';
+            $class_file = apply_filters( 'redux/extension/'.$ReduxFramework->args['opt_name'].'/'.$folder, $class_file );
+            if ( file_exists( $class_file ) ) {
+                require_once( $class_file );
+                $extension = new $extension_class( $ReduxFramework );
+            }
+        }
+    }
+}
 /**********************
  *
  *
@@ -97,7 +120,6 @@ function require_extra_libraries () {
  *
  *
  *********************/
-
 // REQUIRE LIBRARIES
 require_extra_libraries();
 

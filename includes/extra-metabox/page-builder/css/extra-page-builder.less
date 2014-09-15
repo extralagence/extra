@@ -80,9 +80,19 @@
  *
  ******************/
 .extra-page-builder {
+
+	width: 100%;
 	max-width: @epb_full_width + 2;
 	margin: 0 auto;
 }
+.extra-page-builder > .repeatable > .wpa_loop {
+	width: 100%;
+	overflow: auto;
+}
+.extra-page-builder > .repeatable > .wpa_loop > * {
+	width: @epb_full_width + 2;
+}
+
 .extra-page-builder .wpa_group {
 	margin-top: 10px;
 	overflow: hidden;
@@ -223,7 +233,7 @@
  *
  ******************/
 .extra-page-builder-row-content-wrapper {
-	overflow: auto;
+//	overflow: auto;
 	width: 100%;
 	border: 1px solid #eee;
 	border-top: none;

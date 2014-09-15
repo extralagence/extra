@@ -120,7 +120,7 @@ class CustomEditor extends AbstractBlock {
 						?>"
 						id="<?php echo $editor_id; ?>"
 						name="<?php $this->mb->the_name(); ?>">
-						<?php echo apply_filters('the_content', html_entity_decode( $this->mb->get_the_value(), ENT_QUOTES, 'UTF-8' )); ?>
+						<?php echo $this->mb->get_the_value(); ?>
 					</textarea>
 				</div>
 			</div>

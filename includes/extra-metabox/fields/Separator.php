@@ -28,10 +28,10 @@ class Separator extends AbstractField {
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
         $this->title = isset($properties['title']) ? $properties['title'] : null;
-        $this->name = isset($properties['name']) ? $properties['name'] : 'title';
+        $this->name = isset($properties['name']) ? $properties['name'] : 'separator';
 	}
 
 	public function the_admin_column_value() {
 	    // nothing here
 	}
-} 
+}

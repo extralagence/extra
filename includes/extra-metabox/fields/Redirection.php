@@ -94,6 +94,25 @@ class Redirection extends AbstractField {
 					<input id="hidden-content-autocomplete" name="<?php $this->mb->the_name(); ?>" type="hidden" value="<?php $this->mb->the_value(); ?>"/>
 				</div>
 			</div>
+
+			<div class="extra-checkbox">
+				<?php $this->mb->the_field($this->get_prefixed_field_name("type")); ?>
+				<input type="radio" name="<?php $this->mb->the_name(); ?>" id="redirection-type-post-type" value="post-type" <?php echo $this->mb->is_value('post-type')?' checked="checked"':''; ?>> <label for="redirection-type-post-type">Redirection vers un type de contenu</label>
+
+				<div class="extra-conditional bloc">
+					<?php $this->mb->the_field($this->get_prefixed_field_name("post-type")); ?>
+					<label for="<?php $this->mb->the_name(); ?>"><?php _e("Choisissez un type de contenu :", "extra-admin"); ?></label>
+					<select name="<?php $this->mb->the_name(); ?>" id="<?php $this->mb->the_name(); ?>">
+						<?php
+						$post_types = get_post_types('', 'objects');
+						foreach ($post_types as $post_type): ?>
+							<option value="<?php echo esc_attr($post_type->name); ?>"<?php echo $this->mb->is_value($post_type->name)?' selected="selected"':''; ?>><?php echo esc_html($post_type->labels->name); ?></option>
+						<?php endforeach; ?>
+					</select>
+
+
+				</div>
+			</div>
 		</div>
 		<?php
 	}

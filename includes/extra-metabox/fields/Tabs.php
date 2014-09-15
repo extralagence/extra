@@ -17,6 +17,7 @@
  * - name (mandatory)
  * - label (optional)
  * - icon (optional)
+ * - fixed (optional): can we add new elements
  * - subfields (mandatory): children fields
  * - add_label (optional): label for the add button
  * - delete_label (optional): label for the delete button
@@ -44,7 +45,7 @@ class Tabs extends AbstractGroup {
 					echo $this->label; ?>
 				</h2>
 			<?php endif; ?>
-			
+
 			<div class="repeatable extra-tabs">
 
                 <?php if($this->fixed === false): ?>
@@ -65,7 +66,7 @@ class Tabs extends AbstractGroup {
                         <?php endif; ?>
 
 						<?php
-						$this->mb->the_admin($this->subfields);
+						$this->mb->the_admin_from_field($this->subfields, $this->name_suffix);
 						?>
 
 					</div>
