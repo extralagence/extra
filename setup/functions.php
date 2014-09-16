@@ -455,11 +455,10 @@ if(!function_exists('extra_post_limits')) {
  *
  *********************/
 if(!function_exists('extra_wp_title')) {
-	add_filter('wp_title', 'extra_wp_title', 20, 2);
 	function extra_wp_title ($title, $sep) {
 		global $paged, $page, $post;
 
-		if (!is_feed()) {
+		if (!is_feed() && !is_front_page()) {
 			$title = get_bloginfo( 'name' );
 
 			if (is_singular()) {
@@ -476,10 +475,10 @@ if(!function_exists('extra_wp_title')) {
 			}
 		}
 
-
 		return $title;
 	}
 }
+add_filter('wp_title', 'extra_wp_title', 100, 2);
 
 
 /**********************
