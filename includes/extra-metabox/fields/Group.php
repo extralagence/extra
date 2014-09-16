@@ -24,12 +24,12 @@ class Group extends AbstractGroup {
 
 	public function the_admin() {
 		?>
-		<div class="<?php echo $this->css_class; ?>">
-			<?php if ($this->label != null) : ?>
-				<h3><?php
+		<div class="group <?php echo $this->css_class; ?>">
+			<?php if ($this->title != null) : ?>
+				<h2><?php
 					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
-					echo $this->label; ?>
-				</h3>
+					echo $this->title; ?>
+				</h2>
 			<?php endif; ?>
 
 			<?php
@@ -50,4 +50,4 @@ class Group extends AbstractGroup {
 		//TODO
 		echo '-';
 	}
-} 
+}
