@@ -18,10 +18,11 @@ jQuery(function ($) {
 		var $container = $(this);
 
 		var max = parseInt($container.data('max')),
+			min = parseInt($container.data('min')),
 			intRegex = /^\d+$/;
 
 		$container.find('.extra-slider').slider({
-			min: 0,
+			min: min,
 			max: max,
 			slide: function( event, ui ) {
 				var $slider = $(this),
