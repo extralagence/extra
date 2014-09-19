@@ -43,6 +43,8 @@ function extra_template_enqueue_scripts() {
         'mobile' => 'only screen and (max-width: 690px)'
 	));
 	wp_localize_script('extra', 'extraResponsiveSizes', $sizes);
+    // EXTRA RESPONSIVE MENU
+    wp_enqueue_script('extra-responsive-menu', get_template_directory_uri() . '/assets/js/lib/ExtraResponsiveMenu.js', array('jquery', 'tweenmax'), null, true);
 	// EXTRA-SLIDER
 	wp_enqueue_script('extra-slider', get_template_directory_uri() . '/assets/js/lib/extra.slider.js', array('jquery', 'extra', 'tweenmax'), null, true);
 	// EXTRA-SLIDER
