@@ -8,6 +8,9 @@
         return this.each(function () {
         	
             var $this = $(this);
+	        if($this.parent().hasClass('extra-checkbox') || $this.parent().hasClass('extra-radio')) {
+		        return;
+	        }
             var wrapTag = $this.attr('type') == 'checkbox' ? '<div class="extra-checkbox">' : '<div class="extra-radio">';
             
             if ($this.attr('type') == 'checkbox') {
