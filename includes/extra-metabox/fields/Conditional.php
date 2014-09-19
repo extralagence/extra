@@ -33,6 +33,13 @@ class Conditional extends AbstractField {
 	public function the_admin() {
 		?>
 		<div class="<?php echo $this->css_class; ?> extra-conditional-container">
+			<?php if ($this->title != null) : ?>
+				<h2><?php
+					echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : '';
+					echo $this->title; ?>
+				</h2>
+			<?php endif; ?>
+
 			<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
 			<?php $checked =$this->mb->get_the_value(); ?>
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
@@ -67,6 +74,10 @@ class Conditional extends AbstractField {
 
 	public function the_admin_column_value() {
 		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
-		echo $meta;
+		if ($meta) {
+			_e("Oui", "extra-admin");
+		} else {
+			_e("Non", "extra-admin");
+		}
 	}
 }

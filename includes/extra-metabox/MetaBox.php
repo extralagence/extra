@@ -1422,7 +1422,7 @@ class WPAlchemy_MetaBox
 
 				$(document).on('click', '[class*=docopy-]', function(e) {
 					e.preventDefault();
-					console.log('docopy');
+//					console.log('docopy');
 
 					var p = $(this).parents('.wpa_group:first');
 
@@ -1432,17 +1432,17 @@ class WPAlchemy_MetaBox
 
 					var the_name = $(this).attr('class').match(/docopy-([a-zA-Z0-9_-]*)/i)[1];
 
-					console.log("the_name");
-					console.log(the_name);
+//					console.log("the_name");
+//					console.log(the_name);
 
 					var the_group = $('.wpa_group-'+ the_name +'.tocopy', p).first();
-					console.log("the_group");
-					console.log(the_group);
+//					console.log("the_group");
+//					console.log(the_group);
 
 					var the_clone = the_group.clone().removeClass('tocopy last');
 
-					console.log("the_clone");
-					console.log(the_clone);
+//					console.log("the_clone");
+//					console.log(the_clone);
 
 					var the_props = ['name', 'id', 'for', 'class'];
 
