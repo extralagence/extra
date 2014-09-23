@@ -461,20 +461,24 @@ if(!function_exists('extra_wp_title')) {
 		global $paged, $page, $post;
 
 		if (!is_feed() && !is_front_page()) {
-			$title = get_bloginfo( 'name' );
+
+            $title = "";
 
 			if (is_singular()) {
 				if ($post != null) {
-					$title .= ' '.$sep.' '.$post->post_title;
+					$title .= $post->post_title;
 				}
 			} else if (is_archive()) {
-				$title .= ' '.$sep.' '.__("Archive", "extra-admin");
+				$title .= __("Archive", "extra-admin");
 			}
 
 			// Add a page number if necessary.
 			if ( $paged >= 2 || $page >= 2 ) {
-				$title = "$title $sep " . sprintf( __( 'Page %s', 'extra-admin' ), max( $paged, $page ) );
+				$title .= $sep . ' ' . sprintf( __( 'Page %s', 'extra-admin' ), max( $paged, $page ) );
 			}
+
+            $title .= ' ' . $sep . ' ' . get_bloginfo( 'name' );
+
 		} else if(is_front_page()) {
             $title = get_bloginfo('name') . ' ' . $sep . ' ' . get_bloginfo('description');
         }
