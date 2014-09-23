@@ -68,7 +68,7 @@
 			if(this._textarea.data('custom-css')) {
 				tinymce.settings.content_css = tinymce.settings.content_css + ',' + this._textarea.data('custom-css');
 			}
-			tinymce.settings.wpautop = false;
+			tinymce.settings.wpautop = true;
 
 			// SET NEW EDITOR
 			tinymce.execCommand('mceAddEditor', false, this._id);

@@ -28,27 +28,40 @@ jQuery(document).ready(function ($) {
 			event.stopPropagation();
 
 			var $editor = $form.find('.extra-custom-editor-wrapper'),
-				$textarea = $editor.find('textarea.extra-custom-editor'),
-				tinymceContent = tinyMCE.activeEditor.getContent(),
-				tinymceContentRaw = tinyMCE.activeEditor.getContent({format: 'raw'}),
+				tinymceContent = $form.find('textarea').val(), //tinyMCE.activeEditor.getContent(),
 				$content = $block.find('.extra-page-builder-block-content'),
 				$iframe = $content.find('iframe');
+
+			console.log('ooooh');
+			console.log(tinymceContent);
 
 			$editor.data('extraPageBuilderCustomEditor').disable();
 			$block.find('.extra-page-builder-block-form').append($form);
 			$editor.data('extraPageBuilderCustomEditor').enable();
 
-
-
 			if ($iframe.length > 0) {
 				$iframe[0].parentNode.removeChild($iframe[0]);
 			}
 
-			$block.find('.custom-editor-content').html(tinymceContentRaw);
-			createIframe($block);
-			$editor.data('extraPageBuilderCustomEditor').disable();
+			console.log('apply filter');
+			console.log('sended : ');
+			console.log(tinymceContent);
+			$.get(
+				ajax_url,
+				{
+					action: 'extra_page_builder_the_content_filter',
+					extra_page_builder_the_content: tinymceContent
+				},
+				function (data) {
+					console.log('received : ');
+					console.log(data);
+					$block.find('.custom-editor-content').html(data);
+					$block.find('textarea.extra-custom-editor').val(data);
+					$editor.data('extraPageBuilderCustomEditor').disable();
 
-			$block.find('textarea.extra-custom-editor').val(tinymceContent);
+					createIframe($block);
+				}
+			);
 		}
 	});
 

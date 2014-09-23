@@ -173,10 +173,13 @@
 			$block.removeClass('not-selected');
 			extraAdminModal.hide();
 
+			console.log('ajax_url : '+ajax_url);
+			console.log('ajax_action : '+ajax_action);
+
 			$.get(
 				ajax_url,
 				{
-					action: 'extra_page_builder_block',
+					action: ajax_action,
 					block_type: block_type,
 					block_id: blockId,
 					row_id: rowId,

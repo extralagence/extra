@@ -111,7 +111,7 @@ $(document).ready(function () {
 	 *
 	 *********************/
 	var zoomIcon = $("<span />", {
-		"class": "zoom-icon"
+		"class": "zoomIcon"
 	});
 	$("a[href$='.jpg'], a[href$='.png'], a[href$='.gif'], .fancybox").not('.no-fancybox').filter(function () {
 		return $(this).attr("target") != "_blank";
