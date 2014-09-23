@@ -11,7 +11,8 @@
 		};
 
 	if (typeof shareApis !== 'undefined' && shareApis != undefined && shareApis != 'undefined' && shareApis != null) {
-		jQuery.parseJSON(shareApis).forEach(function (share) {
+		var apis = $.parseJSON(shareApis);
+		$.each(apis, function (index, share) {
 			add(share['url'], share['id']);
 		});
 	}

@@ -80,15 +80,17 @@ add_filter('wpcf7_ajax_loader', 'extra_wpcf7_ajax_loader');
  *
  *
  *********************/
-function extra_search_form($form) {
-	$form = '
-	<form role="search" method="get" id="searchform" action="' . home_url( '/' ) . '" >
-		<label for="s">'.__("Une recherche ?", "extra").'</label>
-		<input type="text" value="'.get_search_query().'" name="s" id="s" />
-		<button type="submit" id="searchsubmit"><span class="icon icon-search"></span><span class="text">'.__('Valider', 'extra').'</span></button>
-	</form>
-	';
-	return $form;
+if(!function_exists('extra_search_form')) {
+    function extra_search_form($form) {
+    	$form = '
+    	<form role="search" method="get" id="searchform" action="' . home_url( '/' ) . '" >
+    		<label for="s">'.__("Une recherche ?", "extra").'</label>
+    		<input type="text" value="'.get_search_query().'" name="s" id="s" />
+    		<button type="submit" id="searchsubmit"><span class="icon icon-search"></span><span class="text">'.__('Valider', 'extra').'</span></button>
+    	</form>
+    	';
+    	return $form;
+    }
 }
 add_filter( 'get_search_form', 'extra_search_form' );
 /**********************
@@ -455,31 +457,36 @@ if(!function_exists('extra_post_limits')) {
  *
  *********************/
 if(!function_exists('extra_wp_title')) {
-	add_filter('wp_title', 'extra_wp_title', 20, 2);
 	function extra_wp_title ($title, $sep) {
 		global $paged, $page, $post;
 
-		if (!is_feed()) {
-			$title = get_bloginfo( 'name' );
+		if (!is_feed() && !is_front_page()) {
+
+            $title = "";
 
 			if (is_singular()) {
 				if ($post != null) {
-					$title .= ' '.$sep.' '.$post->post_title;
+					$title .= $post->post_title;
 				}
 			} else if (is_archive()) {
-				$title .= ' '.$sep.' '.__("Archive", "extra-admin");
+				$title .= __("Archive", "extra-admin");
 			}
 
 			// Add a page number if necessary.
 			if ( $paged >= 2 || $page >= 2 ) {
-				$title = "$title $sep " . sprintf( __( 'Page %s', 'extra-admin' ), max( $paged, $page ) );
+				$title .= $sep . ' ' . sprintf( __( 'Page %s', 'extra-admin' ), max( $paged, $page ) );
 			}
-		}
 
+            $title .= ' ' . $sep . ' ' . get_bloginfo( 'name' );
+
+		} else if(is_front_page()) {
+            $title = get_bloginfo('name') . ' ' . $sep . ' ' . get_bloginfo('description');
+        }
 
 		return $title;
 	}
 }
+add_filter('wp_title', 'extra_wp_title', 10, 2);
 
 
 /**********************

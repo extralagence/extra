@@ -86,7 +86,7 @@ if (!class_exists("Extra_Redux_Framework")) {
 				'display_name' => __('Paramètres du thème Extra', 'extra-admin'), // Name that appears at the top of your panel
 				'display_version' => '', // Version that appears at the top of your panel
 				'menu_type' => 'menu', //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
-				'allow_sub_menu' => false, // Show the sections below the admin menu item or not
+				'allow_sub_menu' => true, // Show the sections below the admin menu item or not
 				'menu_title' => __('Paramètres', 'extra-admin'), 'page' => __('Paramètres', 'extra-admin'), 'google_api_key' => '', // Must be defined to add google fonts to the typography module
 				'global_variable' => '', // Set a different name for your global variable other than the opt_name
 				'dev_mode' => false, // Show the time the page took to load, etc

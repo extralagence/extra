@@ -48,10 +48,13 @@ global $post;
 					);
 				}
 			}
+
+			$homeID = get_option("page_for_posts");
+			$home_post = get_post($homeID);
 			$parents[] = array(
 				'class' => '',
-				'name'  => $current_category->name,
-				'link'  => get_category_link($current_category->term_id),
+				'name'  => $home_post->post_title,
+				'link'  => get_permalink($homeID),
 			);
 
 			$current_post['name'] = sprintf(__('Archive de la catégorie "%s"', 'extra'), single_cat_title('', false));

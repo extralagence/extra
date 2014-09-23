@@ -17,6 +17,7 @@
  * - name (required)
  * - label (optional): label before text input
  * - icon (optional)
+ * - min (required): min value
  * - max (required): max value
  */
 class Slider extends AbstractField {
@@ -37,10 +38,11 @@ class Slider extends AbstractField {
 		?>
 		<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
 		<?php $this->mb->the_field($this->get_single_field_name('slider')); ?>
-		<div class="extra-slider-container <?php echo $this->css_class; ?>" data-max="<?php echo $this->max; ?>">
+        <?php $value = $this->mb->get_the_value(); ?>
+		<div class="extra-slider-container <?php echo $this->css_class; ?>" data-max="<?php echo $this->max; ?>" data-min="<?php echo $this->min; ?>">
 			<p>
 				<label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
-				<input class="extra-slider-input" id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="text" value="<?php $this->mb->the_value(); ?>"/> <?php echo ($this->suffix == null) ? '' : $this->suffix; ?>
+				<input class="extra-slider-input" id="<?php $this->mb->the_name(); ?>" name="<?php $this->mb->the_name(); ?>" type="text" value="<?php echo (!empty($value) ? $value : $this->default); ?>"/> <?php echo ($this->suffix == null) ? '' : $this->suffix; ?>
 			</p>
 			<div class="extra-slider"></div>
 		</div>
@@ -49,8 +51,10 @@ class Slider extends AbstractField {
 
 	public function extract_properties($properties) {
 		parent::extract_properties($properties);
-		$this->suffix = (isset($properties['suffix'])) ? $properties['suffix'] : null;
-		$this->max = (isset($properties['max'])) ? $properties['max'] : null;
+        $this->suffix = (isset($properties['suffix'])) ? $properties['suffix'] : null;
+        $this->min = (isset($properties['min'])) ? $properties['min'] : 0;
+        $this->max = (isset($properties['max'])) ? $properties['max'] : 9999;
+        $this->default = (isset($properties['default'])) ? $properties['default'] : $this->min;
 
 		if (empty($this->max)) throw new Exception('Extra Meta box "max" required for Slider');
 	}
@@ -60,4 +64,4 @@ class Slider extends AbstractField {
 		$meta = $this->mb->get_meta($this->name, $this->mb->meta);
 		echo $meta;
 	}
-} 
+}
