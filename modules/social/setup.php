@@ -56,9 +56,10 @@ function extra_share($id = 0) {
  *
  *
  *********************/
-add_action('wp_enqueue_scripts', function () {
+function extra_social_enqueue_assets() {
 	wp_enqueue_style('extra-social', EXTRA_MODULES_URI.'/social/front/css/social.less');
 	wp_enqueue_script('extra-social', EXTRA_MODULES_URI.'/social/front/js/social.js', array('jquery'), false, true);
-});
+}
+add_action('wp_enqueue_scripts', 'extra_social_enqueue_assets');
 
 ?>
