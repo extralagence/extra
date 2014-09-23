@@ -78,7 +78,7 @@ function ExtraResponsiveMenu(options) {
 	 *************************/
 	function showMenu(fast) {
 		if (small || opt.everySizes) {
-			opt.$menu.show().css('visibility', 'visible');
+			opt.$menu.css('visibility', 'visible');
 			menuOpen = true;
 			$html.addClass('menu-open');
 			if (transform3d) {
@@ -128,6 +128,6 @@ function ExtraResponsiveMenu(options) {
 	});
 
 	// INIT
-	opt.$menu.show().css('visibility', 'visible');
+	opt.$menu.css('visibility', 'visible');
 	hideMenu(true);
 }
