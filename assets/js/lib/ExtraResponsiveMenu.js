@@ -4,7 +4,7 @@
  * Responsive Navigation
  * @$menu : jquery object
  * @$site : jquery object
- * @$switch : jquery object
+ * @$button : jquery object
  * @everySizes : boolean
  *
  *
@@ -14,15 +14,15 @@ function ExtraResponsiveMenu(options) {
 	var opt = $.extend({
 			'$menu' : $("#mobile-menu-container"),
 			'$site' : $("#wrapper"),
-			'$switch': $("#switch-mobile-menu"),
+			'$button': $("#switch-mobile-menu"),
 			'everySizes' : false,
 			'moveButton' : true
 		}, options),
 		menuOpen = true,
 		$html = $('html'),
 		transform3d = $html.hasClass('csstransforms3d'),
-		wpadminbar = $("#wpadminbar"),
-		$toMove = opt.moveButton ? [opt.$site, opt.$switch] : opt.$site;
+		$wpadminbar = $("#wpadminbar"),
+		$toMove = opt.moveButton ? [opt.$site, opt.$button] : opt.$site;
 	/**************************
 	 *
 	 *
@@ -30,7 +30,7 @@ function ExtraResponsiveMenu(options) {
 	 *
 	 *
 	 *************************/
-	if(!opt.$menu.length || !opt.$site.length || !opt.$switch.length) {
+	if(!opt.$menu.length || !opt.$site.length || !opt.$button.length) {
 		console.log("Missing element to initialize the responsive menu");
 		return;
 	}
@@ -41,7 +41,7 @@ function ExtraResponsiveMenu(options) {
 	 *
 	 *
 	 *************************/
-	opt.$switch.click(function () {
+	opt.$button.click(function () {
 		if (small || opt.everySizes) {
 			if (!menuOpen) {
 				showMenu();
@@ -59,8 +59,8 @@ function ExtraResponsiveMenu(options) {
 	 *
 	 *************************/
 	$window.on('extra.resize', function () {
-		if (wpadminbar.length) {
-			opt.$switch.css("top", wpadminbar.height());
+		if ($wpadminbar.length) {
+			opt.$button.css("top", $wpadminbar.height());
 		}
 
 		if (menuOpen) {
@@ -118,6 +118,14 @@ function ExtraResponsiveMenu(options) {
 		}
 		$window.trigger('extra.hideResponsiveMenu');
 	}
+
+	$(document).on('click', function(e) {
+		var $target = $(e.target);
+		if(menuOpen && $target != opt.$menu && !$target.closest(opt.$menu).length && $target != opt.$button && !$target.closest(opt.$button).length && $target != opt.$button && !$target.closest($wpadminbar).length) {
+			console.log(e);
+			hideMenu();
+		}
+	});
 
 	// INIT
 	opt.$menu.css('visibility', 'visible');

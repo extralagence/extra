@@ -475,7 +475,9 @@ if(!function_exists('extra_wp_title')) {
 			if ( $paged >= 2 || $page >= 2 ) {
 				$title = "$title $sep " . sprintf( __( 'Page %s', 'extra-admin' ), max( $paged, $page ) );
 			}
-		}
+		} else if(is_front_page()) {
+            $title = get_bloginfo('name') . ' ' . $sep . ' ' . get_bloginfo('description');
+        }
 
 		return $title;
 	}
