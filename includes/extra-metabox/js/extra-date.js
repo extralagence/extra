@@ -31,24 +31,27 @@ jQuery(function ($) {
 		}
 	});
 
-	var $extraDatePicker = $(".extra-datepicker"),
-		timeFormat = $extraDatePicker.data('time-format');
+	$(".extra-datepicker").each(function () {
+		var $extraDatePicker = $(this),
+			timeFormat = $extraDatePicker.data('time-format'),
+			$altField = $extraDatePicker.closest('.extra-date-container ').find('.extra-datepicker-en');
 
-	$.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
-	if (timeFormat != '') {
-		$extraDatePicker.datetimepicker({
-			altField: ".extra-datepicker-en",
-			altFieldTimeOnly: false,
-			altFormat: $extraDatePicker.data('format'),
-			altTimeFormat: timeFormat
-		});
-	} else {
-		$extraDatePicker.datepicker({
-			altField: ".extra-datepicker-en",
-			altFieldTimeOnly: false,
-			altFormat: $extraDatePicker.data('format')
-		});
-	}
+		$.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
+		if (timeFormat != '') {
+			$extraDatePicker.datetimepicker({
+				altField: $altField,
+				altFieldTimeOnly: false,
+				altFormat: $extraDatePicker.data('format'),
+				altTimeFormat: timeFormat
+			});
+		} else {
+			$extraDatePicker.datepicker({
+				altField: $altField,
+				altFieldTimeOnly: false,
+				altFormat: $extraDatePicker.data('format')
+			});
+		}
+	});
 });
 
 
