@@ -305,7 +305,7 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 	?>
 	<?php ob_start(); ?>
 	<span class="responsiveImagePlaceholder<?php echo (!empty($class)) ? ' ' . $class : ''; ?>">
-		<noscript 
+		<noscript
 			data-alt="<?php echo $alt; ?>"
 			<?php foreach($sizes as $size => $details):
                 $bfiThumbParams = extra_setup_bfi_thumb_params($params, $size);
@@ -482,7 +482,7 @@ if(!function_exists('extra_wp_title')) {
 		return $title;
 	}
 }
-add_filter('wp_title', 'extra_wp_title', 100, 2);
+add_filter('wp_title', 'extra_wp_title', 10, 2);
 
 
 /**********************
