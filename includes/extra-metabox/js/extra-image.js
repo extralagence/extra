@@ -21,38 +21,37 @@ jQuery(document).ready(function($) {
 			}
 
 			var $element	 = $(this),
-				$thumbnailId = $element.find('.image-input'),
-				title        = $element.find("label:first").text(),
-				update       = $element.find("label:first").text(),
-				file_frame,
-				imageId;
-
-			imageId = $thumbnailId.val();
+				$extraImageID = $element.find('.image-input'),
+				extra_image_frame;
 
 			$element.addClass("extra-custom-image-processed");
 
 			$element.on("click", ".choose-button", function(event) {
 				event.preventDefault();
 
-				if ( file_frame ) {
-					file_frame.open();
+				if ( extra_image_frame ) {
+					extra_image_frame.open();
 					return;
 				}
 
-				file_frame = wp.media.frames.file_frame = wp.media({
+				extra_image_frame = wp.media.frames.suce_ma_frame = wp.media({
+					id: 'extra-image-frame',
+					frame: 'post',
 					title: 'Sélectionner une image',
 					button: {
 						text: "Ajouter l'image"
 					},
 					multiple: false,
-					filterable: 'uploaded'
+					filterable: 'uploaded',
+					state: 'insert'
 				});
 
-				file_frame.on( 'select', function() {
-					attachment = file_frame.state().get('selection').first().toJSON();
+				extra_image_frame.on( 'insert', function() {
+					console.log("insert");
+					attachment = extra_image_frame.state().get('selection').first().toJSON();
 
 					if(attachment && attachment.type == "image" && attachment.sizes) {
-						$thumbnailId.val(attachment.id);
+						$extraImageID.val(attachment.id);
 						var size;
 						if(attachment.sizes.thumbnail) {
 							size = attachment.sizes.thumbnail;
@@ -74,7 +73,7 @@ jQuery(document).ready(function($) {
 					}
 
 				});
-				file_frame.open();
+				extra_image_frame.open();
 
 			});
 

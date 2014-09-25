@@ -24,8 +24,12 @@ class Image extends AbstractField {
 	protected $size_label;
 
 	public static function init () {
+
 		parent::init();
-        wp_enqueue_media();
+		//TODO Find a better fix for this...
+		if (! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			wp_enqueue_media();
+		}
 		wp_enqueue_style('extra-image-gallery-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-image-gallery.less');
 		wp_enqueue_script('extra-image-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-image.js', array('jquery'), null, true);
 	}
