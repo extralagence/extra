@@ -24,6 +24,7 @@ class Image extends AbstractField {
 	protected $size_label;
 
 	public static function init () {
+
 		parent::init();
         //wp_enqueue_media();
         wp_enqueue_style('extra-image-gallery-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/css/extra-image-gallery.less');

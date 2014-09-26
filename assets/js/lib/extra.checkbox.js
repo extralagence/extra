@@ -2,7 +2,8 @@
  * @author Extra
  * @version 1.0
  * @date 11 Avril 2013
- */ (function ($) {
+ */
+(function ($) {
     $.fn.extraCheckbox = function () {
     	
         return this.each(function () {
@@ -27,12 +28,7 @@
 		 		 	$(this).parent().addClass("focus");
                 }).on("blur", function(){
 		 		 	$(this).parent().removeClass("focus");
-                });
-
-                
-                if ($this.is(':checked')) {
-                    $this.parent().addClass("selected");
-                }
+                }).change();
                 
             } else if ($this.attr('type') == 'radio') {
 	            // 
@@ -50,12 +46,8 @@
 		 		 	$(this).parent().addClass("focus");
                 }).on("blur", function(){
 		 		 	$(this).parent().removeClass("focus");
-                });
+                }).change();
 
-                if ($this.is(':checked')) {
-                    $this.parent().addClass("selected");
-                }
-                
             }
         });
     };
