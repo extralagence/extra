@@ -127,6 +127,16 @@ function ExtraResponsiveMenu(options) {
 		}
 	});
 
+	$(document).on('extra.responsive-resize', function(){
+		if (!small && !opt.everySizes) {
+			opt.$menu.removeAttr("style");
+			opt.$site.removeAttr("style");
+			opt.$menu.hide();
+		} else {
+			opt.$menu.show();
+		}
+	});
+
 	// INIT
 	opt.$menu.css('visibility', 'visible');
 	hideMenu(true);
