@@ -18,9 +18,9 @@
 function extra_template_enqueue_styles() {
 	// FANCYBOX
 	wp_enqueue_style( 'fancybox', get_template_directory_uri() . '/assets/css/jquery.fancybox.css', array(), false, 'all' );
-	// EXTRA MOSAIC
-	wp_enqueue_style( 'extra-gallery', get_template_directory_uri() . '/assets/css/extra.gallery.css', array(), false, 'all' );
-	// EXTRA MOSAIC
+	// FANCY SELECT
 	wp_enqueue_style( 'fancy-select', get_template_directory_uri() . '/assets/css/fancyselect.css', array(), false, 'all' );
+    // EXTRA MOSAIC
+    wp_enqueue_style( 'extra-gallery', get_template_directory_uri() . '/assets/css/extra.gallery.less', array(), false, 'all' );
 }
 add_action('wp_enqueue_scripts', 'extra_template_enqueue_styles');
