@@ -55,8 +55,6 @@ jQuery(document).ready(function($) {
 			// SET NEW EDITOR
 			tinymce.execCommand('mceAddEditor', false, id);
 
-			console.log(tinymce);
-
 			// MAKE IT RESIZABLE
             $handle.on('mousedown.extra-editor-resize', function(event) {
 				if ( typeof tinymce !== 'undefined') {

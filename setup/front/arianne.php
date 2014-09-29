@@ -154,11 +154,6 @@ global $post;
 						'link'  => get_permalink($homeID),
 					);
 				}
-				$parents[] = array(
-					'class' => '',
-					'name'  => $post_type->labels->singular_name,
-					'link'  => home_url("/").'/post',
-				);
 				$current_post['name'] = get_the_title();
 			}
 		}

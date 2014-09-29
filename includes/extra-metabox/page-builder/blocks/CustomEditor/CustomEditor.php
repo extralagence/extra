@@ -41,7 +41,6 @@ class CustomEditor extends AbstractBlock {
 			true
 		);
 
-
 		wp_enqueue_script(
 			'extra-page-builder-block-custom-editor',
 			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor.js',
@@ -108,6 +107,20 @@ class CustomEditor extends AbstractBlock {
 				}
 				?>
 
+				<?php
+				$textarea_name = $this->mb->get_the_name();
+				$content = $this->mb->get_the_value();
+				$content = html_entity_decode( $content, ENT_QUOTES, 'UTF-8' );
+
+				$default_editor = wp_default_editor();
+				// 'html' is used for the "Text" editor tab.
+				if ( 'html' === $default_editor ) {
+					add_filter('the_editor_content', 'wp_htmledit_pre');
+				} else {
+					add_filter('the_editor_content', 'wp_richedit_pre');
+				}
+				$content = apply_filters( 'the_editor_content', $content );
+				?>
 				<div id="wp-<?php echo $editor_id; ?>-editor-container" class="wp-editor-container">
 					<textarea
 						class="wp-editor-area extra-custom-editor"
@@ -119,8 +132,8 @@ class CustomEditor extends AbstractBlock {
 						echo (isset($this->editor_class) && !empty($this->editor_class)) ? ' ' . $this->editor_class : '';
 						?>"
 						id="<?php echo $editor_id; ?>"
-						name="<?php $this->mb->the_name(); ?>">
-						<?php echo $this->mb->get_the_value(); ?>
+						name="<?php echo $textarea_name ; ?>">
+						<?php echo $content; ?>
 					</textarea>
 				</div>
 			</div>
@@ -168,7 +181,7 @@ class CustomEditor extends AbstractBlock {
 	}
 
 	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
-		$html = apply_filters('the_content', html_entity_decode( $block_data[$name_suffix], ENT_QUOTES, 'UTF-8' ));
+		$html = apply_filters('the_content', $block_data[$name_suffix]);
 
 		return $html;
 	}

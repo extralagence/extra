@@ -176,7 +176,7 @@
 			$.get(
 				ajax_url,
 				{
-					action: 'extra_page_builder_block',
+					action: ajax_action,
 					block_type: block_type,
 					block_id: blockId,
 					row_id: rowId,

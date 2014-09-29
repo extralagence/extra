@@ -78,7 +78,7 @@ class ExtraMetaBox extends WPAlchemy_MetaBox {
 
 	private function add_admin_column($fields, $columns) {
 		foreach ($fields as $properties) {
-			if ($properties['show_in_admin_column'] == true && !empty($properties['name'])) {
+			if (isset($properties['show_in_admin_column']) && $properties['show_in_admin_column'] == true && !empty($properties['name'])) {
 				$column_label = $properties['admin_column_label'];
 				if (empty($column_label)) {
 					$column_label = $properties['label'];

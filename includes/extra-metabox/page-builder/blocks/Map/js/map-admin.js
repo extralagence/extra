@@ -245,6 +245,7 @@ jQuery(document).ready(function($) {
 
 	$pageBuilder.on('refreshPreview.pagebuilder.extra', function (event, block_type, $block, $form) {
 		if (block_type == 'map') {
+			console.log('refreshPreview.pagebuilder.extra');
 			// We stop propagation to change default behavior
 			event.stopPropagation();
 
@@ -264,7 +265,7 @@ jQuery(document).ready(function($) {
 			if ($iframe.length > 0) {
 				$iframe[0].parentNode.removeChild($iframe[0]);
 			}
-			$block.find('.extra-page-builder-map-description-wrapper .extra-page-builder-map-description').html($adminMap.find('.extra-map-custom-editor-wrapper textarea').val());
+			//$block.find('.extra-page-builder-map-description-wrapper .extra-page-builder-map-description').html($adminMap.find('.extra-map-custom-editor-wrapper textarea').val());
 			createIframe($block);
 
 			$block.find('.extra-page-builder-map-title').html($form.find('.title').val());

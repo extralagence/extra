@@ -25,7 +25,6 @@ class Accordion extends AbstractBlock {
 		wp_enqueue_style('extra-page-builder-block-accordion-admin', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Accordion/css/accordion-admin.less');
 		wp_enqueue_script('jquery-ui-tabs');
 
-
 		wp_enqueue_script(
 			'extra-page-builder-block-custom-editor-plugin',
 			EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/CustomEditor/js/custom-editor-plugin.js',
@@ -122,7 +121,7 @@ class Accordion extends AbstractBlock {
 
 	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
 		$lines = $block_data[$name_suffix];
-		$title = $block_data['title_'.$name_suffix];
+		$title = isset($block_data['title_'.$name_suffix]) ? $block_data['title_'.$name_suffix] : null;
 
 		$html = '';
 		if (!empty($title)) {

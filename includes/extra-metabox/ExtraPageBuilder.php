@@ -60,7 +60,8 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$this->add_action('init', array($this, 'extra_init'));
 
 		//AJAX
-		add_action('wp_ajax_extra_page_builder_block', array($this, 'builder_block_callback'));
+		add_action('wp_ajax_extra_page_builder_block_'.$this->id, array($this, 'builder_block_callback'));
+		add_action('wp_ajax_extra_page_builder_the_content_filter', array($this, 'the_content_filter'));
 
 		if ($this->row_layouts == null || empty($this->row_layouts)) {
 			$this->row_layouts = array('1', '12', '21', '11', '111');
@@ -129,6 +130,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		}
 
 		wp_localize_script('extra-page-builder-metabox', 'ajax_url', admin_url('admin-ajax.php'));
+		wp_localize_script('extra-page-builder-metabox', 'ajax_action', 'extra_page_builder_block_'.$this->id);
 	}
 
 	/***********************
@@ -140,6 +142,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 	protected function get_meta_box_properties ($block_type) {
 		$properties = array();
 		$meta_block_type = substr($block_type, strlen('meta_block_'));
+
 		foreach ($this->meta_blocks as $meta_block_properties) {
 			if ($meta_block_properties['name'] == $meta_block_type) {
 				$properties = $meta_block_properties;
@@ -150,10 +153,28 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		return $properties;
 	}
 
+	public function the_content_filter () {
+		$content = $_POST['extra_page_builder_the_content'];
+
+		$default_editor = wp_default_editor();
+		// 'html' is used for the "Text" editor tab.
+		if ( 'html' === $default_editor ) {
+			add_filter('the_editor_content', 'wp_htmledit_pre');
+		} else {
+			add_filter('the_editor_content', 'wp_richedit_pre');
+		}
+		$content = apply_filters( 'the_editor_content', $content );
+
+//		apply_filters('the_content', $content);
+		//$content = stripslashes(apply_filters('the_content', $content));
+		echo $content;
+		die;
+	}
+
 	/**
 	 * Callback for ajax method "extra_page_builder_block"
 	 */
-	public function builder_block_callback() {
+	public function builder_block_callback () {
 		$block_type = $_GET['block_type'];
 		$block_id = $_GET['block_id'];
 		$row_id =  $_GET['row_id'];
@@ -165,7 +186,6 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		 * @var $block \ExtraPageBuilder\AbstractBlock
 		 */
 		$block = new $class($this, $block_type);
-
 		if (strpos($block_type, 'meta_block_') === 0) {
 			$meta_blocks_properties = $this->get_meta_box_properties($block_type);
 			$block->extract_properties($meta_blocks_properties);
@@ -522,5 +542,25 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 			$field = $this->construct_field_from_properties($field_properties, $name_suffix);
 			$field->the_admin();
 		}
+	}
+
+	public function get_used_block_types($id) {
+		$used_block_types = array();
+		$meta = $this->the_meta($id);
+
+		if (isset ($meta['page_builder'])) {
+			foreach ($meta['page_builder'] as $row) {
+				$block_index = 1;
+				while (isset($row['page_builder_block_choice_'.$block_index])) {
+					$block_type = $row['page_builder_block_choice_'.$block_index];
+					$block_index++;
+					if (!in_array($block_type, $used_block_types)) {
+						$used_block_types[] = $block_type;
+					}
+				}
+			}
+		}
+
+		return $used_block_types;
 	}
 }
