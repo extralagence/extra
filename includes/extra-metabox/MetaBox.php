@@ -234,6 +234,13 @@ class WPAlchemy_MetaBox
 	var $include_post_id;
 
 	/**
+	 * @since	EXTRA
+	 * @access	public
+	 * @var		bool
+	 */
+	var $include_protected;
+
+	/**
 	 * Callback used on the WordPress "admin_init" action, the main benefit is
 	 * that this callback is executed only when the meta box is present, this
 	 * option should be used when instantiating the class.
@@ -486,7 +493,8 @@ class WPAlchemy_MetaBox
 				'include_category',
 				'include_tag_id',
 				'include_tag',
-				'include_post_id'
+				'include_post_id',
+				'include_protected'
 			);
 
 			foreach ($exc_inc as $v)
@@ -935,6 +943,10 @@ class WPAlchemy_MetaBox
 	function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1)
 	{
 		$tag = $this->_get_action_tag($tag);
+		if ($tag == 'init') {
+			var_dump($tag);
+			var_dump($function_to_add);
+		}
 		add_action($tag, $function_to_add, $priority, $accepted_args);
 	}
 
@@ -1149,6 +1161,13 @@ class WPAlchemy_MetaBox
 		// processing order: "template" then "category" then "post"
 
 		$can_output = TRUE; // include all
+
+		if($this->include_protected) {
+			$post = get_post($post_id);
+			if(empty($post->post_password)) {
+				$can_output = FALSE;
+			}
+		}
 
 		if
 		(

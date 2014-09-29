@@ -74,20 +74,45 @@
 				 *
 				 ***********************/
 				this.markerLatLng = new google.maps.LatLng(this.lat, this.lon);
+
+				var iconMarker = null;
 				if (extra_map_options != null) {
-					this.marker = new google.maps.Marker({
-						position: this.markerLatLng,
-						map: this.map,
-						draggable: false,
-						icon: extra_map_options.icon
-					});
-				} else {
-					this.marker = new google.maps.Marker({
-						position: this.markerLatLng,
-						map: this.map,
-						draggable: false
-					});
+					if (extra_map_options.icon != null) {
+						iconMarker = extra_map_options.icon;
+					} else if(extra_map_options.icon_url != null) {
+						iconMarker = {
+							url: extra_map_options.icon_url,
+							size: new google.maps.Size(parseInt(extra_map_options.icon_width), parseInt(extra_map_options.icon_height)),
+							origin: new google.maps.Point(parseInt(extra_map_options.icon_origin_x), parseInt(extra_map_options.icon_origin_y)),
+							anchor: new google.maps.Point(parseInt(extra_map_options.icon_anchor_x), parseInt(extra_map_options.icon_anchor_y))
+						};
+					}
+					console.log('iconMarker');
+					console.log(iconMarker);
+					console.log(extra_map_options);
 				}
+
+				this.marker = new google.maps.Marker({
+					position: this.markerLatLng,
+					map: this.map,
+					draggable: false,
+					icon: iconMarker
+				});
+
+//				if (extra_map_options != null) {
+//					this.marker = new google.maps.Marker({
+//						position: this.markerLatLng,
+//						map: this.map,
+//						draggable: false,
+//						icon: extra_map_options.icon
+//					});
+//				} else {
+//					this.marker = new google.maps.Marker({
+//						position: this.markerLatLng,
+//						map: this.map,
+//						draggable: false
+//					});
+//				}
 
 				var $this = this;
 				this.element.closest('.extra-page-builder-row').on('layoutChange.pagebuilder.extra', function(event, $row, layout) {

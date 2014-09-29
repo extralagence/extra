@@ -153,13 +153,21 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		return $properties;
 	}
 
-
 	public function the_content_filter () {
-		$content = $_GET['extra_page_builder_the_content'];
-		$content = html_entity_decode( $content, ENT_QUOTES, 'UTF-8' );
-		$content = apply_filters('the_content', $content);
-		echo $content;
+		$content = $_POST['extra_page_builder_the_content'];
 
+		$default_editor = wp_default_editor();
+		// 'html' is used for the "Text" editor tab.
+		if ( 'html' === $default_editor ) {
+			add_filter('the_editor_content', 'wp_htmledit_pre');
+		} else {
+			add_filter('the_editor_content', 'wp_richedit_pre');
+		}
+		$content = apply_filters( 'the_editor_content', $content );
+
+//		apply_filters('the_content', $content);
+		//$content = stripslashes(apply_filters('the_content', $content));
+		echo $content;
 		die;
 	}
 
@@ -534,5 +542,25 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 			$field = $this->construct_field_from_properties($field_properties, $name_suffix);
 			$field->the_admin();
 		}
+	}
+
+	public function get_used_block_types($id) {
+		$used_block_types = array();
+		$meta = $this->the_meta($id);
+
+		if (isset ($meta['page_builder'])) {
+			foreach ($meta['page_builder'] as $row) {
+				$block_index = 1;
+				while (isset($row['page_builder_block_choice_'.$block_index])) {
+					$block_type = $row['page_builder_block_choice_'.$block_index];
+					$block_index++;
+					if (!in_array($block_type, $used_block_types)) {
+						$used_block_types[] = $block_type;
+					}
+				}
+			}
+		}
+
+		return $used_block_types;
 	}
 }
