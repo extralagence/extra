@@ -42,7 +42,12 @@ class Text extends AbstractField {
 				id="<?php $this->mb->the_name(); ?>"
 				name="<?php $this->mb->the_name(); ?>"
 				type="text"
-				value="<?php $this->mb->the_value(); ?>"
+				value="<?php
+				$value = $this->mb->get_the_value();
+                if(empty($value)) {
+                    $value = $this->default;
+                }
+				echo $value; ?>"
 				<?php echo ($this->regex != null) ? 'data-regex="'.$this->regex.'"' : ''; ?>
 				<?php echo ($this->placeholder != null) ? 'placeholder="'.$this->placeholder.'"' : ''; ?>>
             <?php echo ($this->suffix == null) ? '' : $this->suffix; ?>
@@ -54,7 +59,8 @@ class Text extends AbstractField {
 		parent::extract_properties($properties);
 		$this->suffix = isset($properties['suffix']) ? $properties['suffix'] : null;
 		$this->regex = isset($properties['regex']) ? $properties['regex'] : null;
-		$this->placeholder = isset($properties['placeholder']) ? $properties['placeholder'] : null;
+        $this->placeholder = isset($properties['placeholder']) ? $properties['placeholder'] : null;
+        $this->default = isset($properties['default']) ? $properties['default'] : '';
 	}
 
 	public function the_admin_column_value() {
