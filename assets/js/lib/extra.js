@@ -94,6 +94,11 @@ $(document).ready(function () {
 			$window.trigger('extra.responsiveImage', [$(this).data("size", "")]);
 		});
 	});
+	$window.on('init.extra.slider', function(event, items, numItems, slider) {
+		slider.on('complete.extra.responsiveImage', function() {
+			slider.trigger('update');
+		});
+	});
 	/*********************
 	 *
 	 * LOGO HOVER
@@ -202,13 +207,15 @@ $(document).ready(function () {
 									'width': this.width,
 									'height': this.height
 								});
+	              				// APPEND
+	              				imgElement.appendTo(container);
 								// REMOVE EXISTING IMAGE
 								container.find("img").not(imgElement).remove();
 	              				container.trigger('complete.extra.responsiveImage');
 							}).attr({
 								alt: altTxt,
 								src: imgSrc
-							}).appendTo(container);
+							});
 						}
 					}
 				};

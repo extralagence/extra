@@ -38,5 +38,6 @@ get_template_part(apply_filters("extra-template-after-content", "setup/front/aft
  *********************/
 get_template_part(apply_filters("extra-template-totop", "setup/front/totop"));
 
+
 extra_share();
 ?>

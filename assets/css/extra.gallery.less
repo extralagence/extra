@@ -9,17 +9,15 @@
 .extra-slider,
 .extra-slider .wrapper {
 	margin: 0 auto;
+	overflow: hidden;
 	position: relative;
 	z-index: 10;
-	width: 100%;
-}
-.extra-slider .wrapper {
-	overflow: hidden;
+	width: auto;
 }
 .extra-slider .wrapper > ul {
 	display: block;
 	list-style: none;
-	position: relative;
+	position: absolute;
 }
 .extra-slider .wrapper > ul > li {
 	display: block;
@@ -27,6 +25,8 @@
 	margin: 0;
 	padding: 0;
 	text-indent: 0px;
+	height: auto;
+	width: auto;
 }
 .extra-slider .wrapper > ul > li:before {
 	display: none;
@@ -34,6 +34,9 @@
 /* SLIDE TRANSITION */
 .extra-slider-slide .wrapper > ul > li {
 	float: left;
+}
+.lte8 .extra-slider-slide .wrapper > ul > li {
+	width: @content_width;
 }
 .extra-slider-slide .wrapper > ul:after {
 	content: ".";

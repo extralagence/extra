@@ -461,32 +461,28 @@ if(!function_exists('extra_wp_title')) {
 		global $paged, $page, $post;
 
 		if (!is_feed() && !is_front_page()) {
-
-            $title = "";
+			$title = get_bloginfo( 'name' );
 
 			if (is_singular()) {
 				if ($post != null) {
-					$title .= $post->post_title;
+					$title .= ' '.$sep.' '.$post->post_title;
 				}
 			} else if (is_archive()) {
-				$title .= __("Archive", "extra-admin");
+				$title .= ' '.$sep.' '.__("Archive", "extra-admin");
 			}
 
 			// Add a page number if necessary.
 			if ( $paged >= 2 || $page >= 2 ) {
-				$title .= $sep . ' ' . sprintf( __( 'Page %s', 'extra-admin' ), max( $paged, $page ) );
+				$title = "$title $sep " . sprintf( __( 'Page %s', 'extra-admin' ), max( $paged, $page ) );
 			}
-
-            $title .= ' ' . $sep . ' ' . get_bloginfo( 'name' );
-
 		} else if(is_front_page()) {
-            $title = get_bloginfo('name') . ' ' . $sep . ' ' . get_bloginfo('description');
-        }
+		    $title = get_bloginfo('name');
+		}
 
 		return $title;
 	}
 }
-add_filter('wp_title', 'extra_wp_title', 10, 2);
+add_filter('wp_title', 'extra_wp_title', 100, 2);
 
 
 /**********************
@@ -498,7 +494,7 @@ add_filter('wp_title', 'extra_wp_title', 10, 2);
  *
  *********************/
 function extra_less_vars($vars, $handle) {
-	global $epb_full_width, $epb_half_width, $epb_one_third_width, $epb_two_third_width, $epb_gap;
+	global $epb_full_width, $epb_half_width, $epb_one_third_width, $epb_two_third_width, $epb_gap, $content_width;
 	$epb_full_width = apply_filters('extra_page_builder_full_width', 940);
 	$epb_half_width = apply_filters('extra_page_builder_half_width', 460);
 	$epb_one_third_width = apply_filters('extra_page_builder_one_third_width', 300);
@@ -509,7 +505,8 @@ function extra_less_vars($vars, $handle) {
 	$vars['epb_half_width'] = $epb_half_width.'px';
 	$vars['epb_one_third_width'] = $epb_one_third_width.'px';
 	$vars['epb_two_third_width'] = $epb_two_third_width.'px';
-	$vars['epb_gap'] = $epb_gap.'px';
+    $vars['epb_gap'] = $epb_gap.'px';
+    $vars['content_width'] = $content_width.'px';
 	return $vars;
 }
 
