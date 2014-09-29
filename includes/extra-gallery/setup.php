@@ -99,20 +99,20 @@ function extra_gallery_handler($atts, $content = null) {
 			$return .= ' <div class="wrapper">';
 			$return .= '     <ul>';
 			foreach ($ids as $id):
-				$src = wp_get_attachment_image_src($id, 'large');
-				$return .= '        <li><a href="'.$src[0].'">';
+				$src = wp_get_attachment_image_src($id, 'full');
+				$return .= '        <li><a href="'.bfi_thumb($src[0], array('width'=>1024)).'">';
 				$return .= extra_get_responsive_image($id, array(
 					'desktop' => array(
 						'width' => apply_filters('extra_gallery_slider_desktop_width', $content_width),
-						'height' => apply_filters('extra_gallery_slider_desktop_height', 300)
+						'height' => apply_filters('extra_gallery_slider_desktop_height', 350)
 					),
 					'tablet' => array(
 						'width' => apply_filters('extra_gallery_slider_tablet_width', 960),
-						'height' => apply_filters('extra_gallery_mosaic_tablet_height', 300)
+						'height' => apply_filters('extra_gallery_mosaic_tablet_height', 350)
 					),
 					'mobile' => array(
 						'width' => apply_filters('extra_gallery_slider_mobile_width', 690),
-						'height' => apply_filters('extra_gallery_slider_mobile_height', 300)
+						'height' => apply_filters('extra_gallery_slider_mobile_height', 350)
 					)
 				));
 				$return .= '        </a></li>';
