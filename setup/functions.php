@@ -579,4 +579,3 @@ function dateformat_to_js($php_format)
     }
     return $jqueryui_format;
 }
-

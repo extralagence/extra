@@ -139,7 +139,7 @@ $(document).ready(function () {
 				width = $img.outerWidth();
 				height = $img.outerHeight();
 				$(this).addClass("zoom");
-				if(!$img[0].complete) {
+				/*if(!$img[0].complete) {
 					$img.load(function() {
 						width = $img.outerWidth();
 						height = $img.outerHeight();
@@ -147,7 +147,7 @@ $(document).ready(function () {
 					});
 				} else {
 					$(this).width($img.outerWidth()).height($img.outerHeight());
-				}
+				}*/
 				$this.append($icon);
 				TweenMax.set($icon, {css: {opacity: 0}});
 				$this.hover(function () {

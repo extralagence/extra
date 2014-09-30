@@ -19,6 +19,8 @@
 		var opt = $.extend({
 			'auto'            : false,
 			'draggable'       : false,
+			'dragWindow'	  : false,
+			'minDrag'	      : 50,
 			'forcedDimensions': true,
 			'keyboard'        : false,
 			'margin'          : 0,
@@ -416,26 +418,42 @@
 				$this.addClass('extra-slider-draggable');
 
 				if (Draggable !== undefined) {
-					drag = Draggable.create($slider, {
+					Draggable.create($slider, {
 						force3D			: true,
 						dragClickables	: true,
 						type          	: 'x',
 						cursor        	: 'move',
+						lockAxis		: false,
+						onDrag: function(event) {
+							console.log(opt);
+							console.log(opt.minDrag);
+							if (this.y !=0 && Math.abs(reference - this.x) < opt.minDrag && opt.dragWindow) {
+							console.log(this.y);
+				                // user is moving vertically
+								$(window).scrollTop($(window).scrollTop()-this.y);
+								return false;
+							}
+						},
 						onDragStart   	: function () {
-							$this.addClass('extra-slider-mouse-down');
-							reference = $slider.prop('_gsTransform').x;
+							$this.trigger('pause').addClass('extra-slider-mouse-down');
+							reference = this.x;
 						},
 						onDragEnd     	: function () {
-							Draggable.get($slider).disable();
-							direction = ((reference - this.x) > 0) ? -1 : 1;
-							$this.removeClass('extra-slider-mouse-down');
-							if (direction === 1) {
-								gotoPrev();
+							$this.trigger('resume').removeClass('extra-slider-mouse-down');
+							if(Math.abs(reference - this.x) > opt.minDrag) {
+								Draggable.get($slider).disable();
+								direction = ((reference - this.x) > 0) ? -1 : 1;
+								if (direction === 1) {
+									gotoPrev();
+								} else {
+									gotoNext();
+								}
 							} else {
-								gotoNext();
+								update();
 							}
 						}
 					});
+					drag = Draggable.get($slider);
 				} else {
 					console.log('Draggable is not detected. You need to load it to enable drag. More info here : http://www.greensock.com/draggable/');
 				}

@@ -157,7 +157,7 @@ add_filter( 'gettext', 'extra_gettext_filter', 10, 3 );
  *
  *********************/
 function extra_sanitize_file_name ($filename) {
-	$filename = preg_replace('/[^a-zA-Z0-9_ %\[\]\.\(\)%&-]/s', '', $filename);
+	$filename = preg_replace('/[^a-zA-Z0-9_\.-]/s', '', $filename);
 	return remove_accents($filename);
 }
 add_filter('sanitize_file_name', 'extra_sanitize_file_name', 10);

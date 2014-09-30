@@ -475,6 +475,9 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 				if (!$instance->is_resizable($block_suffix, $block_data)) {
 					$block_height = null;
 				}
+
+				$block_height = apply_filters('extra_page_builder_height_'.$block_type, $block_height, $block_data, $block_suffix, $block_css, $block_number, $row_number);
+
 				$block_html = $class::get_front($block_data, $block_suffix, $block_height, $block_width);
 				$block_html = apply_filters('extra_page_builder_'.$block_type, $block_html, $block_data, $block_suffix, $block_css, $block_number, $row_number, $block_height);
 			}

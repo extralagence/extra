@@ -11,8 +11,6 @@
  *************************/
 function ExtraResponsiveMenu(options) {
 
-	console.log('ExtraResponsiveMenu');
-
 	var opt = $.extend({
 			'$menu' : $("#mobile-menu-container"),
 			'$site' : $("#wrapper"),
@@ -25,9 +23,6 @@ function ExtraResponsiveMenu(options) {
 		transform3d = $html.hasClass('csstransforms3d'),
 		$wpadminbar = $("#wpadminbar"),
 		$toMove = opt.moveButton ? [opt.$site, opt.$button] : opt.$site;
-
-	console.log('opt.moveButton');
-	console.log(opt.moveButton);
 
 	/**************************
 	 *
@@ -128,7 +123,6 @@ function ExtraResponsiveMenu(options) {
 	$(document).on('click', function(e) {
 		var $target = $(e.target);
 		if(menuOpen && $target != opt.$menu && !$target.closest(opt.$menu).length && $target != opt.$button && !$target.closest(opt.$button).length && $target != opt.$button && !$target.closest($wpadminbar).length) {
-			console.log(e);
 			hideMenu();
 		}
 	});

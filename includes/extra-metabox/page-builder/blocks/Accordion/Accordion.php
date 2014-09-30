@@ -120,23 +120,25 @@ class Accordion extends AbstractBlock {
 	}
 
 	public static function get_front($block_data, $name_suffix, $block_height, $block_width) {
-		$lines = $block_data[$name_suffix];
-		$title = isset($block_data['title_'.$name_suffix]) ? $block_data['title_'.$name_suffix] : null;
-
 		$html = '';
-		if (!empty($title)) {
-			$html .= 	'	<h2 class="accordeon-title">'.$title.'</h2>';
-		}
-		$html .= '	<div class="accordeon-wrapper">';
-		foreach ($lines as $line) {
-			$html .= '	<div class="accordeon-element">';
-			$html .= '		<h3 class="tab-title">'.$line['section_title'].'</h3>';
-			$html .= '		<div class="tab-content">';
-			$html .= '			<div class="inner">'.apply_filters('the_content', html_entity_decode( $line['section_content'], ENT_QUOTES, 'UTF-8' )).'</div>';
-			$html .= '		</div>';
+		if (isset($block_data[$name_suffix])) {
+			$lines = $block_data[$name_suffix];
+			$title = isset($block_data['title_'.$name_suffix]) ? $block_data['title_'.$name_suffix] : null;
+
+			if (!empty($title)) {
+				$html .= 	'	<h2 class="accordeon-title">'.$title.'</h2>';
+			}
+			$html .= '	<div class="accordeon-wrapper">';
+			foreach ($lines as $line) {
+				$html .= '	<div class="accordeon-element">';
+				$html .= '		<h3 class="tab-title">'.$line['section_title'].'</h3>';
+				$html .= '		<div class="tab-content">';
+				$html .= '			<div class="inner">'.apply_filters('the_content', html_entity_decode( $line['section_content'], ENT_QUOTES, 'UTF-8' )).'</div>';
+				$html .= '		</div>';
+				$html .= '	</div>';
+			}
 			$html .= '	</div>';
 		}
-		$html .= '	</div>';
 
 		return $html;
 	}

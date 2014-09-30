@@ -25,29 +25,24 @@
 		this.settings = $.extend( {}, defaults, options );
 		this._defaults = defaults;
 		this._name = pluginName;
-		this.init();
+		this.init(this);
 	}
 
 	Plugin.prototype = {
-		init: function () {
-			this.wrapper = this.element.find('.wpa_loop');
-			this.navigation = this.wrapper.find('ul.extra-accordion-navigation');
-			if (this.navigation.length == 0) {
-				this.navigation = $('<ul class="extra-accordion-navigation"></ul>').prependTo(this.wrapper);
+		init: function (plugin) {
+			plugin.wrapper = plugin.element.find('.wpa_loop');
+			plugin.navigation = plugin.wrapper.find('ul.extra-accordion-navigation');
+			if (plugin.navigation.length == 0) {
+				plugin.navigation = $('<ul class="extra-accordion-navigation"></ul>').prependTo(plugin.wrapper);
 			}
-			this.idBase = this.wrapper.attr("id");
-			this.wpautop = true;
-			this.textareaID = null;
-			this.selectedEd = null;
-
-			var plugin = this;
+			plugin.idBase = plugin.wrapper.attr("id");
 
 			$.wpalchemy.on('wpa_copy', function(e, elmt) {
 				$(elmt).find('.extra-accordion-custom-editor-wrapper > .extra-custom-editor-wrapper').each(function () {
 					var $editor = $(this);
-					if ($editor.data('extraPageBuilderCustomEditor') === undefined) {
-						$editor.extraPageBuilderCustomEditor({height: 210});
-					}
+					$editor.extraPageBuilderCustomEditor({height: 210});
+					$editor.data('extraPageBuilderCustomEditor').disable();
+					$editor.data('extraPageBuilderCustomEditor').enable();
 				});
 				plugin.updateMenu(plugin);
 				if(plugin.navigation.children().size()) {
@@ -62,19 +57,16 @@
 				}
 			});
 
-			this.updateMenu(plugin, true);
-
 			//Init editors
-			this.element.find('.extra-accordion-custom-editor-wrapper > .extra-custom-editor-wrapper').each(function () {
+			plugin.element.find('.extra-custom-editor-wrapper').each(function () {
 				if($(this).closest('.wpa_group.tocopy').length) {
 					return;
 				}
-				var $editor = $(this);
-
-				if ($editor.data('extraPageBuilderCustomEditor') === undefined) {
-					$editor.extraPageBuilderCustomEditor({height: 210});
-				}
+				$(this).extraPageBuilderCustomEditor({height: 210});
 			});
+
+			plugin.updateMenu(plugin, true);
+			plugin.enableEditors(plugin);
 		},
 		updateMenu: function (plugin, first) {
 			// IS IT FIRST INIT
@@ -125,18 +117,13 @@
 
 					if(editors.length) {
 						editors.each(function() {
-							var textarea = $(this).find('textarea.extra-custom-editor'),
-								textareaId = textarea.attr('id'),
-								editor = tinymce.EditorManager.get(textareaId);
-							textarea.data('tinymceSettings', editor.settings);
-							tinymce.settings.wpautop = false;
-							tinymce.execCommand('mceRemoveEditor', false, textarea.attr('id'));
+							$(this).data('extraPageBuilderCustomEditor').disable();
 						});
 					}
 				},
 				stop: function(event, ui) { // re-initialize tinymce when sort is completed
 					var item = ui.item,
-						$accordion = $(this).closest('.extra-accordion');
+						$accordion = $(this).closest('.extra-accordion'),
 						target = $accordion.find("#"+item.attr("aria-controls")),
 						editors = target.find('.extra-editor-processed');
 
@@ -146,10 +133,7 @@
 					// reset the editors
 					if(editors.length) {
 						editors.each(function() {
-							var textarea = $(this).find('textarea.extra-custom-editor'),
-								textareaId = textarea.attr('id');
-							tinymce.settings = textarea.data('tinymceSettings');
-							tinymce.execCommand('mceAddEditor', false, textareaId);
+							$(this).data('extraPageBuilderCustomEditor').enable();
 						});
 					}
 
@@ -158,20 +142,16 @@
 				}
 			}).disableSelection();
 		},
-		enableEditors: function () {
-			this.element.find('.extra-accordion-custom-editor-wrapper > .extra-custom-editor-wrapper').each(function () {
-				var $editor = $(this);
-				if ($editor.data('extraPageBuilderCustomEditor') !== undefined) {
-					$editor.data('extraPageBuilderCustomEditor').enable();
-				}
+		enableEditors: function (plugin) {
+			plugin.element.find('.extra-accordion-custom-editor-wrapper > .extra-custom-editor-wrapper.extra-editor-processed').each(function () {
+				var $currentEditor = $(this);
+				$currentEditor.data('extraPageBuilderCustomEditor').enable();
 			});
 		},
-		disableEditors: function () {
-			this.element.find('.extra-accordion-custom-editor-wrapper > .extra-custom-editor-wrapper').each(function () {
-				var $editor = $(this);
-				if ($editor.data('extraPageBuilderCustomEditor') !== undefined) {
-					$editor.data('extraPageBuilderCustomEditor').disable();
-				}
+		disableEditors: function (plugin) {
+			plugin.element.find('.extra-accordion-custom-editor-wrapper > .extra-custom-editor-wrapper.extra-editor-processed').each(function () {
+				var $currentEditor = $(this);
+				$currentEditor.data('extraPageBuilderCustomEditor').disable();
 			});
 		}
 	};
@@ -192,8 +172,6 @@
 })( jQuery, window, document );
 
 jQuery(document).ready(function($){
-	//$('.extra-accordion').extraPageBuilderAccordion();
-
 	var $pageBuilder = $('.extra-page-builder');
 
 	$pageBuilder.on('showform.pagebuilder.extra', function (event, $block_type, $block, $form) {
@@ -207,11 +185,11 @@ jQuery(document).ready(function($){
 				$accordion.extraPageBuilderAccordion({height: 400});
 			}
 
-			$accordion.data('extraPageBuilderAccordion').disableEditors();
+			$accordion.data('extraPageBuilderAccordion').disableEditors($accordion.data('extraPageBuilderAccordion'));
 			extraAdminModal
 				.options({footer: ['extra-admin-modal-save'], header: ['extra-admin-modal-title'], size: {height: 737}})
 				.show("Modifier l'accordéon",  $form);
-			$accordion.data('extraPageBuilderAccordion').enableEditors();
+			$accordion.data('extraPageBuilderAccordion').enableEditors($accordion.data('extraPageBuilderAccordion'));
 		}
 	});
 
@@ -223,16 +201,14 @@ jQuery(document).ready(function($){
 			var $accordion = $form.find('.extra-accordion'),
 				$accordionContent = $block.find('.extra-page-builder-block-content ul.extra-accordion');
 
-			$accordion.data('extraPageBuilderAccordion').disableEditors();
+			$accordion.data('extraPageBuilderAccordion').disableEditors($accordion.data('extraPageBuilderAccordion'));
 			$block.find('.extra-page-builder-block-form').append($form);
-			$accordion.data('extraPageBuilderAccordion').enableEditors();
+			$accordion.data('extraPageBuilderAccordion').enableEditors($accordion.data('extraPageBuilderAccordion'));
 
 			$accordionContent.empty();
 			$accordion.find('.wpa_group:not(.tocopy) input.extra-accordion-title').each(function () {
 				$accordionContent.append('<li><h3 class="extra-accordion-title">'+$(this).val()+'</h3></li>');
 			});
-
-			$accordion.data('extraPageBuilderAccordion').disableEditors();
 
 			$block.find('.accordeon-title').html($form.find('.title').val());
 		}
