@@ -283,6 +283,8 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 			$block_css .= ' first';
 		}
 
+		var_dump($row_layout);
+		var_dump($block_id);
 		if (
 			($row_layout == '1' && $block_id == 1) ||
 			($row_layout == '12' && $block_id == 2) ||

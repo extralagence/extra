@@ -33,7 +33,8 @@ global $extra_options;
         <!--noptimize--><script>document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'') + ' js';</script><!--/noptimize-->
 
         <!-- ANALYTICS TRACKER -->
-        <?php get_template_part("google-analytics"); ?>
+        <?php //TODO RESET WHEN INTERNET IS BACK //
+		get_template_part("google-analytics"); ?>
 
         <!-- MOBILE FRIENDLY -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

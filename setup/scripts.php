@@ -17,7 +17,9 @@
  *********************/
 function extra_template_enqueue_scripts() {
 	// REPLACE JQUERY
+//	TODO RESET WHEN INTERNET IS BACK
 	wp_deregister_script('jquery');
+//	wp_enqueue_script('jquery', get_template_directory_uri() . '/assets/js/lib/fix_web_jquery.min.js', null, null, true);
 	wp_enqueue_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js', null, null, true);
 	// TWEENMAX
 	wp_enqueue_script('tweenmax', get_template_directory_uri() . '/assets/js/lib/TweenMax.min.js', array('jquery'), null, true);

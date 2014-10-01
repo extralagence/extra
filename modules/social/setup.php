@@ -13,7 +13,7 @@
  *
  *********************/
 function extra_share($id = 0) {
-
+//	TODO RESET WHEN INTERNET IS BACK
 	$shares = array(
 		array(
 			'url' => 'https://apis.google.com/js/plusone.js',
