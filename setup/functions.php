@@ -579,3 +579,10 @@ function dateformat_to_js($php_format)
     }
     return $jqueryui_format;
 }
+
+function strtolower_utf8($inputString) {
+	$outputString    = utf8_decode($inputString);
+	$outputString    = strtolower($outputString);
+	$outputString    = utf8_encode($outputString);
+	return $outputString;
+}
