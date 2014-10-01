@@ -282,9 +282,6 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		if ($block_id == 1) {
 			$block_css .= ' first';
 		}
-
-		var_dump($row_layout);
-		var_dump($block_id);
 		if (
 			($row_layout == '1' && $block_id == 1) ||
 			($row_layout == '12' && $block_id == 2) ||
@@ -392,7 +389,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 			if ($row_number == 1) {
 				$row_css .= ' first';
 			}
-			if ($row_number = count($row)) {
+			if ($row_number == count($row)) {
 				$row_css .= ' last';
 			}
 			$html .= $this->get_front_row($row, $row_number, $row_css);
