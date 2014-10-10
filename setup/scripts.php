@@ -17,7 +17,6 @@
  *********************/
 function extra_template_enqueue_scripts() {
 	// REPLACE JQUERY
-//	TODO RESET WHEN INTERNET IS BACK
 	wp_deregister_script('jquery');
 //	wp_enqueue_script('jquery', get_template_directory_uri() . '/assets/js/lib/fix_web_jquery.min.js', null, null, true);
 	wp_enqueue_script('jquery', 'http://code.jquery.com/jquery-1.11.0.min.js', null, null, true);
@@ -47,6 +46,8 @@ function extra_template_enqueue_scripts() {
 	wp_localize_script('extra', 'extraResponsiveSizes', $sizes);
     // EXTRA RESPONSIVE MENU
     wp_enqueue_script('extra-responsive-menu', get_template_directory_uri() . '/assets/js/lib/ExtraResponsiveMenu.js', array('jquery', 'tweenmax'), null, true);
+	// EXTRA FADE FROM BOTTOM
+	wp_enqueue_script('extra-bottom-fade', get_template_directory_uri() . '/assets/js/lib/ExtraBottomFade.js', array('jquery', 'tweenmax'), null, true);
 	// EXTRA-SLIDER
 	wp_enqueue_script('extra-slider', get_template_directory_uri() . '/assets/js/lib/extra.slider.js', array('jquery', 'extra', 'tweenmax'), null, true);
 	// EXTRA-SLIDER
