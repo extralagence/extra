@@ -4,9 +4,6 @@ function ExtraBottomFade (options) {
 	self.position = function () {
 		var scrollTop = self.$window.scrollTop();
 
-		console.log('scrollTop');
-		console.log(scrollTop);
-
 		self.options.$elements.each(function() {
 			var coords = $(this).data('coords'),
 				tween = $(this).data('tween'),
