@@ -49,10 +49,10 @@ function extra_second_title_metabox_enqueue_assets () {
  *
  *
  *********************/
-function get_second_title($id = 0){
+function get_second_title($id = 0, $fallback = true, $format = true){
 
-	global $post;
-	global $second_title_metabox;
+	global  $post,
+			$second_title_metabox;
 
     $temp_post = $post;
 
@@ -63,11 +63,14 @@ function get_second_title($id = 0){
 	$id = isset($post->ID) ? $post->ID : (int) $id;
 	$meta = get_post_meta($id, $second_title_metabox->get_the_id(), TRUE);
 
-	$title = isset($post->post_title) ? $post->post_title : '';
+	$title = null;
 
 	if(isset($meta) && isset($meta["second_title"]) && !empty($meta["second_title"])){
 		$title = $meta["second_title"];
-	} else {
+		if($format) {
+			$title = nl2br($title);
+		}
+	} else if($fallback) {
 		$title = get_the_title($id);
 	}
 
@@ -77,5 +80,5 @@ function get_second_title($id = 0){
 }
 function the_second_title(){
 	global $post;
-	echo nl2br(get_second_title($post->ID));
+	echo get_second_title($post->ID);
 }
