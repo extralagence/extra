@@ -54,6 +54,9 @@ function ExtraScrollAnimator (options) {
 				// set the tween parameters
 				$.each(self.options.attributes, function(key, value) {
 					if(value.isAttr && value.isAttr === true) {
+						if (!twOptions['attr']) {
+							twOptions['attr'] = {};
+						}
 						twOptions['attr'][key] = value.max;
 					} else {
 						twOptions[key] = value.max;
@@ -71,6 +74,9 @@ function ExtraScrollAnimator (options) {
 			// set the tween parameters
 			$.each(self.options.attributes, function(key, value) {
 				if(value.isAttr && value.isAttr === true) {
+					if (!twOptions['attr']) {
+						twOptions['attr'] = {};
+					}
 					twOptions['attr'][key] = value.min;
 				} else {
 					twOptions[key] = value.min;
