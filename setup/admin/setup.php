@@ -210,6 +210,22 @@ add_action( 'init', function() {
  *
  *
  *
+ * HIDE UPDATE NOTICE FROM USERS
+ *
+ *
+ *
+ *********************/
+function extra_hide_update_notices() {
+	if (!current_user_can('update_core')) {
+		remove_action( 'admin_notices', 'update_nag', 3 );
+	}
+}
+add_action( 'admin_head', 'extra_hide_update_notices', 1 );
+
+/**********************
+ *
+ *
+ *
  * WELCOME WIDGET
  *
  *
