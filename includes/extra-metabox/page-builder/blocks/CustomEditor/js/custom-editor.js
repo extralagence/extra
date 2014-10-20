@@ -85,6 +85,7 @@ jQuery(document).ready(function ($) {
 			$(this).contents().find('body').find('.extra-page-builder-inner').html($content.html() + '\n' + cssLinks);
 		})
 		.iFrameResize({
+			heightCalculationMethod : 'max',
 			checkOrigin				: true,
 			log                     : false,                  // Enable console logging
 			enablePublicMethods     : false                  // Enable methods within iframe hosted page
