@@ -22,8 +22,11 @@ class File extends AbstractField {
 
 	public static function init () {
 		parent::init();
-        wp_enqueue_media();
-		wp_enqueue_script('extra-file-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-file.js', array('jquery'), null, true);
+
+		add_action( 'admin_enqueue_scripts', function () {
+			wp_enqueue_media();
+			wp_enqueue_script('extra-file-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-file.js', array('jquery'), null, true);
+		});
 	}
 
 	public function the_admin() {
