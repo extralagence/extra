@@ -23,10 +23,52 @@ add_filter('login_headerurl', 'extra_url_login');
  *
  *********************/
 function extra_css_admin() {
-	wp_enqueue_style( 'admin-css', EXTRA_COMMON_MODULE_URI . '/admin/css/style.less' );
+	wp_enqueue_style( 'extra-admin-css', EXTRA_COMMON_MODULE_URI . '/admin/css/style.less' );
 }
-add_action('admin_print_styles', 'extra_css_admin');
+add_action('admin_enqueue_scripts', 'extra_css_admin');
 add_action('login_head', 'extra_css_admin');
+/**********************
+ *
+ *
+ *
+ * EXTRA ADMIN BAR
+ *
+ *
+ *
+ *********************/
+// SCRIPTS
+function extra_admin_bar_scripts() {
+	if(is_admin_bar_showing()) {
+		wp_enqueue_style( 'extra-admin-css', EXTRA_COMMON_MODULE_URI . '/admin/css/adminbar.less' );
+	}
+}
+add_action('admin_enqueue_scripts', 'extra_admin_bar_scripts');
+add_action('wp_enqueue_scripts', 'extra_admin_bar_scripts');
+add_action('login_enqueue_scripts', 'extra_admin_bar_scripts');
+// ADMIN BAR
+function extra_admin_bar( $wp_admin_bar ){
+	$wp_admin_bar->remove_menu('wp-logo');
+	$wp_admin_bar->add_menu(array(
+		'id'     => 'extra',
+		'title' => '<span class="extra-icon extra-icon-e"></span>',
+		'href'  => 'http://www.extralagence.com',
+		'meta'  => array(
+			'title' => __("À propos d'Extra l'agence"),
+			'target' => '_blank',
+		)
+	));
+	$wp_admin_bar->add_menu( array(
+		'parent' => 'extra',
+		'id'     => 'extra-url',
+		'title'  => __("Extra l'agence", 'extra'),
+		'href'  => 'http://www.extralagence.com',
+		'meta'  => array(
+			'title' => __("À propos d'Extra l'agence"),
+			'target' => '_blank',
+		)
+	) );
+}
+add_action( 'admin_bar_menu', 'extra_admin_bar', 20 );
 /**********************
  *
  *
@@ -221,7 +263,6 @@ function extra_hide_update_notices() {
 	}
 }
 add_action( 'admin_head', 'extra_hide_update_notices', 1 );
-
 /**********************
  *
  *
