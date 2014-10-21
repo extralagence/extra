@@ -106,11 +106,11 @@ function ExtraResponsiveMenu(options) {
 		menuOpen = false;
 		$html.removeClass('menu-open');
 		if (transform3d) {
-			TweenMax.to(opt.$menu, (fast ? 0 : 0.6), {x: -opt.$menu.width() + 'px', force3D: true, ease: Strong.EaseIn});
-			TweenMax.to($toMove, (fast ? 0 : 0.5), {x: 0, force3D: true, ease: Strong.EaseIn});
+			TweenMax.to(opt.$menu, (fast ? 0 : 0.6), {x: -opt.$menu.width() + 'px', force3D: true, clearProps:"all", ease: Strong.EaseIn});
+			TweenMax.to($toMove, (fast ? 0 : 0.5), {x: 0, force3D: true, clearProps:"all", ease: Strong.EaseIn});
 		} else {
-			TweenMax.to(opt.$menu, (fast ? 0 : 0.6), {x: -opt.$menu.width() + 'px', ease: Strong.EaseIn});
-			TweenMax.to($toMove, (fast ? 0 : 0.5), {x: 0, ease: Strong.EaseIn});
+			TweenMax.to(opt.$menu, (fast ? 0 : 0.6), {x: -opt.$menu.width() + 'px', clearProps:"all", ease: Strong.EaseIn});
+			TweenMax.to($toMove, (fast ? 0 : 0.5), {x: 0, clearProps:"all", ease: Strong.EaseIn});
 		}
 		if (!small && !opt.everySizes) {
 			opt.$menu.removeAttr("style");
