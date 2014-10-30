@@ -76,50 +76,47 @@ function extra_gallery_handler($atts, $content = null) {
 			foreach ($ids as $id):
 				$src = wp_get_attachment_image_src($id, 'large');
 				$return .= '    <li><a href="'.$src[0].'">';
-				$return .= extra_get_responsive_image($id, array(
-					'desktop' => array(
-						'width' => apply_filters('extra_gallery_mosaic_desktop_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_mosaic_desktop_height', $content_width/3)
-					),
-					'tablet' => array(
-						'width' => apply_filters('extra_gallery_mosaic_tablet_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_mosaic_tablet_height', $content_width/3)
-					),
-					'mobile' => array(
-						'width' => apply_filters('extra_gallery_mosaic_mobile_width', $content_width/3),
-						'height' => apply_filters('extra_gallery_mosaic_mobile_height', $content_width/3)
-					)
+				$sizes = apply_filters('extra_responsive_sizes', array(
+					'desktop' => 'only screen and (min-width: 961px)',
+					'tablet' => 'only screen and (min-width: 691px) and (max-width: 960px)',
+					'mobile' => 'only screen and (max-width: 690px)'
 				));
+				$params = array();
+				foreach($sizes as $size => $value) {
+					$params[$size] = array(
+						'width' => apply_filters('extra_gallery_width', $content_width/3, 'gallery', $size),
+						'height' => apply_filters('extra_gallery_height', $content_width/3, 'gallery', $size),
+					);
+				}
+				$return .= extra_get_responsive_image($id, $params);
 				$return .= '    </a></li>';
 			endforeach;
 			$return .= '</ul>';
 			break;
 		case 'slider':
-			$return =  '<div class="extra-slider extra-editor-slider">';
+			$return =  '<div class="extra-slider extra-editor-slider' .(isset($atts['extra_gallery_class']) ? ' '  .$atts['extra_gallery_class'] : '') . '">';
 			$return .= ' <div class="wrapper">';
 			$return .= '     <ul>';
 			foreach ($ids as $id):
 				$src = wp_get_attachment_image_src($id, 'full');
 				$return .= '        <li><a href="'.bfi_thumb($src[0], array('width'=>1024)).'">';
-				$return .= extra_get_responsive_image($id, array(
-					'desktop' => array(
-						'width' => apply_filters('extra_gallery_slider_desktop_width', $content_width),
-						'height' => apply_filters('extra_gallery_slider_desktop_height', 350)
-					),
-					'tablet' => array(
-						'width' => apply_filters('extra_gallery_slider_tablet_width', 960),
-						'height' => apply_filters('extra_gallery_mosaic_tablet_height', 350)
-					),
-					'mobile' => array(
-						'width' => apply_filters('extra_gallery_slider_mobile_width', 690),
-						'height' => apply_filters('extra_gallery_slider_mobile_height', 350)
-					)
+				$sizes = apply_filters('extra_responsive_sizes', array(
+					'desktop' => 'only screen and (min-width: 961px)',
+					'tablet' => 'only screen and (min-width: 691px) and (max-width: 960px)',
+					'mobile' => 'only screen and (max-width: 690px)'
 				));
-				$return .= '        </a></li>';
+				$params = array();
+				foreach($sizes as $size => $value) {
+					$params[$size] = array(
+						'width' => apply_filters('extra_gallery_width', $content_width/3, 'slider', $size),
+						'height' =>apply_filters('extra_gallery_height', $content_width/3, 'slider', $size),
+					);
+				}
+				$return .= extra_get_responsive_image($id, $params);
 			endforeach;
 			$return .= '     </ul>';
 			$return .= ' </div>';
-			$return .= apply_filters('extra_gallery_mosaic_navigation', '<div class="pagination"></div><div class="navigation"><a class="prev" href="#">' . __('Précédent', 'extra') . '</a><a class="next" href="#">' . __('Suivant', 'extra') . '</a></div>');
+			$return .= apply_filters('extra_gallery_slider_navigation', '<div class="pagination"></div><div class="navigation"><a class="prev" href="#">' . __('Précédent', 'extra') . '</a><a class="next" href="#">' . __('Suivant', 'extra') . '</a></div>');
 			$return .= '</div>';
 			break;
 	}

@@ -1,3 +1,9 @@
+var originalTrigger = wp.media.view.MediaFrame.Post.prototype.trigger;
+wp.media.view.MediaFrame.Post.prototype.trigger = function () {
+	console.log('Event Triggered:', arguments);
+	originalTrigger.apply(this, Array.prototype.slice.call(arguments));
+}
+
 jQuery(document).ready(function ($) {
 
 	function extra_process_gallery(elmt) {
@@ -6,7 +12,8 @@ jQuery(document).ready(function ($) {
 
 			var $element = $(this),
 				$input = $element.find('.gallery-input'),
-				$thumbs = $element.find('.thumbs');
+				$thumbs = $element.find('.thumbs'),
+				extra_gallery_frame;
 
 			$element.addClass("extra-gallery-processed");
 
@@ -14,21 +21,42 @@ jQuery(document).ready(function ($) {
 
 				event.preventDefault();
 
-				wp.media.gallery
-					.edit('[gallery ids="' + $input.val() + '"]')
-					.on('update', function (obj) {
-
+				if (!extra_gallery_frame) {
+					extra_gallery_frame = wp.media.extra_gallery_frame = wp.media({
+						id: 'extra-metabox-gallery-frame',
+						frame: 'post',
+						state: 'gallery-edit',
+						title: wp.media.view.l10n.editGalleryTitle,
+						editing: true,
+						multiple: true,
+						selection: getSelection()
+					}).on('update close escape', function (obj) {
+						var thumbs = extra_gallery_frame.states.get('gallery-edit').get('library').models;
 						var numberlist = [];
 						$thumbs.html('');
-						$.each(obj.models, function (key, attachment) {
+						if(!thumbs.length) {
+							return;
+						}
+						$.each(thumbs, function (key, attachment) {
 							numberlist.push(attachment.id);
 							appendImage(attachment);
 						});
 						$input.val(numberlist);
 						return false;
+					}).on('open', function() {
+						if($input.val() != '') {
+							extra_gallery_frame.states.get('gallery-edit').set('library', getSelection());
+							extra_gallery_frame.content.render();
+						}
 					});
-
+				}
+				extra_gallery_frame.open();
 			});
+
+			$element.parent().on('extra.openGallery', $.proxy(function() {
+				$element.find(".choose-button").click();
+				extra_gallery_frame.open();
+			}, this));
 
 			$thumbs.find(".image .close").on("click", function () {
 				deleteImage($(this).parent().find("img"));
@@ -38,6 +66,54 @@ jQuery(document).ready(function ($) {
 				placeholder: "extra-gallery-placeholder image",
 				forcePlaceholderSize: true
 			});
+
+			function getSelection() {
+
+				if ($input.val() == '') {
+					return;
+				}
+
+				var shortcode = new wp.shortcode({
+						'tag': 'gallery',
+						'attrs': {
+							'ids': $input.val()
+						},
+						'type': 'single',
+						'content': null
+					}),
+					defaultPostId = wp.media.gallery.defaults.id,
+					attachments,
+					selection;
+
+				// Bail if we didn't match the shortcode or all of the content.
+				if (!shortcode)
+					return;
+
+				// Ignore the rest of the match object.
+				//shortcode = shortcode.shortcode;
+
+				if (_.isUndefined(shortcode.get('id')) && !_.isUndefined(defaultPostId))
+					shortcode.set('id', defaultPostId);
+
+				attachments = wp.media.gallery.attachments(shortcode);
+				selection = new wp.media.model.Selection(attachments.models, {
+					props: attachments.props.toJSON(),
+					multiple: true
+				});
+
+				selection.gallery = attachments.gallery;
+
+				// Fetch the query's attachments, and then break ties from the
+				// query to allow for sorting.
+				selection.more().done(function () {
+					// Break ties with the query.
+					selection.props.set({query: false});
+					selection.unmirror();
+					selection.props.unset('orderby');
+				});
+
+				return selection;
+			}
 
 			function updateList(event, ui) {
 				var values = [];
@@ -68,7 +144,7 @@ jQuery(document).ready(function ($) {
 				value.splice(index, 1);
 				image.parent().remove();
 				$input.val(value.join(","));
-			};
+			}
 
 
 		});
@@ -83,3 +159,18 @@ jQuery(document).ready(function ($) {
 
 
 });
+
+wp.media.ExtraMetaboxGallery = {
+
+	frame: function () {
+	},
+
+	init: function () {
+		$('#upload-and-attach-link').click(function (event) {
+			event.preventDefault();
+
+			wp.media.shibaMlibEditGallery.frame().open();
+
+		});
+	}
+};
