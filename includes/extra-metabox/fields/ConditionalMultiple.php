@@ -11,7 +11,7 @@
  * - label (optional)
  * - icon (optional)
  * - type (checkbox or radio) (optional, default radio)
- * - values (required)
+ * - values (array slug => value required)
  * - multiple_subfields (required)
  */
 class ConditionalMultiple extends AbstractField {
@@ -31,7 +31,7 @@ class ConditionalMultiple extends AbstractField {
 		<div class="<?php echo $this->css_class; ?> extra-conditional-multiple-container">
 
 
-			<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
+			<?php $this->mb->the_field($this->get_single_field_name('conditional_multiple')); ?>
 
 			<?php $field_name = $this->mb->get_the_name(); ?>
 
@@ -47,6 +47,7 @@ class ConditionalMultiple extends AbstractField {
             <?php foreach($this->values as $name => $label): ?>
 
                 <?php
+	            $this->mb->the_field($this->get_single_field_name('conditional_multiple'));
                 if($this->input_type == 'checkbox') {
                     $checked = $this->mb->get_the_value();
                 } else {

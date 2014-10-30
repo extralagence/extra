@@ -27,7 +27,9 @@ class Conditional extends AbstractField {
 
 	public static function init() {
 		parent::init();
-		wp_enqueue_script('extra-conditional-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-conditional.js', array('jquery'), null, true);
+		add_action( 'admin_enqueue_scripts', function () {
+			wp_enqueue_script( 'extra-conditional-metabox', EXTRA_INCLUDES_URI . '/extra-metabox/js/extra-conditional.js', array( 'jquery' ), null, true );
+		});
 	}
 
 	public function the_admin() {
@@ -40,18 +42,19 @@ class Conditional extends AbstractField {
 				</h2>
 			<?php endif; ?>
 
-			<?php $this->mb->the_field($this->get_single_field_name('text')); ?>
+			<?php $this->mb->the_field($this->get_single_field_name('conditional')); ?>
 			<?php $checked =$this->mb->get_the_value(); ?>
 			<?php echo ($this->icon != null) ? '<div class="dashicons '.$this->icon.'"></div>' : ''; ?>
-            <label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
-			<input
-				class="extra-conditional-input"
-				id="<?php $this->mb->the_name(); ?>"
-				name="<?php $this->mb->the_name(); ?>"
-				type="checkbox"
-				value="1"
-				<?php if ($checked) echo ' checked="checked"'; ?>
-				>
+            <p>
+	            <label for="<?php $this->mb->the_name(); ?>"><?php echo ($this->label == null) ? $this->name : $this->label; ?></label>
+				<input
+					class="extra-conditional-input"
+					id="<?php $this->mb->the_name(); ?>"
+					name="<?php $this->mb->the_name(); ?>"
+					type="checkbox"
+					value="1"
+					<?php if ($checked) echo ' checked="checked"'; ?>>
+            </p>
 
 			<div class="extra-conditional-field-false"<?php echo ($checked) ? ' style="display:none;"' : ''; ?>>
 				<?php $this->mb->the_admin_from_field($this->subfields_false, $this->name_suffix); ?>
