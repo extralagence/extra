@@ -164,7 +164,8 @@ add_action('init', 'extra_add_insert_plugin');
  *********************/
 function addUploadMimes($mimes) {
     $mimes = array_merge($mimes, array(
-        'swf|kml|kmz|gpx' => 'application/octet-stream'
+	    'swf|kml|kmz|gpx' => 'application/octet-stream',
+        'xml' => 'text/xml'
     ));
     return $mimes;
 }
