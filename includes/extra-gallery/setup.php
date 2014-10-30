@@ -113,6 +113,7 @@ function extra_gallery_handler($atts, $content = null) {
 					);
 				}
 				$return .= extra_get_responsive_image($id, $params);
+				$return .= '</a></li>';
 			endforeach;
 			$return .= '     </ul>';
 			$return .= ' </div>';
