@@ -79,7 +79,7 @@ add_action( 'admin_bar_menu', 'extra_admin_bar', 20 );
  *
  *********************/
 function extra_footer_admin () {
-	printf(__('&copy; %s - <a href="http://www.extralagence.com" target="_blank">Extra l\'agence</a> - Propulsé par Wordpress', 'extra-admin'), date("Y"));
+	printf(__('&copy; %s - <a href="http://www.extralagence.com" target="_blank">Extra l\'agence</a> - Propulsé par WordPress', 'extra-admin'), date("Y"));
 }
 add_filter('admin_footer_text', 'extra_footer_admin');
 /**********************
