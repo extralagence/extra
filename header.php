@@ -41,6 +41,7 @@ global $extra_options;
 
         <!-- IE9.js -->
         <!--[if (gte IE 6)&(lte IE 8)]>
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/ie.css" />
         <script src="<?php echo get_template_directory_uri(); ?>/assets/js/lib/selectivizr-min.js"></script>
         <script src="<?php echo get_template_directory_uri(); ?>/assets/js/lib/html5shiv.js"></script>
