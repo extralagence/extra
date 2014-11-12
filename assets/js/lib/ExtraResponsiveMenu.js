@@ -60,10 +60,6 @@ function ExtraResponsiveMenu(options) {
 	 *
 	 *************************/
 	$window.on('extra.resize', function () {
-		if ($wpadminbar.length) {
-			opt.$button.css("top", $wpadminbar.height());
-		}
-
 		if (menuOpen) {
 			showMenu(true);
 		} else {
@@ -135,6 +131,12 @@ function ExtraResponsiveMenu(options) {
 		} else {
 			opt.$menu.show();
 		}
+	});
+
+	$window.on('extra.triggerHideResponsiveMenu', function(){
+		hideMenu();
+	}).on('extra.triggerShowResponsiveMenu', function(){
+		showMenu();
 	});
 
 	// INIT
