@@ -483,12 +483,10 @@ if(!function_exists('extra_wp_title')) {
 	}
 }
 add_filter('wp_title', 'extra_wp_title', 100, 2);
-
-
 /**********************
  *
  *
- * LESS PROPERTIES
+ * LESS VARS
  *
  *
  *
@@ -509,8 +507,22 @@ function extra_less_vars($vars, $handle) {
     $vars['content_width'] = $content_width.'px';
 	return $vars;
 }
-
 add_filter('less_vars', 'extra_less_vars', 10, 2);
+/**********************
+ *
+ *
+ * LESS FUNCTIONS
+ *
+ *
+ *
+ *********************/
+function extra_register_less_functions() {
+	register_less_function('extra_urlencode', function($arg) {
+		list($type, $value) = $arg;
+		return array('string', '', array (urlencode($value)));
+	});
+}
+add_action('init', 'extra_register_less_functions');
 /**********************
  *
  *
