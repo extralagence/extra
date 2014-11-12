@@ -1,5 +1,4 @@
-
-<?php 
+<?php
 /*
 Template name: Redirection
 */
