@@ -332,21 +332,11 @@ function extra_responsive_image($src = 0, $params= array(), $class = '', $alt = 
 }
 function extra_setup_bfi_thumb_params($params, $size) {
     $bfiThumbParams = $params[$size];
-    if(isset($params['color'])) {
-        $bfiThumbParams['color'] = $params['color'];
-    }
-    if(isset($params['crop'])) {
-        $bfiThumbParams['crop'] = $params['crop'];
-    }
-    if(isset($params['opacity'])) {
-        $bfiThumbParams['opacity'] = $params['opacity'];
-    }
-    if(isset($params['grayscale'])) {
-        $bfiThumbParams['grayscale'] = $params['grayscale'];
-    }
-    if(isset($params['negate'])) {
-        $bfiThumbParams['negate'] = $params['negate'];
-    }
+	foreach($params as $key => $value) {
+		if($key != 'width' && $key != 'height') {
+			$bfiThumbParams[$key] = $value;
+		}
+	}
     return $bfiThumbParams;
 }
 /**
