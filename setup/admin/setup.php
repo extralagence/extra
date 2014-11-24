@@ -38,7 +38,7 @@ add_action('login_head', 'extra_css_admin');
 // SCRIPTS
 function extra_admin_bar_scripts() {
 	if(is_admin_bar_showing()) {
-		wp_enqueue_style( 'extra-admin-css', EXTRA_COMMON_MODULE_URI . '/admin/css/adminbar.less' );
+		wp_enqueue_style( 'extra-custom-admin-bar-css', EXTRA_COMMON_MODULE_URI . '/admin/css/adminbar.less' );
 	}
 }
 add_action('admin_enqueue_scripts', 'extra_admin_bar_scripts');
