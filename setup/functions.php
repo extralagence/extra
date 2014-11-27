@@ -316,7 +316,7 @@ function extra_get_responsive_image($src = 0, $params= array(), $class = '', $al
 			<img alt="" src="<?php echo bfi_thumb($src, extra_setup_bfi_thumb_params($params, array_keys($sizes)[0])); ?>">
 		</noscript>
 		<img class="placeholder-image"
-		     src="<?php echo get_template_directory_uri(); ?>/assets/img/blank.gif"
+		     src="<?php echo get_template_directory_uri(); ?>/assets/img/blank.png"
 		     alt="<?php echo $alt; ?>"
 		     style="<?php echo (!empty($params['desktop']['width'])) ? 'width: ' . $params['desktop']['width'] . 'px;' : '';
 			 echo (!empty($params['desktop']['height'])) ? ' height: ' . $params['desktop']['height'] . 'px;' : ''; ?>" />
