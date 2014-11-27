@@ -22,7 +22,12 @@ function ExtraResponsiveMenu(options) {
 		$html = $('html'),
 		transform3d = $html.hasClass('csstransforms3d'),
 		$wpadminbar = $("#wpadminbar"),
+		$toMove;
+	if(small) {
+		$toMove = opt.moveButton ? opt.$button : [];
+	} else {
 		$toMove = opt.moveButton ? [opt.$site, opt.$button] : opt.$site;
+	}
 
 	/**************************
 	 *
@@ -63,6 +68,7 @@ function ExtraResponsiveMenu(options) {
 		if (menuOpen) {
 			showMenu(true);
 		} else {
+			console.log("coucou hide menu fast");
 			hideMenu(true);
 		}
 	});
@@ -79,11 +85,15 @@ function ExtraResponsiveMenu(options) {
 			menuOpen = true;
 			$html.addClass('menu-open');
 			if (transform3d) {
-				TweenMax.to(opt.$menu, (fast ? 0 : 0.4), {x: 0, force3D: true, ease: Quad.EaseOut});
-				TweenMax.to($toMove, (fast ? 0 : 0.5), {x: opt.$menu.width() + 'px', force3D: true, ease: Quad.EaseOut});
+				TweenMax.to(opt.$menu, (fast === true ? 0 : 0.4), {x: 0, force3D: true, ease: Quad.EaseOut});
+				TweenMax.to($toMove, (fast === true ? 0 : 0.5), {x: opt.$menu.width() + 'px', force3D: true, ease: Quad.EaseOut, onComplete: function() {
+					$window.trigger('extra.showResponsiveMenuComplete');
+				}});
 			} else {
-				TweenMax.to(opt.$menu, (fast ? 0 : 0.4), {x: 0, ease: Quad.EaseOut});
-				TweenMax.to($toMove, (fast ? 0 : 0.5), {x: opt.$menu.width() + 'px', ease: Quad.EaseOut});
+				TweenMax.to(opt.$menu, (fast === true ? 0 : 0.4), {x: 0, ease: Quad.EaseOut});
+				TweenMax.to($toMove, (fast === true ? 0 : 0.5), {x: opt.$menu.width() + 'px', ease: Quad.EaseOut, onComplete: function() {
+					$window.trigger('extra.showResponsiveMenuComplete');
+				}});
 			}
 			$window.trigger('extra.showResponsiveMenu');
 		} else {
@@ -98,15 +108,18 @@ function ExtraResponsiveMenu(options) {
 	 *
 	 *************************/
 	function hideMenu(fast) {
-		fast = (fast !== undefined) ? fast : false;
 		menuOpen = false;
 		$html.removeClass('menu-open');
 		if (transform3d) {
-			TweenMax.to(opt.$menu, (fast ? 0 : 0.6), {x: -opt.$menu.width() + 'px', force3D: true, clearProps:"all", ease: Strong.EaseIn});
-			TweenMax.to($toMove, (fast ? 0 : 0.5), {x: 0, force3D: true, clearProps:"all", ease: Strong.EaseIn});
+			TweenMax.to(opt.$menu, (fast === true ? 0 : 0.6), {x: -opt.$menu.width() + 'px', force3D: true, ease: Strong.EaseIn, onComplete: function() {
+				$window.trigger('extra.hideResponsiveMenuComplete');
+			}});
+			TweenMax.to($toMove, (fast === true ? 0 : 0.5), {x: 0, force3D: true, clearProps:"all", ease: Strong.EaseIn});
 		} else {
-			TweenMax.to(opt.$menu, (fast ? 0 : 0.6), {x: -opt.$menu.width() + 'px', clearProps:"all", ease: Strong.EaseIn});
-			TweenMax.to($toMove, (fast ? 0 : 0.5), {x: 0, clearProps:"all", ease: Strong.EaseIn});
+			TweenMax.to(opt.$menu, (fast === true ? 0 : 0.6), {x: -opt.$menu.width() + 'px', ease: Strong.EaseIn, onComplete: function() {
+				$window.trigger('extra.hideResponsiveMenuComplete');
+			}});
+			TweenMax.to($toMove, (fast === true ? 0 : 0.5), {x: 0, clearProps:"all", ease: Strong.EaseIn});
 		}
 		if (!small && !opt.everySizes) {
 			opt.$menu.removeAttr("style");
@@ -124,6 +137,11 @@ function ExtraResponsiveMenu(options) {
 	});
 
 	$(document).on('extra.responsive-resize', function(){
+		if(small) {
+			$toMove = opt.moveButton ? opt.$button : [];
+		} else {
+			$toMove = opt.moveButton ? [opt.$site, opt.$button] : opt.$site;
+		}
 		if (!small && !opt.everySizes) {
 			opt.$menu.removeAttr("style");
 			opt.$site.removeAttr("style");
