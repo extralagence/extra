@@ -5,9 +5,18 @@ function ExtraScrollAnimator (options) {
 		var time = (fast === undefined || !fast) ? 0.3 : 0,
 			scrollTop = $window.scrollTop();
 		self.options.target.each(function() {
-			var coords = $(this).data('coords'),
-				tween = $(this).data('tween'),
+			var $this = $(this),
+				coords = $this.data('coords'),
+				tween = $this.data('tween'),
 				percent = Math.max(0, Math.min(1, (scrollTop - coords.min) / (coords.max - coords.min)));
+
+			if (self.options.autoAlpha) {
+				if (percent == 0) {
+					TweenMax.set($this, {autoAlpha: 0});
+				} else {
+					TweenMax.set($this, {autoAlpha: 1});
+				}
+			}
 			TweenMax.to(tween, time, {progress: percent, ease:Linear.easeNone, lazy: false});
 		});
 	};
@@ -31,7 +40,8 @@ function ExtraScrollAnimator (options) {
 			},
 			ease : Linear.easeNone,
 			min : "100%",
-			max : "66%"
+			max : "66%",
+			autoAlpha : false
 		}, _options);
 
 		self.options.target.each(function () {

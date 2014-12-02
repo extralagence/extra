@@ -37,7 +37,7 @@ function extra_template_enqueue_scripts() {
 	// FANCY SELECT
 	wp_enqueue_script('fancyselect', get_template_directory_uri() . '/assets/js/lib/fancyselect.js', array('jquery'), null, true);
 	// EXTRA
-	wp_enqueue_script('extra', get_template_directory_uri() . '/assets/js/lib/extra.js', array('jquery', 'tweenmax'), null, true);
+	wp_enqueue_script('extra', get_template_directory_uri() . '/assets/js/lib/extra.js', array('jquery', 'tweenmax', 'fancybox'), null, true);
 	$sizes = apply_filters('extra_responsive_sizes', array(
         'desktop' => 'only screen and (min-width: 961px)',
         'tablet' => 'only screen and (min-width: 691px) and (max-width: 960px)',
@@ -48,6 +48,8 @@ function extra_template_enqueue_scripts() {
     wp_enqueue_script('extra-responsive-menu', get_template_directory_uri() . '/assets/js/lib/ExtraResponsiveMenu.js', array('jquery', 'tweenmax'), null, true);
 	// EXTRA FADE FROM BOTTOM
 	wp_enqueue_script('extra-scroll-animator', get_template_directory_uri() . '/assets/js/lib/ExtraScrollAnimator.js', array('jquery', 'tweenmax', 'extra'), null, true);
+	// EXTRA FADE FROM BOTTOM
+	wp_enqueue_script('extra-smooth-fit', get_template_directory_uri() . '/assets/js/lib/ExtraSmoothFit.js', array('jquery', 'tweenmax', 'extra'), null, true);
 	// EXTRA-SLIDER
 	wp_enqueue_script('extra-slider', get_template_directory_uri() . '/assets/js/lib/extra.slider.js', array('jquery', 'extra', 'tweenmax'), null, true);
 	// EXTRA-SLIDER
