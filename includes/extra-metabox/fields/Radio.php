@@ -14,6 +14,18 @@
  * type = radio
  *
  * Options :
+ *  - radis (required) array of arrays with label and value :
+ *
+'radios' => array(
+	array(
+		'value' => 'header',
+		'label' => 'En-tête'
+	),
+	array(
+		'value' => 'footer',
+		'label' => 'Pied de page'
+	)
+),
  * - name (required)
  * - label (optional)
  * - icon (optional)

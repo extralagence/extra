@@ -12,27 +12,24 @@
 function ExtraResponsiveMenu(options) {
 
 	var opt = $.extend({
-			$menu : $("#mobile-menu-container"),
-			$site : $("#wrapper"),
+			$menu: $("#mobile-menu-container"),
+			$site: $("#wrapper"),
 			$button: $("#switch-mobile-menu"),
-			everySizes : false,
-			moveButton : true,
+			everySizes: false,
+			moveButton: true,
 			prependTimeline: null,
 			appendTimeline: null
 		}, options),
 		menuOpen = true,
 		$html = $('html'),
-		transform3d = $html.hasClass('csstransforms3d'),
 		$wpadminbar = $("#wpadminbar"),
-		timeline = new TimelineMax({paused: true, onReverseComplete: function() {
-			$window.trigger('extra.hideResponsiveMenuComplete');
-		}}),
+		timeline = new TimelineMax({
+			paused: true,
+			onReverseComplete: function () {
+				$window.trigger('extra.hideResponsiveMenuComplete');
+			}
+		}),
 		$toMove;
-	if(small) {
-		$toMove = opt.moveButton ? opt.$button : [];
-	} else {
-		$toMove = opt.moveButton ? [opt.$site, opt.$button] : opt.$site;
-	}
 	/**************************
 	 *
 	 *
@@ -40,7 +37,7 @@ function ExtraResponsiveMenu(options) {
 	 *
 	 *
 	 *************************/
-	if(!opt.$menu.length || !opt.$site.length || !opt.$button.length) {
+	if (!opt.$menu.length || !opt.$site.length || !opt.$button.length) {
 		console.log("Missing element to initialize the responsive menu");
 		return;
 	}
@@ -78,34 +75,52 @@ function ExtraResponsiveMenu(options) {
 	/**************************
 	 *
 	 *
+	 * INIT
+	 *
+	 *
+	 *************************/
+	opt.$menu.css('visibility', 'visible');
+	update();
+	/**************************
+	 *
+	 *
 	 * CREATE TIMELINE
 	 *
 	 *
 	 *************************/
-	if(opt.prependTimeline) {
+	// START OF TIMELINE
+	if (opt.prependTimeline) {
 		timeline = opt.prependTimeline(timeline);
 	}
-	if (transform3d) {
-		TweenMax.set(opt.$menu, {x: -opt.$menu.width() + 'px', force3D: true, ease: Strong.EaseIn, onComplete: function() {
+
+	// SETTER
+	TweenMax.set(opt.$menu, {
+		x: -opt.$menu.width() + 'px',
+		ease: Strong.EaseIn,
+		onComplete: function () {
 			$window.trigger('extra.hideResponsiveMenuComplete');
-		}});
-		TweenMax.set($toMove, {x: 0, force3D: true, clearProps:"all", ease: Strong.EaseIn});
-	} else {
-		TweenMax.set(opt.$menu, {x: -opt.$menu.width() + 'px', ease: Strong.EaseIn});
-		TweenMax.set($toMove, {x: 0, clearProps:"all", ease: Strong.EaseIn});
-	}
-	if (transform3d) {
-		timeline.to(opt.$menu, 0.4, {x: 0, force3D: true, ease: Quad.EaseOut});
-		timeline.to($toMove, 0.5, {x: opt.$menu.width() + 'px', force3D: true, ease: Quad.EaseOut, onComplete: function() {
+		}
+	});
+	TweenMax.set($toMove, {
+		x: 0,
+		ease: Strong.EaseIn
+	});
+
+	// TIMELINE
+	timeline.to(opt.$menu, 0.4, {
+		x: 0,
+		ease: Quad.EaseOut
+	});
+	timeline.to($toMove, 0.5, {
+		x: opt.$menu.width() + 'px',
+		ease: Quad.EaseOut,
+		onComplete: function () {
 			$window.trigger('extra.showResponsiveMenuComplete');
-		}}, '-=0.3');
-	} else {
-		timeline.to(opt.$menu, 0.4, {x: 0, ease: Quad.EaseOut});
-		timeline.to($toMove, 0.5, {x: opt.$menu.width() + 'px', ease: Quad.EaseOut, onComplete: function() {
-			$window.trigger('extra.showResponsiveMenuComplete');
-		}}, '-=0.3');
-	}
-	if(opt.appendTimeline) {
+		}
+	}, '-=0.3');
+
+	// END OF TIMELINE
+	if (opt.appendTimeline) {
 		timeline = opt.appendTimeline(timeline);
 	}
 	/**************************
@@ -121,7 +136,7 @@ function ExtraResponsiveMenu(options) {
 			menuOpen = true;
 			$html.addClass('menu-open');
 			$window.trigger('extra.showResponsiveMenu');
-			if(fast) {
+			if (fast) {
 				timeline.totalProgress(1);
 			} else {
 				timeline.play();
@@ -130,6 +145,7 @@ function ExtraResponsiveMenu(options) {
 			hideMenu(true);
 		}
 	}
+
 	/**************************
 	 *
 	 *
@@ -146,23 +162,27 @@ function ExtraResponsiveMenu(options) {
 			opt.$menu.hide();
 		}
 		$window.trigger('extra.hideResponsiveMenu');
-		if(fast) {
+		if (fast) {
 			timeline.totalProgress(0);
 		} else {
 			timeline.reverse();
 		}
 	}
 
-	$(document).on('click', function(e) {
+	$(document).on('click', function (e) {
 		var $target = $(e.target);
-		if(menuOpen && $target != opt.$menu && !$target.closest(opt.$menu).length && $target != opt.$button && !$target.closest(opt.$button).length && $target != opt.$button && !$target.closest($wpadminbar).length) {
+		if (menuOpen && $target != opt.$menu && !$target.closest(opt.$menu).length && $target != opt.$button && !$target.closest(opt.$button).length && $target != opt.$button && !$target.closest($wpadminbar).length) {
 			hideMenu();
 		}
 	});
 
 	$(document).on('extra.responsive-resize', function(){
-		if(small) {
-			$toMove = opt.moveButton ? opt.$button : [];
+		update();
+	});
+
+	function update() {
+		if (small) {
+			$toMove = opt.moveButton ? opt.$button : opt.$site;
 		} else {
 			$toMove = opt.moveButton ? [opt.$site, opt.$button] : opt.$site;
 		}
@@ -170,18 +190,15 @@ function ExtraResponsiveMenu(options) {
 			opt.$menu.removeAttr("style");
 			opt.$site.removeAttr("style");
 			opt.$menu.hide();
+			$html.removeClass('responsive-menu').addClass('no-responsive-menu');
 		} else {
-			opt.$menu.show();
+			$html.removeClass('no-responsive-menu').addClass('responsive-menu');
 		}
-	});
+	}
 
-	$window.on('extra.triggerHideResponsiveMenu', function(){
+	$window.on('extra.triggerHideResponsiveMenu', function () {
 		hideMenu();
-	}).on('extra.triggerShowResponsiveMenu', function(){
+	}).on('extra.triggerShowResponsiveMenu', function () {
 		showMenu();
 	});
-
-	// INIT
-	opt.$menu.css('visibility', 'visible');
-	hideMenu(true);
 }
