@@ -5,13 +5,14 @@ function ExtraSmoothFit (options) {
 	self.init = function (_options) {
 		self.options = $.extend({
 			target : null,
+			childrenSelector: ' > *',
 			readyClass: 'fitted'
 		}, _options);
 
 		if (self.options.target) {
 			self.options.target.each(function () {
 				var $this = $(this),
-					$children = $this.find(' > *'),
+					$children = $this.find(self.options.childrenSelector),
 					parentWidth = 0,
 					childrenWidth = 0;
 
