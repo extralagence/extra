@@ -143,7 +143,7 @@ class Map extends AbstractBlock {
 		$lat = (isset($block_data['lat_'.$name_suffix])) ? $block_data['lat_'.$name_suffix] : null;
 		$lon = (isset($block_data['lon_'.$name_suffix])) ? $block_data['lon_'.$name_suffix] : null;
 		$title = (isset($block_data['title_'.$name_suffix])) ? $block_data['title_'.$name_suffix] : null;
-		$description = $block_data['description_'.$name_suffix];
+		$description = (isset($block_data['description_'.$name_suffix])) ? $block_data['description_'.$name_suffix] : '';
 
 		$html = 	'<div class="extra-page-builder-map-wrapper">';
 		if (!empty($title)) {

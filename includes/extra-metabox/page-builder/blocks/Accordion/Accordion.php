@@ -133,7 +133,11 @@ class Accordion extends AbstractBlock {
 				$html .= '	<div class="accordeon-element">';
 				$html .= '		<h3 class="tab-title">'.$line['section_title'].'</h3>';
 				$html .= '		<div class="tab-content">';
-				$html .= '			<div class="inner">'.apply_filters('the_content', html_entity_decode( $line['section_content'], ENT_QUOTES, 'UTF-8' )).'</div>';
+				if (isset($line['section_content'])) {
+					$html .= '			<div class="inner">'.apply_filters('the_content', html_entity_decode( $line['section_content'], ENT_QUOTES, 'UTF-8' )).'</div>';
+				} else {
+					$html .= '			<div class="inner">&nbsp;</div>';
+				}
 				$html .= '		</div>';
 				$html .= '	</div>';
 			}
