@@ -176,8 +176,10 @@ class Slider extends AbstractBlock {
 		$ids = $block_data[$name_suffix];
 		$properties = $block_data['properties_'.$name_suffix];
 
+		$block_height_html = ($block_height != null) ? ' style="height: '.$block_height.';"' : '';
+
 		$html = '';
-		$html .= '	<div class="extra-slider" data-properties="'.$properties.'">';
+		$html .= '	<div class="extra-slider" data-properties="'.$properties.'"'.$block_height_html.'>';
 		$html .= '		<div class="wrapper">';
 		$html .= '			<ul>';
 

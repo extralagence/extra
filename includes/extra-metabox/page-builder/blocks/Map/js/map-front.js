@@ -173,14 +173,12 @@ function extraPageBuilderMapResize($mapWrapper) {
 	var $mapDescription = $mapWrapper.find('.extra-page-builder-map-description');
 	var $map = $mapWrapper.find('.extra-page-builder-map');
 
-	console.log('extraPageBuilderMapResize');
-	console.log($parent);
-	console.log($parent.outerHeight());
-	$mapWrapper.css('height', $parent.outerHeight());
 
-	var mapHeight = $mapWrapper.outerHeight();
-	mapHeight -= $mapTitle.outerHeight();
-	mapHeight -= $mapDescription.outerHeight();
+	//$mapWrapper.css('height', $parent.outerHeight());
 
-	$map.css('height', mapHeight);
+	//var mapHeight = $mapWrapper.outerHeight();
+	//mapHeight -= $mapTitle.outerHeight();
+	//mapHeight -= $mapDescription.outerHeight();
+	//
+	//$map.css('height', mapHeight);
 }

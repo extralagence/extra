@@ -145,11 +145,13 @@ class Map extends AbstractBlock {
 		$title = (isset($block_data['title_'.$name_suffix])) ? $block_data['title_'.$name_suffix] : null;
 		$description = (isset($block_data['description_'.$name_suffix])) ? $block_data['description_'.$name_suffix] : '';
 
+		$block_height_html = ($block_height != null) ? ' style="height: '.$block_height.';"' : '';
+
 		$html = 	'<div class="extra-page-builder-map-wrapper">';
 		if (!empty($title)) {
 			$html .= 	'	<h2 class="extra-page-builder-map-title">'.$title.'</h2>';
 		}
-		$html .= 	'	<div class="extra-page-builder-map" data-lat="'.$lat.'" data-lon="'.$lon.'"></div>';
+		$html .= 	'	<div class="extra-page-builder-map" data-lat="'.$lat.'" data-lon="'.$lon.'"'.$block_height_html.'></div>';
 		$html .= 	'	<div class="extra-page-builder-map-description">'.apply_filters('the_content', html_entity_decode( $description, ENT_QUOTES, 'UTF-8' )).'</div>';
 		$html .= 	'</div>';
 

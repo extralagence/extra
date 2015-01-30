@@ -481,9 +481,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 				$block_html = apply_filters('extra_page_builder_'.$block_type, $block_html, $block_data, $block_suffix, $block_css, $block_number, $row_number, $block_height);
 			}
 
-			$block_height_html = ($block_height != null) ? ' style="height: '.$block_height.';"' : '';
-
-			$html .= '<div class="'.$css.'"'.$block_height_html.'>';
+			$html .= '<div class="'.$css.'">';
 			$html .= $block_html;
 			$html .= '</div>';
 		} else {
