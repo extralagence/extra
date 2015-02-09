@@ -4,7 +4,6 @@
 [submodule "includes/redux-framework"]
 	path = includes/redux-framework
 	url = https://github.com/ReduxFramework/redux-framework.git
-        branch = tag/3.3.6.8
 [submodule "includes/lessphp"]
 	path = includes/lessphp
 	url = https://github.com/leafo/lessphp.git
