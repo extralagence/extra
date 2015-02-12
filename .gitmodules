@@ -1,6 +1,6 @@
 [submodule "includes/bfi_thumb"]
 	path = includes/bfi_thumb
-	url = https://github.com/jbjanot/bfi_thumb.git
+	url = https://github.com/bfintal/bfi_thumb.git
 [submodule "includes/redux-framework"]
 	path = includes/redux-framework
 	url = https://github.com/ReduxFramework/redux-framework.git
