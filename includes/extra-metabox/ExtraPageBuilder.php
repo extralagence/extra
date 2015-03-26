@@ -451,14 +451,16 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 		$block_height = (isset($row_data['page_builder_block_height_'.$block_number])) ? $row_data['page_builder_block_height_'.$block_number] : null;
 
 		$html = '';
+
+
+		if (is_array($block_css)) {
+			$css = implode(' ', $block_css);
+		} else {
+			$css = $block_css;
+		}
+
 		if ($block_type != null) {
 			$block_suffix = $block_type.'_'.$block_number;
-
-			if (is_array($block_css)) {
-				$css = implode(' ', $block_css);
-			} else {
-				$css = $block_css;
-			}
 
 			$block_data = array();
 			foreach ($row_data as $key => $data) {
@@ -485,7 +487,7 @@ class ExtraPageBuilder extends WPAlchemy_MetaBox {
 			$html .= $block_html;
 			$html .= '</div>';
 		} else {
-			$html .= '<div class="empty"></div>';
+			$html .= '<div class="empty '.$css.'"></div>';
 		}
 
 
