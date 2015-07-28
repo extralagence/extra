@@ -20,7 +20,7 @@ function ExtraSmoothFit (options) {
 				parentWidth = $this.outerWidth();
 
 				$children.each(function () {
-					childrenWidth += $(this).outerWidth();
+					childrenWidth += $(this).outerWidth() + 1;
 				});
 
 				if (parentWidth > childrenWidth) {
