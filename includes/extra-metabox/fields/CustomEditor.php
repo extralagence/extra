@@ -56,7 +56,7 @@ class CustomEditor extends AbstractField {
 
 			<div id="wp-<?php echo $editor_id; ?>-wrap" class="wp-core-ui wp-editor-wrap tmce-active extra-custom-editor">
 
-                <div id="wp-<?php echo $editor_id; ?>-editor-tools" class="wp-editor-tools hide-if-no-js">
+                <div id="wp-<?php echo $editor_id; ?>-editor-tools" class="wp-editor-tools hide-if-no-js has-dfw">
 
     			    <?php
         			    if (!function_exists('media_buttons')) {
@@ -69,8 +69,10 @@ class CustomEditor extends AbstractField {
                     </div>
 
     			    <div class="wp-editor-tabs">
-                        <a id="<?php echo $editor_id; ?>-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);"><?php _e("Text"); ?></a>
-                        <a id="<?php echo $editor_id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);"><?php _e("Visual"); ?></a>
+                       <!-- <a id="<?php echo $editor_id; ?>-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);"><?php _e("Text"); ?></a>
+                        <a id="<?php echo $editor_id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);"><?php _e("Visual"); ?></a>-->
+				        <button type="button" id="<?php echo $editor_id;?>-tmce" class="wp-switch-editor switch-tmce" data-wp-editor-id="<?php echo $editor_id;?>"><?php _e('Visual'); ?></button>
+				        <button type="button" id="<?php echo $editor_id;?>-html" class="wp-switch-editor switch-html" data-wp-editor-id="<?php echo $editor_id;?>"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ) ?></button>
     				</div>
     			</div>
     			<?php
@@ -80,6 +82,7 @@ class CustomEditor extends AbstractField {
     			?>
 
     			<div id="wp-<?php echo $editor_id; ?>-editor-container" class="wp-editor-container">
+				    <div id="<?php echo 'qt_' . $editor_id . '_toolbar'; ?>" class="quicktags-toolbar"></div>
 				    <textarea
 				        class="wp-editor-area extra-custom-editor"
 				        <?php if(isset($stylesheets)): ?>
