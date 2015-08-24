@@ -96,9 +96,12 @@ class CustomEditor extends AbstractBlock {
 						<?php do_action( 'media_buttons', $editor_id ); ?>
 					</div>
 
+
 					<div class="wp-editor-tabs">
-						<a id="<?php echo $editor_id; ?>-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);"><?php _e("Text"); ?></a>
-						<a id="<?php echo $editor_id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);"><?php _e("Visual"); ?></a>
+						<!-- <a id="<?php echo $editor_id; ?>-html" class="wp-switch-editor switch-html" onclick="switchEditors.switchto(this);"><?php _e("Text"); ?></a>
+                        <a id="<?php echo $editor_id; ?>-tmce" class="wp-switch-editor switch-tmce" onclick="switchEditors.switchto(this);"><?php _e("Visual"); ?></a>-->
+						<button type="button" id="<?php echo $editor_id;?>-tmce" class="wp-switch-editor switch-tmce" data-wp-editor-id="<?php echo $editor_id;?>"><?php _e('Visual'); ?></button>
+						<button type="button" id="<?php echo $editor_id;?>-html" class="wp-switch-editor switch-html" data-wp-editor-id="<?php echo $editor_id;?>"><?php _ex( 'Text', 'Name for the Text editor tab (formerly HTML)' ) ?></button>
 					</div>
 				</div>
 				<?php
@@ -117,11 +120,12 @@ class CustomEditor extends AbstractBlock {
 				if ( 'html' === $default_editor ) {
 					add_filter('the_editor_content', 'wp_htmledit_pre');
 				} else {
-					add_filter('the_editor_content', 'wp_richedit_pre');
+					add_filter('the_editor_content', 'format_for_editor');
 				}
 				$content = apply_filters( 'the_editor_content', $content );
 				?>
 				<div id="wp-<?php echo $editor_id; ?>-editor-container" class="wp-editor-container">
+					<div id="<?php echo 'qt_' . $editor_id . '_toolbar'; ?>" class="quicktags-toolbar"></div>
 					<textarea
 						class="wp-editor-area extra-custom-editor"
 						<?php if(isset($stylesheets)): ?>
