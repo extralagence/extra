@@ -579,12 +579,13 @@ jQuery(document).ready(function($){
 	}
 
 	// SCROLL TO NEW ROW
-	$(document).on('click', '.docopy-page_builder', function() {
+	$(document).on('click', '.docopy-page_builder', function(event) {
+		event.preventDefault();
 		console.log('click');
-		var $new = $('.wpa_loop-page_builder .wpa_group:not(.tocopy)').last(),
-			newTop = $new.offset().top + 232;
-		console.log(newTop);
-		$(window).scrollTop(newTop);
+		//var $new = $('.wpa_loop-page_builder .wpa_group:not(.tocopy)').last(),
+		//	newTop = $new.offset().top - 232;
+		//console.log(newTop);
+		//$(window).scrollTop(newTop);
 		//TweenMax.to($(window), 0.5, {scrollTo: {y: newTop}});
 	});
 
