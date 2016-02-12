@@ -45,7 +45,7 @@ function extra_template_enqueue_scripts() {
 	));
 	wp_localize_script('extra', 'extraResponsiveSizes', $sizes);
     // EXTRA RESPONSIVE MENU
-    wp_enqueue_script('extra-responsive-menu', get_template_directory_uri() . '/assets/js/lib/ExtraResponsiveMenu.js', array('jquery', 'tweenmax'), null, true);
+    wp_enqueue_script('extra-responsive-menu', get_template_directory_uri() . '/assets/js/lib/ExtraResponsiveMenu.js', array('jquery', 'tweenmax', 'extra'), null, true);
 	// EXTRA FADE FROM BOTTOM
 	wp_enqueue_script('extra-scroll-animator', get_template_directory_uri() . '/assets/js/lib/ExtraScrollAnimator.js', array('jquery', 'tweenmax', 'extra'), null, true);
 	// EXTRA FADE FROM BOTTOM
