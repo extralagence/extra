@@ -41,7 +41,7 @@ class Map extends AbstractBlock {
 			true
 		);
 
-		wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBpFeTSnmCMi1Vb3LuLoAivc4D4CeA2YJs&sensor=false', array('jquery'), null, true);
+		wp_enqueue_script('google-maps-api', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDZjYzF37s1QZofV1dnVnSezTQ_xdZlkxA&sensor=false', array('jquery'), null, true);
 		wp_enqueue_script('extra-page-builder-block-map-admin', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Map/js/map-admin.js', array('jquery', 'google-maps-api', 'extra-page-builder-block-custom-editor-plugin', 'extra-page-builder-block-custom-editor-iframe-resizer'), null, true);
 		wp_enqueue_script('extra-page-builder-block-map-front', EXTRA_INCLUDES_URI . '/extra-metabox/page-builder/blocks/Map/js/map-front.js', array('jquery', 'google-maps-api'), null, true);
 
